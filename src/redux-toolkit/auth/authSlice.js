@@ -1,14 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "./authThunks";
+import { login, loginByGoogle } from "./authThunks";
 
 const initialState ={
     isLogin: true,  
     loading: 'loading',
     error: {},
-    token: []
+    page: []
 }
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers:{
@@ -30,6 +30,21 @@ export const authSlice = createSlice({
             state.isLogin = true;
             state.error = action.payload
         });
+        builder.addCase(loginByGoogle.pending, (state, action) =>{
+            state.isLogin = true;
+            state.loading = "pending"
+        })
+        builder.addCase(loginByGoogle.fulfilled, (state, action) =>{
+            state.isLogin = false;
+            state.loading = "pending"
+            console.log(action.payload)
+            state.page = action.payload
+        })
+        builder.addCase(loginByGoogle.rejected, (state, action) =>{
+            state.isLogin = true;
+            state.error = action.payload
+        })
     }
 });
 
+export default authSlice.reducer

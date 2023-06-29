@@ -9,7 +9,7 @@ export default function Login(){
       password: "",
     });
 
-    const isLogin = false;
+    // const isLogin = false;
     const handleEmail = (e) =>{
       console.log(e.target.value)
         setAccount((preV) => {
@@ -28,6 +28,15 @@ export default function Login(){
       e.preventDefault();
         dispatch(login(account));
       
+    }
+
+    const handleLoginByGoogle = async(e) =>{
+      e.preventDefault();
+      window.open("http://localhost:3500/auth/google/login", "_self");
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      window.location.href = "/";
+
     }
 
     // const renderForm =(
@@ -60,7 +69,7 @@ export default function Login(){
               type="password"
               className="form-control mt-1"
               placeholder="Enter password"
-              value={setAccount.password}
+              value={account.password}
               onChange={handlePassword}
             />
           </div>
@@ -69,9 +78,14 @@ export default function Login(){
               Submit
             </button>
           </div>
-          <p className="text-center mt-2">
-            Forgot <a href="#">password?</a>
-          </p>
+          <div className="d-grid gap-2 mt-3">
+            <button type="submit" className="btn btn-primary" onClick={handleLoginByGoogle}>
+              google
+            </button>
+          </div>
+          {/* <p className="text-center mt-2">
+            Forgot <a >password?</a>
+          </p> */}
         </div>
       </form>
     </div>
