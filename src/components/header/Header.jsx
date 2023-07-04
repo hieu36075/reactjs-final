@@ -7,7 +7,7 @@ import {
     faTaxi,
   } from "@fortawesome/free-solid-svg-icons";
   import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-  import "./header.css";
+  import "./header.scss";
 //   import { DateRange } from "react-date-range";
   import { DateRange } from "react-date-range";
   import { useState } from "react";

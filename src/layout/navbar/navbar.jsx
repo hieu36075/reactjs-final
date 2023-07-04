@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "./css/navbar.css";
 import { GiRocketThruster } from "react-icons/gi";
 import { FaBars, FaTimes } from "react-icons/fa";
@@ -73,6 +73,7 @@ function Navbar() {
           </div>
         </nav>
       </IconContext.Provider>
+      <Outlet />
     </>
   );
 }

@@ -1,14 +1,14 @@
-import './App.css';
-import Navbar from './layout/navbar/navbar';
-import Body from './layout/navbar/body/Body';
+import Body from './layout/body/Body'
 
 function App() {
   return (
+    // <BrowserRouter>
     <div className="App">
-        <Navbar/>
+        {/* <Navbar/> */}
+        {/* {<AdminNavbar/>} */}
         <div className='body'>
-              <Body/>
-        </div>
+              <Body/>       
+        </div>      
     </div>
   );
 }

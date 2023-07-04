@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux"
-import { login } from "../../redux-toolkit/auth/authThunks";
+import { login, loginByGoogle } from "../../context/auth/authThunks";
 
 export default function Login(){
     const dispatch = useDispatch();
@@ -32,10 +32,11 @@ export default function Login(){
 
     const handleLoginByGoogle = async(e) =>{
       e.preventDefault();
-      window.open("http://localhost:3500/auth/google/login", "_self");
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // window.open("http://localhost:3500/auth/google/login", "_self");
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      window.location.href = "/";
+      // window.location.href = "/";
+      dispatch(loginByGoogle())
 
     }
 

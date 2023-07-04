@@ -1,4 +1,4 @@
-import authSlice from "../redux-toolkit/auth/authSlice";
+import authSlice from "../context/auth/authSlice";
 import { combineReducers } from "@reduxjs/toolkit";
 const { configureStore } = require("@reduxjs/toolkit");
 

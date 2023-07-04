@@ -1,4 +1,5 @@
-import "./featured.css";
+// import "./featured.css";
+import "./featured.scss"
 
 const Featured = () => {
     return (
