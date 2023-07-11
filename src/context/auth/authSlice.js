@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { login, loginByGoogle } from "./authThunks";
 
 const initialState ={
-    isLogin: true,  
+    isLogin: false,  
     loading: 'loading',
     error: {},
     page: []
@@ -24,12 +24,15 @@ const authSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) => {
             state.isLogin = false;
             state.loading = "success"
-            state.token = action.payload
+            console.log(state)
+            state.error = action.payload
         });
         builder.addCase(login.rejected, (state, action) => {
             state.isLogin = true;
             state.error = action.payload
         });
+
+        
         builder.addCase(loginByGoogle.pending, (state, action) =>{
             state.isLogin = true;
             state.loading = "pending"

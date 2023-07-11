@@ -1,4 +1,5 @@
 import "./adminNavbar.scss"
+import { useState } from "react";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -9,10 +10,21 @@ import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 // import { DarkModeContext } from "../../context/darkModeContext";
 import { DarkModeContext } from "../../../context/DarkMode/darkModeContext";
 import { useContext } from "react";
+import { DropDown } from "../../../components/profileDropDown/DropDown";
+import { PopupMenu } from "react-simple-widgets";
+
+
 
 const AdminNavbar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const [isOpen, setIsOpen] = useState(false);
 
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+   
+        
   return (
     <div className="navbar-Admin">
       <div className="wrapper">
@@ -43,16 +55,25 @@ const AdminNavbar = () => {
             <div className="counter">2</div>
           </div>
           <div className="item">
-            <ListOutlinedIcon className="icon" />
+            <ListOutlinedIcon className="icon"  />
           </div>
-          <div className="item">
+          <PopupMenu>
+          <div className="item" onClick={toggleDropdown} >
             <img
               src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
               alt=""
-              className="avatar"
+              className="avatar" 
             />
           </div>
+          <div className={`dropdown-menu ${isOpen? 'active' : 'inactive'}`} >
+          <h3>The Kiet<br/><span>Website Designer</span></h3>
+          <ul>
+
+          </ul>
         </div>
+          </PopupMenu>
+        </div>
+        
       </div>
     </div>
   );

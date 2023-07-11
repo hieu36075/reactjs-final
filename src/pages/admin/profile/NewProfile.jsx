@@ -1,15 +1,33 @@
-import "./new.scss";
+import '../new/new.scss'
 import Sidebar from "../../../layout/admin/sidebar/Sidebar";
 import AdminNavbar from "../../../layout/admin/navbar/adminNavbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 
-const New = ({ inputs, title }) => {
+const NewProfile = ({title }) => {
   const [file, setFile] = useState("");
-  const [user, setUser] = useState({
-    
+  const [profile, setProfile] = useState({
+    fulname: "",
+    address: "",
+    phone: ""
   })
 
+  const onChangeFullName = (e) =>{
+    setProfile((preV) =>{
+        return {...preV, fulname: e.target.value}
+    })
+  }
+  const onChangeAddress = (e) =>{
+    setProfile((preV) =>{
+        return {...preV, address: e.target.value}
+    })
+  }
+  const onChangePhone = (e) =>{
+    setProfile((preV) =>{
+        return {...preV, phone: e.target.value}
+    })
+  }
+  
   return (
     <div className="new">
       <Sidebar />
@@ -43,24 +61,16 @@ const New = ({ inputs, title }) => {
                 />
               </div>
                 <div className="formInput">
-                    <label>Name</label>
-                    <input type="text" placeholder="Hieu"/>
+                    <label>FullName</label>
+                    <input type="text" placeholder="Hieu" onChange={onChangeFullName} value={profile.fulname}/>
                 </div>
                 <div className="formInput">
-                    <label>Name</label>
-                    <input type="text" placeholder="Hieu"/>
+                    <label>address</label>
+                    <input type="text" placeholder="Hieu" onChange={onChangeAddress} value={profile.address}/>
                 </div>
                 <div className="formInput">
-                    <label>Name</label>
-                    <input type="text" placeholder="Hieu"/>
-                </div>
-                <div className="formInput">
-                    <label>Name</label>
-                    <input type="text" placeholder="Hieu"/>
-                </div>
-                <div className="formInput">
-                    <label>Name</label>
-                    <input type="text" placeholder="Hieu"/>
+                    <label>phone</label>
+                    <input type="text" placeholder="Hieu" onChange={onChangePhone} value={profile.phone}/>
                 </div>
               {/* {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
@@ -77,4 +87,4 @@ const New = ({ inputs, title }) => {
   );
 };
 
-export default New;
+export default NewProfile;
