@@ -12,8 +12,8 @@ const Home = () => {
   const {data} = useSelector((state)=> state.hotel)
   useEffect(()=>{
       dispatch(getHotels({page:1 , perPage:5}))
-  },[])
-  
+  },[dispatch])
+
     return (
       <div>
         {/* <Navbar /> */}
@@ -23,16 +23,7 @@ const Home = () => {
           <h1 className="homeTitle">Browse by property type</h1>
           <PropertyList/>
           <h1 className="homeTitle">Homes guests love</h1>
-          {data && data.map((property) => (
-            <FeaturedProperties
-              key={property.id}
-              img={property.img}
-              name={property.name}
-              country={property.country}
-              price={property.price}
-              rating={property.rating}
-            />
-          ))}
+          <FeaturedProperties data={data}/>
           {/* <MailList/> */}
           {/* <Footer/> */}
         </div>

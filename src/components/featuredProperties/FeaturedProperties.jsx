@@ -1,26 +1,27 @@
 import "./featuredProperties.scss";
 
-
-
-const FeaturedProperties = (props) => {
-
+const FeaturedProperties = ({data}) => {
+  console.log(data)
   return (
     <div className="fp">
-      <div className="fpItem">
-        <img
-          src={props.img}
-          alt=""
-          className="fpImg"
-        />
-        <span className="fpName">{props.name}</span>
-        <span className="fpCity">{props.country}</span>
-        <span className="fpPrice">{props.price}</span>
-        <div className="fpRating">
-          <button>{props.rating}</button>
-          <span>Excellent</span>
-        </div>
-      </div>
+      {data && data?.map((item) => (
+            <div className="fpItem" key={item.id}>
+              <img
+                src={item.images.length > 0 ? item.images[0].url : ''}
+                alt=""
+                className="fpImg"
+              />
+              <span className="fpName">{item.name}</span>
+              <span className="fpCity">{item.city}</span>
+              <span className="fpPrice">Starting from ${item.cheapestPrice}</span>
+              {item.rating && <div className="fpRating">
+                <button>{item.rating}</button>
+                <span>Excellent</span>
+              </div>}
+            </div>
+          ))}
     </div>
+      
   );
 };
 

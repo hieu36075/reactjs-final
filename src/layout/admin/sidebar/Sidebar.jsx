@@ -39,7 +39,7 @@ const Sidebar = () => {
               <span>Users</span>
             </li>
           </Link>
-          <Link to="/category" style={{ textDecoration: "none" }}>
+          <Link to="/admin/category" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
               <span>Category</span>

@@ -23,8 +23,6 @@ const AdminNavbar = () => {
     setIsOpen(!isOpen);
   };
 
-   
-        
   return (
     <div className="navbar-Admin">
       <div className="wrapper">
@@ -66,7 +64,9 @@ const AdminNavbar = () => {
             />
           </div>
           <div className={`dropdown-menu ${isOpen? 'active' : 'inactive'}`} >
-          <h3>The Kiet<br/><span>Website Designer</span></h3>
+          <h3>The Kiet<br/>
+          <span>Website Designer</span>
+          </h3>
           <ul>
 
           </ul>

@@ -1,7 +1,7 @@
 
 import "./adminDashboard.scss";
 import Sidebar from "../../../layout/admin/sidebar/Sidebar";
-import AdminNavbar from "../../../layout/admin/navbar/adminNavbar";
+import AdminNavbar from "../../../layout/admin/navbar/AdminNavbar";
 import Widget from "../../../components/widget/Widget";
 import FeaturedChart from "../../../components/featuredChart/FeaturedChart";
 import Chart from "../../../components/chart/Chart";

@@ -1,29 +1,29 @@
-export const userColumns = [
-    { field: "id", headerName: "ID", width: 70 },
+export const categoryColumns = [
+
+    { 
+      field: "index", headerName: "ID", width: 70,  
+    },
+    
     {
-      field: "user",
-      headerName: "User",
+      field: "name",
+      headerName: "category",
       width: 230,
       renderCell: (params) => {
         return (
           <div className="cellWithImg">
-            <img className="cellImg" src={params.row.img} alt="avatar" />
-            {params.row.username}
+            <img className="cellImg" src={params.row.imageURL} alt="avatar" />
+            {params.row.name}
           </div>
         );
       },
     },
     {
-      field: "email",
-      headerName: "Email",
+      field: "length",
+      headerName: "Total",
       width: 230,
     },
   
-    {
-      field: "age",
-      headerName: "Age",
-      width: 100,
-    },
+
     {
       field: "status",
       headerName: "Status",

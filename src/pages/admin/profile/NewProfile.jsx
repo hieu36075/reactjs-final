@@ -1,6 +1,6 @@
 import '../new/new.scss'
 import Sidebar from "../../../layout/admin/sidebar/Sidebar";
-import AdminNavbar from "../../../layout/admin/navbar/adminNavbar";
+import AdminNavbar from "../../../layout/admin/navbar/AdminNavbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 
