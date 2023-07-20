@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux"
-
 import './login.scss'
 import { login } from "../../context/auth/authThunks";
 import {  useNavigate } from "react-router-dom";
-// import './test.css'
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 
 export default function Login(){
     const dispatch = useDispatch();
@@ -14,8 +13,27 @@ export default function Login(){
       password: "",
     });
 
+    const handleSuccessLogin = (response) => {
+      const token = response.credential;
+      console.log(token)
+      // const { isValid, error } = decodeTokenAndCheckExpiration(token);
+  
+      // if (isValid) {
+      //   dispatch(
+      //     loginByGoogleAccountAction({
+      //       token: token,
+      //     })
+      //   );
+      // } else {
+      //   dispatch(showSnackbar(error));
+      // }
+    };
+  
+    const handleErrorLogin = (error) => {
+      // dispatch(showSnackbar(error));
+    };
 
-    const [isSignIn, setIsSignIn] = useState(true);
+    // const [isSignIn, setIsSignIn] = useState(true);
 
     const handleEmail = (e) =>{
         setAccount((preV) => {
@@ -51,8 +69,18 @@ export default function Login(){
           <span className="form__span">or use your email account</span>
           <input className="form__input" type="text" placeholder="Email" value={account.email} onChange={handleEmail}/>
           <input className="form__input" type="password" placeholder="Password" value={account.password} onChange={handlePassword}/>
-          <a className="form__link">Forgot your password?</a>
+          {/* <a className="form__link">Forgot your password?</a> */}
           <button className="form__button button submit" onClick={handleSubmit}>SIGN IN</button>
+          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                  <GoogleLogin
+                    onSuccess={handleSuccessLogin}
+                    onError={handleErrorLogin}
+                    style={{ marginTop: "100px" }}
+                    cookiePolicy={"single_host_origin"}
+                    isSignedIn={true}
+                    
+                  />
+                </GoogleOAuthProvider>
       </div>
     </div>
     )
