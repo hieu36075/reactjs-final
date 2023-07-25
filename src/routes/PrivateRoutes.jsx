@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 const PrivateRoute = ({allowedRoles}) => {
 
     const token = localStorage.getItem('token')
+    
     const decodeToken = jwtDecode(token)
     const location = useLocation()
 

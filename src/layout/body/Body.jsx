@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "../../pages/login/Login";
+import Login from "../../pages/login/login";
 // import HTMLPage from "../../components/Auth/loginGoogle";
 import Home from "../../pages/home/Home";
 import Navbar from "../navbar/navbar";
@@ -11,7 +11,7 @@ import PrivateRoute from "../../routes/PrivateRoutes";
 import NewProfile from "../../pages/admin/profile/NewProfile";
 import Categories from "../../pages/admin/category/Category";
 import CategoryNewPage from "../../pages/admin/category/CategoryNewPage";
-
+import List from "../../pages/list/List";
 
 const Body = () => {
   return (
@@ -20,12 +20,11 @@ const Body = () => {
       <Routes>
       {/* <Route path="/" element={<Navbar/>}/> */}
       <Route path="/login" element={<Login />} />
-
+      <Route path="/hotels" element={<List />} />
       <Route path="/" element={<Navbar/>}>
         <Route index element={<Home/>}/>
 
       </Route>
-
         <Route path="/admin" element={<PrivateRoute allowedRoles={['Admin']}/>}> 
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users">

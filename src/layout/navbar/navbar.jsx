@@ -60,7 +60,7 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <NavLink
-                  to="/contact"
+                  to="/login"
                   className={({ isActive }) =>
                     "nav-links" + (isActive ? " activated" : "")
                   }

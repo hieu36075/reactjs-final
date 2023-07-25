@@ -1,0 +1,1 @@
+export const SelectAllHotel = (state) => state.hotel.data

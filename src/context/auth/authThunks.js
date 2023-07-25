@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import instance from "../../api";
 
 export const login = createAsyncThunk('auth/login', async( data,{rejectWithValue})=>{
+    console.log(data)
     try{
         const reponse = await instance.post('auth/login', data)
         localStorage.setItem("token", reponse.data.accessToken);
@@ -13,13 +14,14 @@ export const login = createAsyncThunk('auth/login', async( data,{rejectWithValue
     }
 })
 
-export const loginByGoogle = createAsyncThunk('auth/loginByGoogle', async({rejectWithValue})=>{
+export const loginByGoogle = createAsyncThunk('auth/loginByGoogle', async(token, {rejectWithValue})=>{
     try{
-        const reponse = await instance.get('auth/google/login')
-        return reponse.data;
+        const response = await instance.post('auth/login/google', token);
+        const data = response.data;
+        localStorage.setItem("AuthData", JSON.stringify(data));
+        return data;
     }
     catch(error){
-        console.log("c")
         return rejectWithValue(error.reponse)
     }
 })
