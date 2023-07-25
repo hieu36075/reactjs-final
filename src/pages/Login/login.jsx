@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux"
 import './login.scss'
-import { login, loginByGoogle } from "../../context/auth/authThunks";
 import {  useNavigate } from "react-router-dom";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { loginAction, loginByGoogleAction } from "../../redux/action/auth-action";
 
 export default function Login(){
     const dispatch = useDispatch();
@@ -16,7 +16,7 @@ export default function Login(){
     
     const handleSuccessLogin = async (response) => {
       const token = await response.credential;
-         dispatch(loginByGoogle({token: token}))
+         dispatch(loginByGoogleAction({token: token}))
       // const { isValid, error } = decodeTokenAndCheckExpiration(token);
   
       // if (isValid) {
@@ -50,8 +50,8 @@ export default function Login(){
     }
 
 
-    const handleSubmit = async() => {
-        await dispatch(login(account))
+    const handleSubmit = () => {
+         dispatch(loginAction(account))
 
         navigate("/")
     };

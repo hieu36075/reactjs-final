@@ -1,3 +1,4 @@
+import React from 'react'
 import Featured from "../../components/featured/Featured";
 import PropertyList from "../../components/propertyList/PropertyList";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
@@ -5,40 +6,42 @@ import Header from "../../components/header/Header";
 import "./home.css";
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getHotels } from "../../context/hotel/hotelThunks"
-import { getTopHotelInCountry } from "../../context/country/countryThunks";
-import { SelectAllHotel } from "../../context/hotel/hotelSelect";
-import { SelectCountry } from "../../context/country/countrySelect";
+import { getListHotelAction} from "../../redux/action/hotel-action";
+import { getListTopCountryInHotelAction } from '../../redux/action/country-action';
 
 const Home = () => {
   const dispatch = useDispatch()
-  const hotel = useSelector(SelectAllHotel)
-  console.log("a", hotel)
   useEffect(()=>{
-      dispatch(getHotels({page:1 , perPage:5}))
-  },[])
+      dispatch(getListHotelAction({page:1 , perPage:5}))
+  },[dispatch])
+  const listHotel = useSelector(state=>state.hotelReducer.list_hotel_by_country.data)
+  const listCountry = useSelector(state=>state.countryReducer.list_country)
 
-  const country = useSelector(SelectCountry)
-  console.log("b", country)
   useEffect(()=>{
-    dispatch(getTopHotelInCountry())
-  },[])
+    dispatch(getListTopCountryInHotelAction())
+  },[dispatch])
 
-    return (
-      <div>
-        {/* <Navbar /> */}
-        <Header/>
-        <div className="homeContainer">
-          <Featured data={country}/>
-          <h1 className="homeTitle">Browse by property type</h1>
-          <PropertyList/>
-          <h1 className="homeTitle">Homes guests love</h1>
-          <FeaturedProperties data={hotel}/>
-          {/* <MailList/> */}
-          {/* <Footer/> */}
-        </div>
-      </div>
-    );
-  };
+  return (
+    <div>
+    {/* <Navbar /> */}
+    <Header/>
+    <div className="homeContainer">
+      <Featured data={listCountry}/>
+      <h1 className="homeTitle">Browse by property type</h1>
+      <PropertyList/>
+      <h1 className="homeTitle">Homes guests love</h1>
+      <FeaturedProperties data={listHotel}/>
+      {/* <MailList/> */}
+      {/* <Footer/> */}
+    </div>
+  </div>
+  )
+}
+
+export default Home
+
+
+
+
+
   
-export default Home;

@@ -1,1 +1,0 @@
-export const SelectCountry = (state) => state.country.data

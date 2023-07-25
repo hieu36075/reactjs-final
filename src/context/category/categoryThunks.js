@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import instance from "../../api";
+import instance from "../../services/axios-interceptor";
 
 export const getCategory = createAsyncThunk('category/getCategory', async(_, {rejectWithValue}) =>{
     try{
