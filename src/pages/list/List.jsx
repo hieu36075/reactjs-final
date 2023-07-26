@@ -2,20 +2,33 @@ import "./list.scss";
 import Navbar from "../../layout/navbar/navbar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import {defaultDate, defaultOptions } from './defaults';
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { getListHotelByCountryAction } from "../../redux/action/hotel-action";
 
 const List = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const [destination, setDestination] = useState(location?.state?.destination || "");
   const [date, setDate] = useState(location?.state?.date || defaultDate);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location?.state?.options || defaultOptions);
+  const {countryId} = useParams();
+
+  const listHotelByCountry=useSelector(state=> state.hotelReducer.list_hotel)
+
+  useEffect(()=>{
+    dispatch(getListHotelByCountryAction(countryId))
+  },[])
 
 
+  
   return (
     <div>
       <Navbar />
@@ -89,15 +102,7 @@ const List = () => {
             <button>Search</button>
           </div>
           <div className="listResult">
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
-            <SearchItem />
+            <SearchItem  data={listHotelByCountry}/>
           </div>
         </div>
       </div>

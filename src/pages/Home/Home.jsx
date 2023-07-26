@@ -13,13 +13,13 @@ const Home = () => {
   const dispatch = useDispatch()
   useEffect(()=>{
       dispatch(getListHotelAction({page:1 , perPage:5}))
-  },[dispatch])
-  const listHotel = useSelector(state=>state.hotelReducer.list_hotel_by_country.data)
+  },[])
+  const listHotel = useSelector(state=>state.hotelReducer.list_hotel.data)
   const listCountry = useSelector(state=>state.countryReducer.list_country)
 
   useEffect(()=>{
     dispatch(getListTopCountryInHotelAction())
-  },[dispatch])
+  },[])
 
   return (
     <div>

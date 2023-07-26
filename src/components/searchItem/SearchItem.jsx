@@ -1,15 +1,18 @@
 import "./searchItem.scss";
 
-const SearchItem = () => {
+const SearchItem = ({data}) => {
+  console.log(data);
   return (
-    <div className="searchItem">
+  <div>
+  {data?.map((item)=>{
+   return <div className="searchItem" key={item?.id}>
       <img
-        src="https://cf.bstatic.com/xdata/images/hotel/square600/261707778.webp?k=fa6b6128468ec15e81f7d076b6f2473fa3a80c255582f155cae35f9edbffdd78&o=&s=1"
+        src={item?.images.length > 0 ? item.images[0].url : ''}
         alt=""
         className="siImg"
-      />
+        />
       <div className="siDesc">
-        <h1 className="siTitle">Tower Street Apartments</h1>
+        <h1 className="siTitle">{item?.name}</h1>
         <span className="siDistance">500m from center</span>
         <span className="siTaxiOp">Free airport taxi</span>
         <span className="siSubtitle">
@@ -26,7 +29,7 @@ const SearchItem = () => {
       <div className="siDetails">
         <div className="siRating">
           <span>Excellent</span>
-          <button>8.9</button>
+          <button>{item?.starRating}</button>
         </div>
         <div className="siDetailTexts">
           <span className="siPrice">$112</span>
@@ -35,6 +38,8 @@ const SearchItem = () => {
         </div>
       </div>
     </div>
+  })}
+        </div>
   );
 };
 

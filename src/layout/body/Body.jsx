@@ -16,11 +16,9 @@ import List from "../../pages/list/List";
 const Body = () => {
   return (
     <>
-    {/* <Navbar/> */}
       <Routes>
-      {/* <Route path="/" element={<Navbar/>}/> */}
       <Route path="/login" element={<Login />} />
-      <Route path="/hotels" element={<List />} />
+      <Route path="/hotels/:countryId" element={<List />} />
       <Route path="/" element={<Navbar/>}>
         <Route index element={<Home/>}/>
 

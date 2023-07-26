@@ -1,7 +1,6 @@
 import "./featuredProperties.scss";
 
 const FeaturedProperties = ({data}) => {
-  console.log(data)
   return (
     <div className="fp">
       {data && data?.map((item) => (

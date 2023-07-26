@@ -10,7 +10,7 @@ const Featured = ({data}) => {
     {data?.map((item) => (
           <div className="featuredItem" onClick= {()=>{
             //
-            navigate("/hotels")
+            navigate(`/hotels/${item.id}`)
           }} key={item.id} >
 
           <img

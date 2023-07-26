@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  list_hotel_by_country:[]
+  list_hotel:[]
+  
 }
 
 const hotelReducer = createSlice({
@@ -9,10 +10,13 @@ const hotelReducer = createSlice({
   initialState,
   reducers: {
     getListHotelReducer:(state,action)=>{
-      state.list_hotel_by_country = action.payload
+      state.list_hotel = action.payload
     },
     getListHotelByCountryReducer:(state,action)=>{
-      state.list_hotel_by_country = action.payload
+      state.list_hotel= action.payload
+    },
+    getListHotelByCategoryReducer:(state,action)=>{
+    
     }
   }
 });
