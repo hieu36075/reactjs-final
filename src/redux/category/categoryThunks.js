@@ -1,21 +1,20 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import instance from "../../services/axios-interceptor";
+import http from "../../services/axios-interceptor";
 
 export const getCategory = createAsyncThunk('category/getCategory', async(_, {rejectWithValue}) =>{
     try{
-        const reponse = await instance.get(`/categories`);
-        return reponse.data
+        const reponse = await http.get(`/categories`);
+        return reponse
     }catch(error){
         return rejectWithValue(error)
     }
 })
 
 export const addCategory = createAsyncThunk('category/addCategory', async (initialData, {rejectWithValue}) => {
-    console.log("datathunk",initialData)
     try{
-    const response = await instance
+    const response = await http
       .post(`/categories`, initialData);
-    return response.data;
+    return response;
     }
     catch(error){
       if (error.response && error.response.status === 401) {

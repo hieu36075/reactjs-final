@@ -1,4 +1,3 @@
-import React from 'react'
 import Featured from "../../components/featured/Featured";
 import PropertyList from "../../components/propertyList/PropertyList";
 import FeaturedProperties from "../../components/featuredProperties/FeaturedProperties";
@@ -6,42 +5,44 @@ import Header from "../../components/header/Header";
 import "./home.css";
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { getListHotelAction} from "../../redux/action/hotel-action";
-import { getListTopCountryInHotelAction } from '../../redux/action/country-action';
+import { getHotels } from "../../redux/hotel/hotelThunks";
+import { SelectAllHotel } from "../../redux/hotel/hotelSelect";
+import { SelectCountry } from "../../redux/country/countrySelect";
+import { getTopHotelInCountry } from "../../redux/country/countryThunks";
+import { getCategory } from "../../redux/category/categoryThunks";
 
 const Home = () => {
   const dispatch = useDispatch()
-  useEffect(()=>{
-      dispatch(getListHotelAction({page:1 , perPage:5}))
-  },[])
-  const listHotel = useSelector(state=>state.hotelReducer.list_hotel.data)
-  const listCountry = useSelector(state=>state.countryReducer.list_country)
-
-  useEffect(()=>{
-    dispatch(getListTopCountryInHotelAction())
-  },[])
-
-  return (
-    <div>
-    {/* <Navbar /> */}
-    <Header/>
-    <div className="homeContainer">
-      <Featured data={listCountry}/>
-      <h1 className="homeTitle">Browse by property type</h1>
-      <PropertyList/>
-      <h1 className="homeTitle">Homes guests love</h1>
-      <FeaturedProperties data={listHotel}/>
-      {/* <MailList/> */}
-      {/* <Footer/> */}
-    </div>
-  </div>
-  )
-}
-
-export default Home
-
-
-
-
-
+  const hotel = useSelector(SelectAllHotel)
+  const category = useSelector(state=> state.category.data)
+  const country = useSelector(SelectCountry)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        dispatch(getHotels({ page: 1, perPage: 5 }));
+        dispatch(getTopHotelInCountry());
+        dispatch(getCategory());
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData(); 
+  }, [dispatch]);
+    return (
+      <div>
+        {/* <Navbar /> */}
+        <Header/>
+        <div className="homeContainer">
+          <Featured data={country}/>
+          <h1 className="homeTitle">Browse by property type</h1>
+          <PropertyList data={category}/>
+          <h1 className="homeTitle">Homes guests love</h1>
+          <FeaturedProperties data={hotel}/>
+          {/* <MailList/> */}
+          {/* <Footer/> */}
+        </div>
+      </div>
+    );
+  };
   
+export default Home;

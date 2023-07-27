@@ -1,11 +1,14 @@
+import { useNavigate } from "react-router-dom";
 import "./searchItem.scss";
 
 const SearchItem = ({data}) => {
-  console.log(data);
+  const navigate = useNavigate()
   return (
   <div>
-  {data?.map((item)=>{
-   return <div className="searchItem" key={item?.id}>
+  {data?.map(item=>(
+    <div className="searchItem" key={item?.id} onClick={()=>{
+      navigate(`/hotels/details/${item?.id}`)
+    }}>
       <img
         src={item?.images.length > 0 ? item.images[0].url : ''}
         alt=""
@@ -34,11 +37,11 @@ const SearchItem = ({data}) => {
         <div className="siDetailTexts">
           <span className="siPrice">$112</span>
           <span className="siTaxOp">Includes taxes and fees</span>
-          <button className="siCheckButton">See availability</button>
+          <button className="siCheckButton" >See availability</button>
         </div>
       </div>
     </div>
-  })}
+  ))}
         </div>
   );
 };

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 const Featured = ({data}) => {
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     return (
@@ -10,7 +11,7 @@ const Featured = ({data}) => {
     {data?.map((item) => (
           <div className="featuredItem" onClick= {()=>{
             //
-            navigate(`/hotels/${item.id}`)
+            navigate(`/hotels/${item.id}`, {state:{type: "country"}})
           }} key={item.id} >
 
           <img

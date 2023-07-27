@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import "./userAdmin.scss"
 import Sidebar from "../../../layout/admin/sidebar/Sidebar";
 import AdminNavbar from "../../../layout/admin/navbar/AdminNavbar";
-import { getUsers } from "../../../context/user/userThunks";
+import { getUsers } from "../../../redux/user/userThunks";
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom";
 import { userColumns } from "./userColumns";
@@ -44,9 +44,9 @@ const UserList = () => {
   const user = data.map((data, index) => ({ ...data, index: index }));
 
   return (
-    <div className="list">
+    <div className="list_table">
       <Sidebar/>
-      <div className="listContainer">
+      <div className="listContainer_table">
         <AdminNavbar/>
         <Datatable data={user} Columns={userColumns} actionColumn={actionColumn} />
       </div>

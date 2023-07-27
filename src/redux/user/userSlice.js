@@ -4,7 +4,7 @@ import { getUsers } from "./userThunks";
 
 const initialState ={
     isLogin: false,  
-    loading: 'loading',
+    loading: false,
     error: {},
     data: [],
 }
@@ -17,18 +17,16 @@ const userSlice = createSlice({
     extraReducers: builder =>{
         builder.addCase(getUsers.pending, (state, action) => {
             state.isLogin = true;
-            state.loading = "pending"
+            state.loading = true
         });
         builder.addCase(getUsers.fulfilled, (state, action) => {
-            state.isLogin = false;
-            state.loading = "success"
-            console.log(action.payload)
+            state.isLogin = false
+            state.loading = false
             state.data = action.payload
             state.error = ""
         });
         builder.addCase(getUsers.rejected, (state, action) => {
             state.isLogin = true;
-            console.log(action.payload)
             state.error = action.payload
         });
 

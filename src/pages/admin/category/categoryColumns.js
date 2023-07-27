@@ -1,7 +1,7 @@
 export const categoryColumns = [
 
     { 
-      field: "index", headerName: "ID", width: 70,  
+      field: "1", headerName: "ID", width: 70,  
     },
     
     {

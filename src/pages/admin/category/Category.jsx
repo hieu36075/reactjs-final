@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Sidebar from "../../../layout/admin/sidebar/Sidebar";
 import AdminNavbar from "../../../layout/admin/navbar/AdminNavbar";
-import { getCategory } from "../../../context/category/categoryThunks";
+import { getCategory } from "../../../redux/category/categoryThunks";
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom";
 import { categoryColumns } from "./categoryColumns";
@@ -9,7 +9,7 @@ import Datatable from "../../../components/datatable/Datatable";
 
 const Categories = () => {
   const dispatch = useDispatch()
-  const {data} = useSelector((state)=> state.category)
+  const {data, loadding}= useSelector(state=> state.category)
 
   useEffect(()=>{
       dispatch(getCategory())
@@ -18,6 +18,11 @@ const Categories = () => {
   const handleDelete = (id) => {
     console.log(id)
   };
+
+  if (loadding) {
+    return <div>Loading...</div>;
+  }
+
   const actionColumn = [
     {
       field: "action",
@@ -43,9 +48,9 @@ const Categories = () => {
 
   const categories = data?.map((data, index) => ({ ...data, index: index }));
   return (
-    <div className="list">
+    <div className="list_table">
       <Sidebar/>
-      <div className="listContainer">
+      <div className="listContainer_table">
         <AdminNavbar/>
         <Datatable data={categories} Columns={categoryColumns} actionColumn={actionColumn} />
       </div>

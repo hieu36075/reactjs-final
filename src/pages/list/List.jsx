@@ -9,8 +9,9 @@ import SearchItem from "../../components/searchItem/SearchItem";
 import {defaultDate, defaultOptions } from './defaults';
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
-import { getListHotelByCountryAction } from "../../redux/action/hotel-action";
+import { useSelector } from "react-redux/es/hooks/useSelector";
+import { getHotelByCategory, getHotelByCountry, searchHotel } from "../../redux/hotel/hotelThunks";
+
 
 const List = () => {
   const dispatch = useDispatch();
@@ -19,15 +20,27 @@ const List = () => {
   const [date, setDate] = useState(location?.state?.date || defaultDate);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location?.state?.options || defaultOptions);
-  const {countryId} = useParams();
-
-  const listHotelByCountry=useSelector(state=> state.hotelReducer.list_hotel)
-
+  const {id} = useParams();
+  const {loadding, data} = useSelector(state=> state.hotel)
+  const type = location?.state?.type
+  const [name, setName] = useState('')
+  const [category, setCategory]= useState('')
   useEffect(()=>{
-    dispatch(getListHotelByCountryAction(countryId))
-  },[])
+    if(type){
+      if(type=== "country"){
+        dispatch(getHotelByCountry(id))
+      }else if(type ==="category"){
+        dispatch(getHotelByCategory(id))
+      }
+    }else{
+      console.log("get all")
+    }
 
+  },[id, dispatch])
 
+  if (loadding) {
+    return <div>Loading...</div>;
+  }
   
   return (
     <div>
@@ -102,7 +115,7 @@ const List = () => {
             <button>Search</button>
           </div>
           <div className="listResult">
-            <SearchItem  data={listHotelByCountry}/>
+            <SearchItem data={data} />
           </div>
         </div>
       </div>

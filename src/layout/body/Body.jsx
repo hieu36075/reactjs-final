@@ -12,13 +12,16 @@ import NewProfile from "../../pages/admin/profile/NewProfile";
 import Categories from "../../pages/admin/category/Category";
 import CategoryNewPage from "../../pages/admin/category/CategoryNewPage";
 import List from "../../pages/list/List";
+import DetailsPage from "../../pages/detail/DetailsPage";
+
 
 const Body = () => {
   return (
     <>
       <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/hotels/:countryId" element={<List />} />
+      <Route path="/hotels/:id" element={<List />} />
+      <Route path="/hotels/details/:id" element={<DetailsPage />} />
       <Route path="/" element={<Navbar/>}>
         <Route index element={<Home/>}/>
 

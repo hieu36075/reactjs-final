@@ -1,6 +1,6 @@
 import React from "react";
 import New from "../../../components/new/New";
-import { addCategory } from "../../../context/category/categoryThunks";
+import { addCategory } from "../../../redux/category/categoryThunks";
 import { useDispatch } from "react-redux";
 const CategoryNewPage = () => {
   const dispatch = useDispatch()

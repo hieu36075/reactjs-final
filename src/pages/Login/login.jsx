@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import './login.scss'
 import {  useNavigate } from "react-router-dom";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
-import { loginAction, loginByGoogleAction } from "../../redux/action/auth-action";
+import { login, loginByGoogle } from "../../redux/auth/authThunks";
 
 export default function Login(){
     const dispatch = useDispatch();
@@ -12,13 +12,14 @@ export default function Login(){
       email: "",
       password: "",
     });
- 
+    
+    const{isLogin, error} = useSelector(state => state.auth)
     
     const handleSuccessLogin = async (response) => {
       const token = await response.credential;
-         dispatch(loginByGoogleAction({token: token}))
+         dispatch(loginByGoogle({token: token}))
       // const { isValid, error } = decodeTokenAndCheckExpiration(token);
-  
+
       // if (isValid) {
       //   dispatch(
       //     loginByGoogleAccountAction({
@@ -50,10 +51,15 @@ export default function Login(){
     }
 
 
-    const handleSubmit = () => {
-         dispatch(loginAction(account))
+    const handleSubmit = async() => {
+      
+       dispatch(login(account))
+       if(!isLogin){
+          navigate("/")
+       }else{
+        console.log(error)
+       }
 
-        navigate("/")
     };
     return(
       <div className="login-main">

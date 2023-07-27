@@ -1,13 +1,18 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import authReducer from "./reducer/auth-reducer";
-import hotelReducer from "./reducer/hotel-reducer";
-import countryReducer from "./reducer/country-reducer";
+import authSlice from "./auth/authSlice";
+import hotelSlice from "./hotel/hotelSlice";
+import countrySlice from "./country/countrySlice";
+import userSlice from "./user/userSlice";
+import categorySlice from "./category/categorySlice";
 const { configureStore } = require("@reduxjs/toolkit");
 
 const reducer = combineReducers({
-      authReducer,
-      hotelReducer,
-      countryReducer
+  auth: authSlice,
+  hotel: hotelSlice,
+  country: countrySlice,
+  user: userSlice,
+  category: categorySlice
+
 })
 
 
