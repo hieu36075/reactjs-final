@@ -13,15 +13,23 @@ import Categories from "../../pages/admin/category/Category";
 import CategoryNewPage from "../../pages/admin/category/CategoryNewPage";
 import List from "../../pages/list/List";
 import DetailsPage from "../../pages/detail/DetailsPage";
-
-
+import ConfirmationPaymentPage from "../../pages/payment/ConfirmationPaymentPage";
+import ProfilePage from "../../pages/profile/ProfilePage";
+import HotelsFormPage from "../../pages/hotel/HotelsFormPage";
+import AlertPopup from "../../components/aleart/AlertPopup";
+import RequireNoAuth from "../../routes/RequireNoAuth";
 const Body = () => {
   return (
     <>
+      <AlertPopup />
       <Routes>
-      <Route path="/login" element={<Login />} />
+
+      <Route path="/login" element={<RequireNoAuth element={<Login />} />} />
       <Route path="/hotels/:id" element={<List />} />
       <Route path="/hotels/details/:id" element={<DetailsPage />} />
+      <Route path="/hotels/stays/:id" element={<ConfirmationPaymentPage />} />
+      <Route path="/hotels/new" element={<HotelsFormPage />} />
+      <Route path="/account" element={<ProfilePage />} />
       <Route path="/" element={<Navbar/>}>
         <Route index element={<Home/>}/>
 

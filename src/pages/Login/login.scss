@@ -1,0 +1,82 @@
+*{
+    box-sizing: border-box;
+}
+.login__content{
+    width: 50%;
+    margin: 10% auto;
+    height: 400px;
+    display: flex;
+    position: relative;
+    background: #ffffff;
+    box-shadow: 0 0 5px #999999;
+}
+.leftside{
+    width: 70%;
+    padding-left: 50px;
+    padding-top: 20px;
+    clip-path: polygon(0 0, 0% 100%, 100% 0);
+    background: #44c7f5;
+}
+.leftside h2{
+    color: white;
+    font-size: 25px;
+    font-weight: 800;
+}
+.leftside p{
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+}
+.leftside .button{
+    background-color: transparent;
+    border: #ffffff solid 2px;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 800;
+}
+.leftside .button:hover{
+    background-color: white;
+    color: #44c7f5;
+    transition: all 1s;
+}
+.rightside{
+    position: absolute;
+    top: 70px;
+    right: -5%;
+    text-align: center;
+    width: 70%;
+    padding: 20px 0;
+    border-radius: 10px;
+}
+.rightside .button{
+    background-color: transparent;
+    border: #44c7f5 solid 2px;
+    color: #44c7f5;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: 800;
+}
+.rightside .button:hover{
+    background-color: #44c7f5;
+    color: white;
+    transition: all 1s;
+}
+
+.form_title{
+    text-align: center;
+    color: black;
+    font-size: 30px;
+    font-weight: 800;
+}
+.form__input{
+    margin: 10px 0;
+    width: 50%;
+    padding: 7px 0;
+    text-align: center;
+    border: solid 2px black;
+    border-radius: 10px;
+}
+.form__google{
+    margin-left: 38%;
+}

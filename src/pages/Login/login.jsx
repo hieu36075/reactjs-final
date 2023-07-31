@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import './login.scss'
 import {  useNavigate } from "react-router-dom";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { login, loginByGoogle } from "../../redux/auth/authThunks";
-
+import useAlert from "../../context/aleart/useAlert";
 export default function Login(){
+  const { setAlert } = useAlert();
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [account, setAccount] = useState({
@@ -13,8 +15,9 @@ export default function Login(){
       password: "",
     });
     
-    const{isLogin, error} = useSelector(state => state.auth)
-    
+    const{ error} = useSelector(state => state.auth)
+    console.log(error)
+    const isLogin = useSelector((state) => state.auth.isLogin);
     const handleSuccessLogin = async (response) => {
       const token = await response.credential;
          dispatch(loginByGoogle({token: token}))
@@ -50,43 +53,55 @@ export default function Login(){
       })
     }
 
+    useEffect(() => {
+      if (isLogin ) {
+        navigate("/");
+        setAlert("Login success!", "success");
+      }
+      if (error) {
+        setAlert(error, "error");
+      }
+    }, [isLogin, error, navigate]);
 
     const handleSubmit = async() => {
-      
-       dispatch(login(account))
-       if(!isLogin){
-          navigate("/")
-       }else{
-        console.log(error)
-       }
+      dispatch(login(account))
 
     };
+
     return(
       <div className="login-main">
-      <div className="rightside" >
-          <h2 className="form_title title">Sign in to Website</h2>
-          <div className="form__icons">
-            <i className="fab fa-facebook-f form__icon" />
-            <i className="fab fa-twitter form__icon" />
-            <i className="fab fa-instagram form__icon" />
-            <i className="fab fa-google form__icon" />
-          </div>
-          <span className="form__span">or use your email account</span>
-          <input className="form__input" type="text" placeholder="Email" value={account.email} onChange={handleEmail}/>
-          <input className="form__input" type="password" placeholder="Password" value={account.password} onChange={handlePassword}/>
-          {/* <a className="form__link">Forgot your password?</a> */}
-          <button className="form__button button submit" onClick={handleSubmit}>SIGN IN</button>
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
-                  <GoogleLogin
-                    onSuccess={handleSuccessLogin}
-                    onError={handleErrorLogin}
-                    style={{ marginTop: "100px" }}
-                    cookiePolicy={"single_host_origin"}
-                    isSignedIn={true}
-                    
-                  />
-                </GoogleOAuthProvider>
+      <div className="login__content">
+      <div className="leftside">
+            <div className="login__text">
+              <h2>Welcome HieuNgu</h2>
+              <p>Create your account. <br /> It's totally free</p>
+              <br />
+              <a href="#" className="button"> Sign Up</a>
+            </div>
       </div>
+    <div className="rightside" >
+        <h2 className="form_title title">Sign in</h2>
+        <input className="form__input" type="text" placeholder="Email" value={account.email} onChange={handleEmail}/>
+        <br />
+        <input className="form__input" type="password" placeholder="Password" value={account.password} onChange={handlePassword}/>
+        {/* <a className="form__link">Forgot your password?</a> */}
+        <br />
+        <button className="form__button button submit" onClick={handleSubmit}>SIGN IN</button>
+        <p className="form__span">Use your email account</p>
+        <div className="form__google">
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                <GoogleLogin
+                  onSuccess={handleSuccessLogin}
+                  onError={handleErrorLogin}
+                  style={{ marginTop: "100px" }}
+                  cookiePolicy={"single_host_origin"}
+                  isSignedIn={true}
+                  
+                />
+              </GoogleOAuthProvider>
+        </div>
     </div>
+      </div>
+  </div>
     )
 }

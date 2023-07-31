@@ -1,11 +1,11 @@
 import "./featured.scss"
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+
 
 const Featured = ({data}) => {
 
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+
     return (
       <div className="featured">
     {data?.map((item) => (

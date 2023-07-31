@@ -10,8 +10,8 @@ import {defaultDate, defaultOptions } from './defaults';
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import { getHotelByCategory, getHotelByCountry, searchHotel } from "../../redux/hotel/hotelThunks";
-
+import { getHotelByCategory, getHotelByCountry } from "../../redux/hotel/hotelThunks";
+import { searchHotel } from "../../redux/hotel/hotelThunks";
 
 const List = () => {
   const dispatch = useDispatch();
@@ -23,8 +23,17 @@ const List = () => {
   const {id} = useParams();
   const {loadding, data} = useSelector(state=> state.hotel)
   const type = location?.state?.type
-  const [name, setName] = useState('')
-  const [category, setCategory]= useState('')
+
+  const [countryId, setCountryId] = useState('');
+  const [name, setName] = useState('');
+  const [categoryId, setCategoryId] = useState('');
+  
+  const handleSearch = () => {
+    // Gọi action searchHotel với các query parameters từ người dùng.
+    dispatch(searchHotel({ countryId, name, categoryId }));
+  };
+  // const [name, setName] = useState('')
+  // const [category, setCategory]= useState('')
   useEffect(()=>{
     if(type){
       if(type=== "country"){
@@ -47,6 +56,13 @@ const List = () => {
       <Navbar />
       <Header type="list" />
       <div className="listContainer">
+      <div>
+      <h2>Tìm kiếm khách sạn:</h2>
+      <input type="text" value={countryId} onChange={(e) => setCountryId(e.target.value)} placeholder="Country ID" />
+      <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Hotel Name" />
+      <input type="text" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} placeholder="Category ID" />
+      <button onClick={handleSearch}>Tìm kiếm</button>
+    </div>
         <div className="listWrapper">
           <div className="listSearch">
             <h1 className="lsTitle">Search</h1>

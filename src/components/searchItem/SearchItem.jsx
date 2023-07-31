@@ -1,8 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux/es/hooks/useSelector";
 import "./searchItem.scss";
-
 const SearchItem = ({data}) => {
-  const navigate = useNavigate()
+
+  const navigate = useNavigate();
+  const {loading} = useSelector(state=> state.hotel)
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
   <div>
   {data?.map(item=>(
@@ -10,7 +15,7 @@ const SearchItem = ({data}) => {
       navigate(`/hotels/details/${item?.id}`)
     }}>
       <img
-        src={item?.images.length > 0 ? item.images[0].url : ''}
+        src={item?.images.length > 0 ? item?.images[0].url : ''}
         alt=""
         className="siImg"
         />
