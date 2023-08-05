@@ -1,9 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import "./propertyList.scss";
+import { DEFAULT_IMAGE_URL } from "../../constants";
 
 const PropertyList = ({data}) => {
+  console.log(data)
   const navigate = useNavigate()
-
+  if (!data || data.length === 0) {
+    return <p>No data available.</p>;
+  }
   return (
     <div className="pList">
       {data?.map((item) =>{
@@ -11,7 +15,7 @@ const PropertyList = ({data}) => {
         navigate(`/hotels/${item?.id}`, {state:{type: "category"}})
       }}>
         <img
-          src={item?.imageURL}
+          src={item?.imageURL || DEFAULT_IMAGE_URL}
           alt=""
           className="pListImg"
         />

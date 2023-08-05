@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './confirmationPaymentPage.css'; // Import the Tailwind CSS file
 import RoomItem from './RoomItem';
 const ConfirmationPaymentPage = () => {

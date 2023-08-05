@@ -33,6 +33,7 @@
     "react-select": "^5.7.4",
     "react-simple-widgets": "^6.7.0",
     "recharts": "^2.7.2",
+    "socket.io-client": "^4.7.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

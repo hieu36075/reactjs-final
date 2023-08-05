@@ -21,17 +21,6 @@ export default function Login(){
     const handleSuccessLogin = async (response) => {
       const token = await response.credential;
          dispatch(loginByGoogle({token: token}))
-      // const { isValid, error } = decodeTokenAndCheckExpiration(token);
-
-      // if (isValid) {
-      //   dispatch(
-      //     loginByGoogleAccountAction({
-      //       token: token,
-      //     })
-      //   );
-      // } else {
-      //   dispatch(showSnackbar(error));
-      // }
     };
   
     const handleErrorLogin = (error) => {
@@ -55,12 +44,13 @@ export default function Login(){
 
     useEffect(() => {
       if (isLogin ) {
-        navigate("/");
         setAlert("Login success!", "success");
       }
       if (error) {
         setAlert(error, "error");
       }
+
+
     }, [isLogin, error, navigate]);
 
     const handleSubmit = async() => {

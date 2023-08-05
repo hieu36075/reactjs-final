@@ -11,6 +11,7 @@ import { SelectCountry } from "../../redux/country/countrySelect";
 import { getTopHotelInCountry } from "../../redux/country/countryThunks";
 import { getCategory } from "../../redux/category/categoryThunks";
 
+
 const Home = () => {
   const dispatch = useDispatch()
   const hotel = useSelector(SelectAllHotel)

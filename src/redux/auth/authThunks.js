@@ -1,11 +1,11 @@
 
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import http from "../../services/axios-interceptor";
-import useAlert from "../../context/aleart/useAlert";
+
 export const login = createAsyncThunk('auth/login', async(data, {rejectWithValue})=>{
     try {
         const reponse = await http.post('auth/login', data)
-        localStorage.setItem("token", reponse.accessToken)
+
         return reponse.accessToken
     } catch (error) {
         return rejectWithValue(error.message)

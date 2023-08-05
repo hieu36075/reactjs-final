@@ -7,7 +7,6 @@ const RequireNoAuth = ({ element }) => {
   const isLogin = useSelector((state) => state.auth.isLogin);
 
   if (isLogin) {
-    // Nếu đã đăng nhập, chuyển hướng đến trang chủ
     return <Navigate to="/" replace />;
   }
 

@@ -43,7 +43,17 @@ export const searchHotel = createAsyncThunk('hotel/searchHotel', async(data,{rej
 
 export const getHotelById = createAsyncThunk('hotel/getHotelById', async(id, {rejectWithValue})=>{
     try {
-        const reponse = await http.get(`hotel/${id}`)
+        const reponse = await http.get(`/hotel/${id}`)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const createHotel = createAsyncThunk('hotel/createHotel', async(hotel, {rejectWithValue})=>{
+    try {
+        const reponse = await http.post(`/hotel`, hotel)
+        console.log(reponse)
         return reponse
     } catch (error) {
         return rejectWithValue(error)

@@ -1,0 +1,60 @@
+.profile_content{
+    width: 70%;
+    margin: 40px auto;
+}
+.profile_left{
+    float: left;
+    width: 60%;
+}
+.profile_right{
+    float: left;
+    width: 30%;
+    border: solid 2px rgba(0, 0, 0, 0.411);
+    margin-right: 60px;
+    border-radius: 10px;
+}
+.info{
+    float: left;
+    width: 60%;
+}
+.action{
+    float: left;
+    width: 40%;
+}
+.profile_content h1{
+    font-size: 30px;
+    font-weight: 800;
+    padding-left: 30%;
+}
+.profile_content h2{
+    font-size: 30px;
+    font-weight: 800;
+}
+.profile_content h3{
+    font-size: 20px;
+}
+.profile_content h4{
+    font-size: 16px;
+}
+.profile_content a{
+    font-size: 22px;
+    font-weight: 700;
+    text-decoration: underline;
+    display: block;
+}
+.info_item{
+    margin-top: 30px;
+}
+.action a{
+    margin-top: 50px;
+}
+.profile_item path{
+    color: rgb(226, 21, 89);
+}
+.profile_item{
+    padding: 30px;
+}
+.profile_item p{
+    padding: 20px 0px 15px 0px;
+    border-bottom: solid 1px black;
+}

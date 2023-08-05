@@ -8,6 +8,11 @@ const SearchItem = ({data}) => {
   if (loading) {
     return <div>Loading...</div>;
   }
+
+  if (!data || data.length === 0) {
+    return <p>No data available.</p>;
+  }
+  
   return (
   <div>
   {data?.map(item=>(

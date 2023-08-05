@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Login from "../../pages/login/login";
-// import HTMLPage from "../../components/Auth/loginGoogle";
 import Home from "../../pages/home/Home";
 import Navbar from "../navbar/navbar";
 import AdminDashboard from "../../pages/admin/home/AdminDashboard";
@@ -23,7 +22,6 @@ const Body = () => {
     <>
       <AlertPopup />
       <Routes>
-
       <Route path="/login" element={<RequireNoAuth element={<Login />} />} />
       <Route path="/hotels/:id" element={<List />} />
       <Route path="/hotels/details/:id" element={<DetailsPage />} />

@@ -1,3 +1,4 @@
+
 import "./list.scss";
 import Navbar from "../../layout/navbar/navbar";
 import Header from "../../components/header/Header";
@@ -45,7 +46,7 @@ const List = () => {
       console.log("get all")
     }
 
-  },[id, dispatch])
+  },[id, dispatch, type])
 
   if (loadding) {
     return <div>Loading...</div>;

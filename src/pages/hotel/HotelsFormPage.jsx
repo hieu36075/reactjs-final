@@ -1,136 +1,118 @@
-import PhotosUploader from "./PhotosUploader";
-import Perks from "./Perks";
-import {useEffect, useState} from "react";
-import axios from "axios";
-// import AccountNav from "../AccountNav";
-import {Navigate, useParams} from "react-router-dom";
+
+import { useState} from "react";
 import Navbar from "../../layout/navbar/navbar";
-
-
+import HotelForm from "./HotelForm";
+import FormProgress from "./FormProgress";
+import RoomForm from "./RoomForm";
 export default function HotelsFormPage() {
-  const {id} = useParams();
-  const [title,setTitle] = useState('');
-  const [address,setAddress] = useState('');
-  const [addedPhotos,setAddedPhotos] = useState([]);
-  const [description,setDescription] = useState('');
-  const [perks,setPerks] = useState([]);
-  const [extraInfo,setExtraInfo] = useState('');
-  const [checkIn,setCheckIn] = useState('');
-  const [checkOut,setCheckOut] = useState('');
-  const [maxGuests,setMaxGuests] = useState(1);
-  const [price,setPrice] = useState(100);
-  const [redirect,setRedirect] = useState(false);
-  useEffect(() => {
-    if (!id) {
-      return;
-    }
-    axios.get('/places/'+id).then(response => {
-       const {data} = response;
-       setTitle(data.title);
-       setAddress(data.address);
-       setAddedPhotos(data.photos);
-       setDescription(data.description);
-       setPerks(data.perks);
-       setExtraInfo(data.extraInfo);
-       setCheckIn(data.checkIn);
-       setCheckOut(data.checkOut);
-       setMaxGuests(data.maxGuests);
-       setPrice(data.price);
-    });
-  }, [id]);
-  function inputHeader(text) {
-    return (
-      <h2 className="text-2xl mt-4">{text}</h2>
-    );
-  }
-  function inputDescription(text) {
-    return (
-      <p className="text-gray-500 text-sm">{text}</p>
-    );
-  }
-  function preInput(header,description) {
-    return (
-      <>
-        {inputHeader(header)}
-        {inputDescription(description)}
-      </>
-    );
-  }
+  // const [title,setTitle] = useState('');
+  // const [address,setAddress] = useState('');
+  // const [addedPhotos,setAddedPhotos] = useState([]);
+  // const [description,setDescription] = useState('');
+  // const [perks,setPerks] = useState([]);
+  // const [extraInfo,setExtraInfo] = useState('');
+  // const [checkIn,setCheckIn] = useState('');
+  // const [checkOut,setCheckOut] = useState('');
+  // const [maxGuests,setMaxGuests] = useState(1);
+  // const [price,setPrice] = useState(100);
+  const formArray = [1, 2, 3];
+  const [formNo, setFormNo] = useState(formArray[0])
+  const [hotel, setHotel] = useState({
+    title: "",
+    address: "",
+    addedPhotos: [],
+    description: "",
+    peeks: [],
+    extraInfo: "",
+    checkIn: "",
+    checkOut: "",
+    maxGuests: 1,
+    categoryId: "",
+    countryId: "",
+    price: "",
+  });
+  // console.log(hotel)
+  const setHotelData = (fieldName, value) => {
+    setHotel((prevHotel) => ({
+      ...prevHotel,
+      [fieldName]: value,
+    }));
+  };
 
-  async function savePlace(ev) {
-    ev.preventDefault();
-    const placeData = {
-      title, address, addedPhotos,
-      description, perks, extraInfo,
-      checkIn, checkOut, maxGuests, price,
-    };
-    if (id) {
-      // update
-      await axios.put('/places', {
-        id, ...placeData
-      });
-      setRedirect(true);
-    } else {
-      // new place
-      await axios.post('/places', placeData);
-      setRedirect(true);
-    }
+  // useEffect(() => {
+  //   if (!id) {
+  //     return;
+  //   }
+  //   axios.get('/places/'+id).then(response => {
+  //      const {data} = response;
+  //      setTitle(data.title);
+  //      setAddress(data.address);
+  //      setAddedPhotos(data.photos);
+  //      setDescription(data.description);
+  //      setPerks(data.perks);
+  //      setExtraInfo(data.extraInfo);
+  //      setCheckIn(data.checkIn);
+  //      setCheckOut(data.checkOut);
+  //      setMaxGuests(data.maxGuests);
+  //      setPrice(data.price);
+  //   });
+  // }, [id]);
 
+
+
+  // if (redirect) {
+  //   return navigate('/account/places') 
+  // }
+  const next = () => {
+    // if (formNo === 1 && state.name && state.dept && state.batch) {
+    //   setFormNo(formNo + 1)
+    // }
+    // else if (formNo === 2 && state.varsity && state.session && state.address) {
+    //   setFormNo(formNo + 1)
+    // } else {
+    //   toast.error('Please fillup all input field')
+    // }
+    setFormNo(formNo + 1)
   }
-
-  if (redirect) {
-    return <Navigate to={'/account/places'} />
+  const pre = () => {
+    setFormNo(formNo - 1)
   }
 
   return (
     <div>
       <Navbar/>
       <div className="mt-4 bg-white-100 -mx-8 px-12 py-8">
-      <form onSubmit={savePlace}>
-        {preInput('Title', 'Title for your place. should be short and catchy as in advertisement')}
-        <input type="text" value={title} onChange={ev => setTitle(ev.target.value)} placeholder="title, for example: My lovely apt"/>
-        {preInput('Address', 'Address to this place')}
-        <input type="text" value={address} onChange={ev => setAddress(ev.target.value)}placeholder="address"/>
-        {preInput('Photos','more = better')}
-        <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos} />
-        {preInput('Description','description of the place')}
-        <textarea value={description} onChange={ev => setDescription(ev.target.value)} />
-        {preInput('Perks','select all the perks of your place')}
-        <div className="grid mt-2 gap-2 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-          <Perks selected={perks} onChange={setPerks} />
-        </div>
-        {preInput('Extra info','house rules, etc')}
-        <textarea value={extraInfo} onChange={ev => setExtraInfo(ev.target.value)} />
-        {preInput('Check in&out times','add check in and out times, remember to have some time window for cleaning the room between guests')}
-        <div className="grid gap-2 grid-cols-2 md:grid-cols-4">
-          <div>
-            <h3 className="mt-2 -mb-1">Check in time</h3>
-            <input type="text"
-                   value={checkIn}
-                   onChange={ev => setCheckIn(ev.target.value)}
-                   placeholder="14"/>
+        <FormProgress formNo={formNo} />
+
+        {formNo === 1 && (
+         <HotelForm hotel={hotel} setHotel={setHotelData} onNext={next} />
+        )}
+
+        {
+          formNo === 2 && <div>
+            {/* {console.log("a",hotel)} */}
+            <RoomForm/>
+            <div className='mt-4 gap-3 flex justify-center items-center'>
+              <button onClick={pre} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Previous</button>
+              <button onClick={next} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Next</button>
+            </div>
           </div>
-          <div>
-            <h3 className="mt-2 -mb-1">Check out time</h3>
-            <input type="text"
-                   value={checkOut}
-                   onChange={ev => setCheckOut(ev.target.value)}
-                   placeholder="11" />
+        }
+
+{
+          formNo === 3 && <div>
+            <div className='mt-4 gap-3 flex justify-center items-center'>
+              <button onClick={pre} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Previous</button>
+              <button onClick={next} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Next</button>
+            </div>
           </div>
-          <div>
-            <h3 className="mt-2 -mb-1">Max number of guests</h3>
-            <input type="number" value={maxGuests}
-                   onChange={ev => setMaxGuests(ev.target.value)}/>
-          </div>
-          <div>
-            <h3 className="mt-2 -mb-1">Price per night</h3>
-            <input type="number" value={price}
-                   onChange={ev => setPrice(ev.target.value)}/>
-          </div>
-        </div>
-        <button className="primary my-4">Save</button>
-      </form>
-    </div>
+        }
+
+{/* <button className="primary my-4" type="button" onClick={next}>
+        Next
+      </button> */}
+</div>
+
     </div>
   );
 }

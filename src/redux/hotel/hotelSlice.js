@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getHotelByCategory, getHotelByCountry, getHotelById, getHotels, searchHotel } from "./hotelThunks";
+import { createHotel, getHotelByCategory, getHotelByCountry, getHotelById, getHotels, searchHotel } from "./hotelThunks";
 
 const initialState ={
     loading: true,
@@ -67,6 +67,19 @@ const hotelSlice = createSlice({
             state.error = ""
         });
         builder.addCase(getHotelById.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+
+        builder.addCase(createHotel.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(createHotel.fulfilled, (state, action) => {
+            state.loading = false
+            state.details = action.payload
+            state.error = ""
+        });
+        builder.addCase(createHotel.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
         });
