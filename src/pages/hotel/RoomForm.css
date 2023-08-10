@@ -1,0 +1,28 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.room_left{
+    width: 20%;
+   float: left;
+}
+.room_light{
+    width: 40%;
+    float: left;
+}
+.room_name , .room_desc, .room_price, .room_number{
+    font-size: 22px;
+    font-weight: 800;
+}
+.room_name input ,.room_desc textarea ,.room_price input ,.room_number input{
+    font-size: 18px;
+    font-weight: 400;
+}
+.button{
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: white;
+    background-color: #28a745 !important;
+    font-size: 18px;
+}

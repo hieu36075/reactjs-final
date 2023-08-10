@@ -60,3 +60,12 @@ export const createHotel = createAsyncThunk('hotel/createHotel', async(hotel, {r
     }
 })
 
+export const uploadMultiImangeHotel = createAsyncThunk('hotel/uploadMultiImangeHotel', async(file, {rejectWithValue})=>{
+    try {
+        const reponse = await http.post(`/hotel/multiple-file-upload`, file)
+        console.log(reponse)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})

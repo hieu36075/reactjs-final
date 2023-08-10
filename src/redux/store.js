@@ -7,6 +7,7 @@ import categorySlice from "./category/categorySlice";
 import jwtDecode from "jwt-decode";
 import { setIsLogin } from "./auth/authSlice";
 import notificationSlice from "./notification/notificationSlice";
+import amenitySlice from "./amenity/amenitySlice";
 const { configureStore } = require("@reduxjs/toolkit");
 
 const checkTokenExpiration = (store) => {
@@ -28,7 +29,8 @@ const reducer = combineReducers({
   country: countrySlice,
   user: userSlice,
   category: categorySlice,
-  notification: notificationSlice
+  notification: notificationSlice,
+  amenity: amenitySlice
 
 })
 

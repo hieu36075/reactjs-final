@@ -1,9 +1,20 @@
 import axios from "axios";
-import {useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import Image from "./Image";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadMultiImangeHotel } from "../../redux/hotel/hotelThunks";
 
 export default function PhotosUploader({addedPhotos,onChange}) {
   const [photoLink,setPhotoLink] = useState('');
+  const dispatch = useDispatch();
+  const {image} = useSelector(state => state.hotel)
+  const prevImage = useRef(image);
+  useEffect(() => {
+    if (image !== prevImage.current) {
+      onChange([...addedPhotos, ...image]);
+    }
+    prevImage.current = image;
+  }, [image]);
   async function addPhotoByLink(ev) {
     ev.preventDefault();
     const {data:filename} = await axios.post('/upload-by-link', {link: photoLink});
@@ -16,17 +27,11 @@ export default function PhotosUploader({addedPhotos,onChange}) {
     const files = ev.target.files;
     const data = new FormData();
     for (let i = 0; i < files.length; i++) {
-      data.append('photos', files[i]);
+      data.append('files', files[i]);
     }
-    axios.post('/upload', data, {
-      headers: {'Content-type':'multipart/form-data'}
-    }).then(response => {
-      const {data:filenames} = response;
-      onChange(prev => {
-        return [...prev, ...filenames];
-      });
-    })
+    dispatch(uploadMultiImangeHotel(data))
   }
+
   function removePhoto(ev,filename) {
     ev.preventDefault();
     onChange([...addedPhotos.filter(photo => photo !== filename)]);
@@ -44,8 +49,8 @@ export default function PhotosUploader({addedPhotos,onChange}) {
         <button onClick={addPhotoByLink} className="bg-gray-200 px-4 rounded-2xl">Add&nbsp;photo</button>
       </div>
       <div className="mt-2 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-        {addedPhotos.length > 0 && addedPhotos.map(link => (
-          <div className="h-32 flex relative" key={link}>
+        {addedPhotos.length > 0 && addedPhotos.map((link, index) => (
+          <div className="h-32 flex relative" key={index}>
             <Image className="rounded-2xl w-full object-cover" src={link} alt=""/>
             <button onClick={ev => removePhoto(ev,link)} className="cursor-pointer absolute bottom-1 right-1 text-white bg-black bg-opacity-50 rounded-2xl py-2 px-3">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

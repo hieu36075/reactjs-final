@@ -4,6 +4,7 @@ import http from "../../services/axios-interceptor";
 export const getCategory = createAsyncThunk('category/getCategory', async(_, {rejectWithValue}) =>{
     try{
         const reponse = await http.get(`/categories`);
+        console.log(reponse)
         return reponse
     }catch(error){
         return rejectWithValue(error)

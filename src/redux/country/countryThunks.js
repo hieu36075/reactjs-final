@@ -4,7 +4,7 @@ import http from "../../services/axios-interceptor";
 export const getCountry = createAsyncThunk('country/getCountry', async(_, {rejectWithValue}) =>{
     try{
         const reponse = await http.get(`/country`);
-        return reponse.data
+        return reponse
     }catch(error){
         return rejectWithValue(error)
     }

@@ -47,13 +47,6 @@ function Navbar() {
         socket.emit('pong', { timestamp: new Date() });
       });
    
-
-      socket.on('notification', (data) => {
-        console.log('Notification:', data);
-        setNotifications((prevNotifications) => [data, ...prevNotifications]);
-          console.log(notifications)
-      });
-
       setSocketInitialized(true);
       return () => {
         socket.emit('leave', decode.id);
@@ -61,7 +54,15 @@ function Navbar() {
     }
   }, [isLogin, notifications, socketInitialized, token]);
 
-
+  useEffect(() => {
+    if (socketInitialized) {
+      socket.on('notification', (data) => {
+        console.log('Notification:', data);
+        setNotifications((prevNotifications) => [data, ...prevNotifications]);
+      });
+    }
+  }, [socketInitialized]);
+  
 
   return (
     <>

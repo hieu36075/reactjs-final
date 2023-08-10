@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createHotel, getHotelByCategory, getHotelByCountry, getHotelById, getHotels, searchHotel } from "./hotelThunks";
+import { createHotel, getHotelByCategory, getHotelByCountry, getHotelById, getHotels, searchHotel, uploadMultiImangeHotel } from "./hotelThunks";
 
 const initialState ={
     loading: true,
     error: {},
     data: [],
     details: [],
-    page:[]
+    page:[],
+    image:[]
 }
 
 const hotelSlice = createSlice({
@@ -70,7 +71,7 @@ const hotelSlice = createSlice({
             state.loading = false
             state.error = action.payload
         });
-
+        //
         builder.addCase(createHotel.pending, (state, action) => {
             state.loading = true
         });
@@ -80,6 +81,19 @@ const hotelSlice = createSlice({
             state.error = ""
         });
         builder.addCase(createHotel.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+        //
+        builder.addCase(uploadMultiImangeHotel.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(uploadMultiImangeHotel.fulfilled, (state, action) => {
+            state.loading = false
+            state.image = action.payload
+            state.error = ""
+        });
+        builder.addCase(uploadMultiImangeHotel.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
         });

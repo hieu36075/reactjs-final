@@ -1,3 +1,129 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.payment{
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+.title{
+    display: flex;
+}
+.title svg{
+    cursor: pointer;
+}
+.title h1{
+    font-size: 25px;
+    margin-left: 10px;
+    font-weight: 700;
+}
+.item1{
+    width: 45%;
+    margin-top: 30px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    border: solid 1px rgba(0, 0, 0, 0.26);
+    border-radius: 10px;
+}
+.item1 path{
+    color: rgb(226, 21, 89);
+}
+.item2, .item3,.item4, .item5, .item6{
+    width: 45%;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.493);
+}
+.item2 h2, .item3 h2, .item4 h2, .item5 h2, .item6 h2{
+    font-size: 20px;
+    font-weight: 650;
+}
+.item{
+    display: flex;
+    justify-content: space-between;
+}
+.item h4{
+    font-weight: 650;
+    margin-top: 10px;
+}
+.item a, .item5 a{
+    font-weight: 600;
+    text-decoration: underline;
+}
+.item4 button{
+    padding: 3px 12px;
+    background-color: transparent;
+    border: solid 2px black;
+    color: black;
+    font-weight: 650;
+    border-radius: 10px;
+}
+.item6 p{
+    margin: 10px 0;
+}
+.list{
+    display: flex;
+}
+.item7{
+    width: 40%;
+    margin-top: 20px;
+}
+.item7 button{
+    margin-top: 20px;
+    padding: 5px 60px;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+}
+.payment_detail{
+    position: fixed;
+    top: 100px;
+    right: 14%;
+    width: 35%;
+    margin: 0 auto;
+    border-radius: 20px;
+    border: solid 2px rgba(0, 0, 0, 0.493);
+    padding: 20px 0;
+}
+
+.payment_item1 img{
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+}
+.payment_item1{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    padding-bottom: 20px;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.493);
+}
+.payment_title{
+    margin-left: 15px;
+}
+.payment_title h2{
+    font-size: 18px;
+    font-weight: 650;
+    margin-top: 20px;
+}
+.border_payment{
+    width: 80%;
+    margin: 10px auto;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.493);
+}
+.payment_item{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+}
+.payment_item h4{
+    font-weight: 650;
+}
+.payment_item h3, .payment_item p{
+    padding: 5px 0;
+}
+.payment_item2 h2{
+    font-size: 18px;
+    font-weight: 650;
+    margin-top: 20px;
+    margin-left: 66px;
+}

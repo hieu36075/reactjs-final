@@ -2,6 +2,7 @@ import "./featuredProperties.scss";
 import { DEFAULT_IMAGE_URL } from "../../constants";
 const FeaturedProperties = ({data}) => {
   
+  
   if (!data || data.length === 0) {
     return <p>No data available.</p>;
   }

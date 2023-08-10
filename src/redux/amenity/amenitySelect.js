@@ -1,0 +1,1 @@
+export const SelectAmenity = (state) => state.amenity.data

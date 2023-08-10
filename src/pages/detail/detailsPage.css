@@ -2,84 +2,152 @@
 @tailwind components;
 @tailwind utilities;
 
-.button-book{
-    margin-left: 40%;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
+
+.option{
+  border: solid 1px rgba(128, 128, 128, 0.445);
+}
+.item{
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+  padding: 0 10px;
+}
+.item_title{
+  font-size: 20px;
+
+}
+.minus,
+.number,
+.plus {
+  padding: 0 5px;
+}
+
+.minus,
+.plus {
+  border-radius: 50%;
+  width: 25px;
+  font-weight: 700;
+}
+
+.total{
+  width: 80%;
+  border-top: solid 2px black;
+}
+.total h2{
+  font-size: 20px;
+  font-weight: 700;
+}
+.total span{
+  font-size: 18px;
+  font-weight: 500;
+}
+.total h3{
+  margin-left: 90px;
+  font-size: 18px;
+}
+.total_item{
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+.total_border{
+  width: 80%;
+  margin: 0 auto;
+  border-bottom: solid 1px black;
+}
+.total_bill{
+  font-weight: 700;
+}
+
+.button-book {
+  margin-left: 40%;
+}
+
 .my-4 {
-    break-inside: avoid;
-  }
+  break-inside: avoid;
+}
 
-  .w-full.h-px.bg-gray-300.my-4 {
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-  }
+.w-full.h-px.bg-gray-300.my-4 {
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
 
-  .booking-criteria-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #f7fafc;
-    border-radius: 12px;
-    padding: 16px; /* Đã chỉnh sửa từ 24px xuống 16px */
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
-    font-family: Arial, sans-serif;
-    max-width: 640px; /* Đã thêm thuộc tính max-width */
-    margin: 0 auto; /* Đã thêm để căn giữa nội dung */
-  }
-  
-  .price-section {
-    margin-bottom: 16px;
-  }
-  
-  .date-section {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 16px;
-  }
-  
-  .date-container {
-    width: 45%;
-  }
-  
-  .guests-section {
-    margin-bottom: 16px;
-  }
-  
-  .guests-container {
-    width: 100%;
-  }
-  
-  .book-now-section {
-    margin-bottom: 16px;
-  }
-  
-  label {
-    display: block;
-    font-size: 14px;
-    font-weight: bold;
-    margin-bottom: 4px;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .book-now-button {
-    background-color: #3182ce;
-    color: #fff;
-    font-weight: bold;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 9999px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .book-now-button:hover {
-    background-color: #4299e1;
-  }
+.booking-criteria-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f7fafc;
+  border-radius: 12px;
+  padding: 16px;
+  /* Đã chỉnh sửa từ 24px xuống 16px */
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 6px 16px;
+  font-family: Arial, sans-serif;
+  max-width: 640px;
+  /* Đã thêm thuộc tính max-width */
+  margin: 0 auto;
+  /* Đã thêm để căn giữa nội dung */
+}
 
-  
+.price-section {
+  margin-bottom: 16px;
+}
+
+.date-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.date-container {
+  width: 45%;
+}
+
+.guests-section {
+  margin-bottom: 16px;
+}
+
+.guests-container {
+  width: 100%;
+}
+
+.book-now-section {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.book-now-button {
+  background-color: #3182ce;
+  color: #fff;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-now-button:hover {
+  background-color: #4299e1;
+}
+
+img{
+  width: 100%;
+}

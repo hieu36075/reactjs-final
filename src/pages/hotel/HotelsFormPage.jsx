@@ -31,7 +31,7 @@ export default function HotelsFormPage() {
     countryId: "",
     price: "",
   });
-  // console.log(hotel)
+  console.log(hotel)
   const setHotelData = (fieldName, value) => {
     setHotel((prevHotel) => ({
       ...prevHotel,
@@ -81,7 +81,7 @@ export default function HotelsFormPage() {
   return (
     <div>
       <Navbar/>
-      <div className="mt-4 bg-white-100 -mx-8 px-12 py-8">
+      <div className="mt-4 bg-white-100 -mx-8 px-12">
         <FormProgress formNo={formNo} />
 
         {formNo === 1 && (
