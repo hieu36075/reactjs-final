@@ -1,0 +1,1 @@
+export const SelectCategoriesRoom = (state) => state.categoryRoom.data

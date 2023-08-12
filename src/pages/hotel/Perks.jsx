@@ -45,7 +45,7 @@ export default function Perks({ selected, onChange ,data}) {
     const { checked } = ev.target;
   
     if (checked) {
-      onChange([...selected, { id: amenityId, name: amenityName }]);
+      onChange([...selected, { id: amenityId}]);
     } else {
       onChange([...selected.filter((selectedItem) => selectedItem.id !== amenityId)]);
     }

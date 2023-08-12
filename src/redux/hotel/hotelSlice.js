@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createHotel, getHotelByCategory, getHotelByCountry, getHotelById, getHotels, searchHotel, uploadMultiImangeHotel } from "./hotelThunks";
 
 const initialState ={
-    loading: true,
+    loading: false,
     error: {},
     data: [],
     details: [],
@@ -77,7 +77,7 @@ const hotelSlice = createSlice({
         });
         builder.addCase(createHotel.fulfilled, (state, action) => {
             state.loading = false
-            state.details = action.payload
+            state.data = action.payload
             state.error = ""
         });
         builder.addCase(createHotel.rejected, (state, action) => {

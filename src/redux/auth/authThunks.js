@@ -16,7 +16,7 @@ export const loginByGoogle = createAsyncThunk('auth/loginByGoogle', async(token,
     try {
         const response = await http.post('auth/login/google', token);
         const data = response.data;
-        console.log(response.accessToken)
+
         localStorage.setItem("AuthData", response.accessToken);
         return data;
     } catch (error) {

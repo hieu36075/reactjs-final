@@ -3,7 +3,6 @@ import "./propertyList.scss";
 import { DEFAULT_IMAGE_URL } from "../../constants";
 
 const PropertyList = ({data}) => {
-  console.log(data)
   const navigate = useNavigate()
   if (!data || data.length === 0) {
     return <p>No data available.</p>;

@@ -1,1 +1,1 @@
-export const SelectCategories = (state) => state.category.data
+export const SelectCategories = (state) => state.category.data.data

@@ -8,6 +8,11 @@ import jwtDecode from "jwt-decode";
 import { setIsLogin } from "./auth/authSlice";
 import notificationSlice from "./notification/notificationSlice";
 import amenitySlice from "./amenity/amenitySlice";
+import categoryRoomSlice from "./categoryRoom/categoryRoomSlice";
+import imageHotelSlice from "./imageHotel/imageHotelSlice";
+import citySlice from "./city/citySlice";
+import roomSlice from "./room/roomSlice";
+import imageRoomSlice from "./imageRoom/imageRoomSlice";
 const { configureStore } = require("@reduxjs/toolkit");
 
 const checkTokenExpiration = (store) => {
@@ -30,8 +35,12 @@ const reducer = combineReducers({
   user: userSlice,
   category: categorySlice,
   notification: notificationSlice,
-  amenity: amenitySlice
-
+  amenity: amenitySlice,
+  categoryRoom: categoryRoomSlice,
+  imageHotel: imageHotelSlice,
+  city: citySlice,
+  room: roomSlice,
+  imageRoom: imageRoomSlice
 })
 
 

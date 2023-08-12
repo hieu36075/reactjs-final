@@ -1,0 +1,29 @@
+/* custom-styles.css */
+
+/* Ghi đè CSS cho TimePicker.RangePicker */
+.time-picker-wrapper {
+  width: 500px;
+  border-radius: 1rem;
+  background: #f0f0f0;
+}
+
+/* Ghi đè CSS cho Dropdown */
+.custom-dropdown {
+  z-index: 9999;
+  border-radius: 1rem;
+  width: 300px;
+   margin-left: 100px;
+}
+
+/* Ghi đè CSS cho nút chọn thời gian */
+.time-picker-wrapper .ant-btn-primary {
+  background-color: #1f9643e5 !important;
+  border-color: #1f9643e5 !important;
+}
+.custom-dropdown .ant-picker-panel-container{
+  width: 300px;
+}
+.custom-dropdown .ant-picker-time-panel{
+  width: 300px;
+ 
+}

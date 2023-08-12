@@ -19,7 +19,7 @@ export default function ProfilePage() {
       <Navbar />
       <div className="profile_content">
         <div className="profile_left">
-          <h1>Thông tin cá nhân</h1>
+          <h1>Personal information</h1>
           <div className="info">
             <div className="info_item">
               <h3>Tên pháp lý</h3>

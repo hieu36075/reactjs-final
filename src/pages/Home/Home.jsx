@@ -10,19 +10,20 @@ import { SelectAllHotel } from "../../redux/hotel/hotelSelect";
 import { SelectCountry } from "../../redux/country/countrySelect";
 import { getTopHotelInCountry } from "../../redux/country/countryThunks";
 import { getCategory } from "../../redux/category/categoryThunks";
+import { SelectCategories } from "../../redux/category/categorySelect";
 
 
 const Home = () => {
   const dispatch = useDispatch()
   const hotel = useSelector(SelectAllHotel)
-  const category = useSelector(state=> state.category.data)
+  const categoryData = useSelector(SelectCategories)
   const country = useSelector(SelectCountry)
   useEffect(() => {
     const fetchData = async () => {
       try {
         dispatch(getHotels({ page: 1, perPage: 5 }));
         dispatch(getTopHotelInCountry());
-        dispatch(getCategory());
+        dispatch(getCategory({ page: 1, perPage: 5 }));
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -36,7 +37,7 @@ const Home = () => {
         <div className="homeContainer">
           <Featured data={country}/>
           <h1 className="homeTitle">Browse by property type</h1>
-          <PropertyList data={category}/>
+          <PropertyList data={categoryData}/>
           <h1 className="homeTitle">Homes guests love</h1>
           <FeaturedProperties data={hotel}/>
           {/* <MailList/> */}

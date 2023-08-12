@@ -34,7 +34,6 @@ const authSlice = createSlice({
         })
         builder.addCase(login.rejected, (state,action) =>{
             state.loading= false
-            console.log(action.payload)
             state.error = action.payload
         })
         // builder.addCase(loginByGoogle.pending,(state,action)=>{

@@ -9,6 +9,7 @@ import io from 'socket.io-client';
 import jwtDecode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { getNoticationById } from "../../redux/notification/notificationThunks";
+import RegisterModal from "../../pages/register/Register";
 
 const socket = io('http://localhost:3500');
 function Navbar() {
@@ -22,19 +23,28 @@ function Navbar() {
   const isLogin = useSelector((state) => state.auth.isLogin);
   const {data, loading} = useSelector((state) => state.notification);
   const [notifications, setNotifications] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
   const token = localStorage.getItem('token');
   useEffect(() => {
     if (!notificationsLoaded && isLogin) {
       dispatch(getNoticationById());
       setNotificationsLoaded(true);
     }
-
+    
     if (data && isLogin) {
       setNotifications(data);
     }
   }, [dispatch, notificationsLoaded, data, isLogin]);
   
-
+  
   useEffect(() => {
     if (isLogin && !socketInitialized) {
 
@@ -101,7 +111,7 @@ function Navbar() {
               </li>
               <li className="nav-item">
                 <NavLink
-                  to="/contact"
+                  // to="/contact"
                   className={({ isActive }) =>
                     "nav-links" + (isActive ? " activated" : "")
                   }
@@ -112,17 +122,32 @@ function Navbar() {
               </li>
               {!isLogin 
               ? 
+                <>
               <li className="nav-item">
                 <NavLink
                   to="/login"
                   className={({ isActive }) =>
-                    "nav-links" + (isActive ? " activated" : "")
-                  }
-                  onClick={closeMobileMenu}
+                  "nav-links" + (isActive ? " activated" : "")
+                }
+                onClick={closeMobileMenu}
                 >
                   Login
                 </NavLink>
               </li>
+
+              <li className="nav-item">
+                <NavLink
+                  // to="/login"
+                  className={({ isActive }) =>
+                  "nav-links" + (isActive ? " activated" : "")
+                }
+                onClick={openModal}
+                >
+                  Register
+                </NavLink>
+              </li>
+              <RegisterModal isOpen={isModalOpen} onClose={closeModal} />
+                  </>
               :
               <>
                 <li className="nav-item noti" >
@@ -160,6 +185,8 @@ function Navbar() {
                   </li>
               </>
             }
+
+            
             </ul>
           </div>
         </nav>

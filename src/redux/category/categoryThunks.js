@@ -1,10 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import http from "../../services/axios-interceptor";
 
-export const getCategory = createAsyncThunk('category/getCategory', async(_, {rejectWithValue}) =>{
+export const getCategory = createAsyncThunk('category/getCategory', async(data, {rejectWithValue}) =>{
     try{
-        const reponse = await http.get(`/categories`);
-        console.log(reponse)
+      const {page, perPage} = data;
+        const reponse = await http.get(`/categories?page=${page}&perPage=${perPage}`);
+      console.log(reponse)
         return reponse
     }catch(error){
         return rejectWithValue(error)
