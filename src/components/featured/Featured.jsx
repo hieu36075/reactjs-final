@@ -3,25 +3,25 @@ import { useNavigate } from "react-router-dom";
 
 
 const Featured = ({data}) => {
-
+    console.log(data)
     const navigate = useNavigate();
 
     return (
       <div className="featured">
-    {data?.map((item) => (
+    {data?.data?.map((item) => (
           <div className="featuredItem" onClick= {()=>{
             //
-            navigate(`/hotels/${item.id}`, {state:{type: "country"}})
-          }} key={item.id} >
+            navigate(`/hotels/${item?.id}`, {state:{type: "country"}})
+          }} key={item?.id} >
 
           <img
-            src={item.image}
+            src={item?.image}
             alt=""
             className="featuredImg"
             />
           <div className="featuredTitles">
-            <h1>{item.name}</h1>
-            <h2>{item.hotels.length}</h2>
+            <h1>{item?.name}</h1>
+            <h2>{item?.hotels?.length}</h2>
           </div>
         </div>
     ))}

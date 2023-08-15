@@ -13,6 +13,9 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { getHotelByCategory, getHotelByCountry } from "../../redux/hotel/hotelThunks";
 import { searchHotel } from "../../redux/hotel/hotelThunks";
+import CustomAsyncSelect from "../../components/selectBox/CustomAsyncSelect";
+import { getCountry } from "../../redux/country/countryThunks";
+import { getCategory } from "../../redux/category/categoryThunks";
 
 const List = () => {
   const dispatch = useDispatch();
@@ -28,13 +31,11 @@ const List = () => {
   const [countryId, setCountryId] = useState('');
   const [name, setName] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  
+  console.log(categoryId)
   const handleSearch = () => {
-    // Gọi action searchHotel với các query parameters từ người dùng.
     dispatch(searchHotel({ countryId, name, categoryId }));
   };
-  // const [name, setName] = useState('')
-  // const [category, setCategory]= useState('')
+
   useEffect(()=>{
     if(type){
       if(type=== "country"){
@@ -57,19 +58,16 @@ const List = () => {
       <Navbar />
       <Header type="list" />
       <div className="listContainer">
-      <div>
-      <h2>Tìm kiếm khách sạn:</h2>
-      <input type="text" value={countryId} onChange={(e) => setCountryId(e.target.value)} placeholder="Country ID" />
-      <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Hotel Name" />
-      <input type="text" value={categoryId} onChange={(e) => setCategoryId(e.target.value)} placeholder="Category ID" />
-      <button onClick={handleSearch}>Tìm kiếm</button>
-    </div>
         <div className="listWrapper">
           <div className="listSearch">
             <h1 className="lsTitle">Search</h1>
             <div className="lsItem">
-              <label>Destination</label>
-              <input placeholder={destination} type="text" />
+              <label>Name</label>
+              <input
+               placeholder={destination} 
+               type="text" 
+               onChange={(e) => setName(e.target.value)}
+               />
             </div>
             <div className="lsItem">
               <label>Check-in Date</label>
@@ -100,7 +98,18 @@ const List = () => {
                   </span>
                   <input type="number" className="lsOptionInput" />
                 </div>
-                <div className="lsOptionItem">
+                <div className="list-select">
+                <CustomAsyncSelect 
+                  fetchDataAction={getCountry}
+                  onChange={(selected) => setCountryId(selected)}
+                />
+                </div>
+                <CustomAsyncSelect
+                  fetchDataAction={getCategory}
+                  onChange={(selected) => setCategoryId(selected)}
+                  isClearable={true} 
+                />
+                {/* <div className="lsOptionItem">
                   <span className="lsOptionText">Adult</span>
                   <input
                     type="number"
@@ -108,8 +117,8 @@ const List = () => {
                     className="lsOptionInput"
                     placeholder={options.adult}
                   />
-                </div>
-                <div className="lsOptionItem">
+                </div> */}
+                {/* <div className="lsOptionItem">
                   <span className="lsOptionText">Children</span>
                   <input
                     type="number"
@@ -117,8 +126,8 @@ const List = () => {
                     className="lsOptionInput"
                     placeholder={options.children}
                   />
-                </div>
-                <div className="lsOptionItem">
+                </div> */}
+                {/* <div className="lsOptionItem">
                   <span className="lsOptionText">Room</span>
                   <input
                     type="number"
@@ -126,13 +135,13 @@ const List = () => {
                     className="lsOptionInput"
                     placeholder={options.room}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
-            <button>Search</button>
+            <button onClick={handleSearch}>Search</button>
           </div>
           <div className="listResult">
-            <SearchItem data={data} />
+            <SearchItem  data={data} />
           </div>
         </div>
       </div>

@@ -2,15 +2,22 @@
     margin: 0;
     padding: 0;
 }
+.title{
+    margin-top: 20px;
+}
+.title_item{
+    display: flex;
+    width: 100%;
+}
+.title_item h2 , body h3{
+    font-weight: 600;
+}
+.title_item select{
+    border: solid 1px black;
+    margin-left: 15px;
+    border-radius: 5px;
+}
 
-.room_left{
-    width: 20%;
-   float: left;
-}
-.room_light{
-    width: 40%;
-    float: left;
-}
 .room_name , .room_desc, .room_price, .room_number{
     font-size: 22px;
     font-weight: 800;
@@ -26,4 +33,3 @@
     background-color: #28a745 !important;
     font-size: 18px;
 }
-

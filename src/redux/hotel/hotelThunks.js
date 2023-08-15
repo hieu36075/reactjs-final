@@ -31,10 +31,12 @@ export const getHotelByCategory = createAsyncThunk('hotel/getHotelByCategory', a
 
 
 export const searchHotel = createAsyncThunk('hotel/searchHotel', async(data,{rejectWithValue})=>{
+    console.log(data)
     const {countryId, name, categoryId} = data
     try {
         const reponse = await http.get(`/hotel/search?countryId=${countryId}&name=${name}&categoryId=${categoryId}`)
-        return reponse
+        console.log(reponse)
+         return reponse
     } catch (error) {
         return rejectWithValue(error)
     }

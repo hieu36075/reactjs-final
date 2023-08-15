@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AsyncSelect from 'react-select/async';
 import { useDispatch } from 'react-redux';
 
-const CustomAsyncSelect = ({ fetchDataAction, id, onChange }) => {
+const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -24,9 +24,6 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange }) => {
           setData(newData);
           setHasMore(true);
         }
-       
- 
-
         if (newData.length === 0) {
           setHasMore(false);
         } 
@@ -43,9 +40,11 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange }) => {
   }, [page]);
   
   useEffect(() => {
-    fetchData(1);
-    setPrevId(!prevId)
-    console.log(prevId)
+    if(id){
+      fetchData(1);
+      setPrevId(!prevId)
+      console.log(prevId)
+    }
   }, [id]);
 
   const handleOnScrollBottom = async () => {
@@ -73,11 +72,14 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange }) => {
       onChange={selectedOption => {
         if (selectedOption) {
           onChange(selectedOption.value);
+        }else{
+          onChange("")
         }
       }}
       isLoading={isLoading}
       isVirtualized
       onMenuScrollToBottom={handleOnScrollBottom}
+      isClearable={isClearable}
     />
   );
 };

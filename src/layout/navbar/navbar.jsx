@@ -11,8 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getNoticationById } from "../../redux/notification/notificationThunks";
 import RegisterModal from "../../pages/register/Register";
 
-const socket = io('http://localhost:3500');
-function Navbar() {
+
+function Navbar({type}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [click, setClick] = useState(false);
@@ -35,6 +35,7 @@ function Navbar() {
   const token = localStorage.getItem('token');
   useEffect(() => {
     if (!notificationsLoaded && isLogin) {
+      const socket = io('http://localhost:3500');
       dispatch(getNoticationById());
       setNotificationsLoaded(true);
     }
@@ -47,7 +48,7 @@ function Navbar() {
   
   useEffect(() => {
     if (isLogin && !socketInitialized) {
-
+      const socket = io('http://localhost:3500');
       const decode = jwtDecode(token);
       
       socket.emit('join', decode.id);
@@ -66,6 +67,7 @@ function Navbar() {
 
   useEffect(() => {
     if (socketInitialized) {
+      const socket = io('http://localhost:3500');
       socket.on('notification', (data) => {
         console.log('Notification:', data);
         setNotifications((prevNotifications) => [data, ...prevNotifications]);
@@ -73,11 +75,27 @@ function Navbar() {
     }
   }, [socketInitialized]);
   
+  const [scrolling, setScrolling] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
       <IconContext.Provider value={{ color: "#fff" }}>
-        <nav className="navbar">
+      <nav className={`navbar ${scrolling ? "scrolled" : ""} ${type === "home" ? "navbar-home-custom" : ""}`}>
           <div className="navbar-container container">
             <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
               <GiRocketThruster className="navbar-icon" />
@@ -88,7 +106,7 @@ function Navbar() {
             </div>
             <ul className={click ? "nav-menu active" : "nav-menu"}>
               <li className="nav-item">
-                <NavLink
+                <NavLink id="active"
                   to="/"
                   className={({ isActive }) =>
                     "nav-links" + (isActive ? " activated" : "")

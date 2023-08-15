@@ -7,6 +7,31 @@
 
 .navbar {
   background: #19191a;
+  /* background: transparent; */
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar-home-custom{
+  position: fixed;
+  width: 100%;
+  background: transparent;
+  /* background: black; */
+  height: 80px;
+  font-size: 1.2rem;
+  top: 0;
+  z-index: 999;
+}
+
+.navbar.scrolled {
+  background: #19191a;
+  /* background: transparent; */
   height: 80px;
   display: flex;
   justify-content: center;
@@ -73,9 +98,9 @@
   height: 100%;
 }
 
-.activated {
+/* .activated {
   color: #09bef0;
-}
+} */
 
 .fa-bars {
   color: #fff;

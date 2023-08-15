@@ -22,7 +22,7 @@ const Home = () => {
     const fetchData = async () => {
       try {
         dispatch(getHotels({ page: 1, perPage: 5 }));
-        dispatch(getTopHotelInCountry());
+        dispatch(getTopHotelInCountry({page:1, perPage:3}));
         dispatch(getCategory({ page: 1, perPage: 5 }));
       } catch (error) {
         console.error('Error fetching data:', error);

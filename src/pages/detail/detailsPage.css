@@ -47,13 +47,23 @@
   font-weight: 500;
 }
 .total h3{
-  margin-left: 90px;
+  margin-left: 40px;
   font-size: 18px;
 }
 .total_item{
   display: flex;
   justify-content: space-between;
+  align-items: center; 
   margin: 10px 0;
+}
+.title {
+  flex: 1; /* Cho phép title mở rộng để giữ khoảng cách giữa title và price */
+  /* Các thuộc tính khác của title */
+}
+
+.price {
+  flex-shrink: 0; /* Ngăn price co lại để giữ khoảng cách */
+  /* Các thuộc tính khác của price */
 }
 .total_border{
   width: 80%;
@@ -150,4 +160,10 @@ input {
 
 img{
   width: 100%;
+}
+
+.button_close{
+  position: fixed;
+  top: 100px;
+  right: 50px;
 }

@@ -4,9 +4,10 @@ import Navbar from "../../layout/navbar/navbar";
 import HotelForm from "./HotelForm";
 import FormProgress from "./FormProgress";
 import RoomForm from "./RoomForm";
+import TermsPage from "./TermsPage";
 export default function HotelsFormPage() {
   const formArray = [1, 2, 3];
-  const [formNo, setFormNo] = useState(formArray[1])
+  const [formNo, setFormNo] = useState(formArray[2])
 
 
 
@@ -71,6 +72,7 @@ export default function HotelsFormPage() {
 
 {
           formNo === 3 && <div>
+            <TermsPage/>
             <div className='mt-4 gap-3 flex justify-center items-center'>
               <button onClick={pre} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Previous</button>
               <button onClick={next} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Next</button>

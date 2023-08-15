@@ -1,4 +1,5 @@
 // import { useState } from "react";
+import { useState } from "react";
 import Navbar from "../../layout/navbar/navbar";
 // import Header from "../../components/header/Header";
 import "./profilePage.css"
@@ -13,7 +14,9 @@ export default function ProfilePage() {
   // });
   // const { name, email, age, phone } = user;
 
+  const [show, setShow] = useState(false);
 
+  
   return (
     <div>
       <Navbar />
@@ -44,15 +47,27 @@ export default function ProfilePage() {
             <div className="info_item">
               <h3>Liên hệ trong trường hợp khẩn cấp</h3>
               <h4>Hiếu ngu</h4>
+              {show?
+              <div className="info_show">
+                  <input type="text" placeholder="Tên"/>
+                  <input type="text" placeholder="Mối quan hệ " />
+                  <input type="text" placeholder="Email"/>
+                  <input type="text" placeholder="Số điện thoại"/>
+              <button>Lưu</button>
+              </div>
+            :""}
+            
             </div>
           </div>
           <div className="action">
-            <a href="/" onClick={()=>{}}>Chỉnh sửa</a>
-            <a href="/" onClick={()=>{}}>Chỉnh sửa</a>
-            <a href="/" onClick={()=>{}}>Thêm</a>
-            <a href="/" onClick={()=>{}}>Thêm</a>
-            <a href="/" onClick={()=>{}}>Chỉnh sửa</a>
-            <a href="/" onClick={()=>{}}>Thêm</a>
+            <button>Chỉnh sửa</button>
+            <button>Chỉnh sửa</button>
+            <button>Thêm</button>
+            <button>Thêm</button>
+            <button>Chỉnh sửa</button>
+            <button onClick={()=>{
+              setShow(!show)
+            }}>{show?"Huỷ":"Thêm"}</button>
           </div>
         </div >
 
@@ -64,7 +79,7 @@ export default function ProfilePage() {
             <h2>Tại sao thông tin của tôi không được hiển thị ở đây?</h2>
             <p>Lorem ipsum dolor, sit amet
               consectetur adipisicing elit. Rerum, error!</p>
-              <br />
+            <br />
           </div>
           <div className="profile_item">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-12 h-12" >

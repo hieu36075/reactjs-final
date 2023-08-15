@@ -28,7 +28,7 @@ const Body = () => {
       <Route path="/hotels/stays/:id" element={<ConfirmationPaymentPage />} />
       <Route path="/hotels/new/:id" element={<HotelsFormPage />} />
       <Route path="/account/profile" element={<ProfilePage />} />
-      <Route path="/" element={<Navbar/>}>
+      <Route path="/" element={<Navbar type="home"/>}>
         <Route index element={<Home/>}/>
 
       </Route>

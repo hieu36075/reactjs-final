@@ -13,6 +13,8 @@ import imageHotelSlice from "./imageHotel/imageHotelSlice";
 import citySlice from "./city/citySlice";
 import roomSlice from "./room/roomSlice";
 import imageRoomSlice from "./imageRoom/imageRoomSlice";
+// import orderSlice from "./order/orderSlice";
+// import orderDetailSlice from "./orderDetail/orderDetailSlice";
 const { configureStore } = require("@reduxjs/toolkit");
 
 const checkTokenExpiration = (store) => {
@@ -40,12 +42,15 @@ const reducer = combineReducers({
   imageHotel: imageHotelSlice,
   city: citySlice,
   room: roomSlice,
-  imageRoom: imageRoomSlice
+  imageRoom: imageRoomSlice,
+  // order: orderSlice,
+  // orderDetail: orderDetailSlice
 })
 
 
 const store = configureStore({
   reducer,
 });
+
 checkTokenExpiration(store);
 export default store;

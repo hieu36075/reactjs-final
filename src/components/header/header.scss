@@ -1,80 +1,154 @@
 .header {
-	background-color: #003580;
 	color: white;
 	display: flex;
 	justify-content: center;
 	position: relative;
+	max-height: 500px;
+	width: 100%;
+}
+.header img{
+	width: 100%;
 }
 .headerContainer {
-	width: 100%;
-	max-width: 1024px;
-	margin: 20px 0px 100px 0px;
+	width: 80%;
+	margin-top: 8.2%;
 }
+
 .headerContainer.listMode {
-	margin: 20px 0px 0px 0px;
+	// margin: 20px 20px 20px 20px;
+	margin-top: 50px;
+}
+.headerContainer.listMode h1{
+	color: red;
 }
 .headerList {
-	display: flex;
-	gap: 40px;
-	margin-bottom: 50px;
+	position: absolute;
+	width: 60%;
+	top: 20%;
+	left: 20%;
+	border-bottom: solid 2px white;
 }
+.headerList h1{
+	font-size: 50px;
+	font-weight: 800;
+}
+.headerList button{
+	font-size: 18px;
+	padding: 7px 25px;
+	color: rgba(205,208,209,1.00);
+	background: transparent;
+	border-radius: 10px;
+	border: none;
+	margin: 20px 0;
+}
+.headerList button:hover{
+	color: white;
+	font-size: 600;
+	border: solid 1px white;
+	border-radius: 10px;
+	transition: all 0.5s;
+}
+
 .headerListItem {
 	display: flex;
 	align-items: center;
 	gap: 10px;
 }
+
 .headerListItem.active {
 	border: 1px solid white;
 	padding: 10px;
 	border-radius: 20px;
 }
+
 .headerDesc {
 	margin: 20px 0px;
 }
+
 .headerBtn {
 	background-color: #0071c2;
 	color: white;
 	font-weight: 500;
 	border: none;
+	border-radius: 10px;
 	padding: 10px;
 	cursor: pointer;
 }
+.header .listMode .headerSearch{
+	background-image: linear-gradient(160deg, rgb(26, 47, 120) 0%, rgb(24, 112, 201) 50%, rgb(81, 149, 227) 100%);
+	width: 99.7% ;
+	left: 0;
+	top: 0%;
+	display: flex !important;
+	justify-content: center;
+}
+.header .listMode .headerSearch .headerSearchItem{
+	background-color: #ffffff26;
+	color: white;
+	font-weight: 600;
+	border-color: #00000000;
+	padding: 5px 30px;
+	border-radius: 10px;
+	margin-right: 30px;
+}
+.header .listMode .headerSearch .headerSearchItem input{
+	background-color: transparent;
+	padding: 0 30px;
+}
+.header .listMode .headerSearch .headerBtn{
+	color: #0194f3;
+	background-color: white;
+	padding: 7px 20px;
+	font-weight: 700;
+}
 .headerSearch {
+	position: absolute;
+	top: 72%;
+	left: 24%;
 	box-sizing: content-box;
 	height: 30px;
 	background-color: white;
-	border: 3px solid #febb02;
+	border: 3px solid #cdd0d180;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;
 	padding: 10px 0px;
-	border-radius: 5px;
+	border-radius: 10px;
 	position: absolute;
 	bottom: -25px;
-	width: 100%;
-	max-width: 1024px;
+	width: 960px;
+	transition: width 0.3s;
+	// max-width: 100%; 
+	// max-width: 1024px;
 }
-.headerIcon {
-	color: lightgray;
-}
+
+
 .headerSearchItem {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+	flex-shrink: 1;
+}
+
+.headerIcon {
+	color: lightgray;
 }
 .headerSearchInput {
 	border: none;
 	outline: none;
 }
+
 .headerSearchText {
 	color: lightgray;
 	cursor: pointer;
 }
+
 .date {
 	position: absolute;
 	top: 50px;
 	z-index: 2;
 }
+
 .options {
 	z-index: 2;
 	position: absolute;
@@ -85,12 +159,14 @@
 	-webkit-box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
 	box-shadow: 0px 0px 10px -5px rgba(0, 0, 0, 0.4);
 }
+
 .optionItem {
 	width: 200px;
 	display: flex;
 	justify-content: space-between;
 	margin: 10px;
 }
+
 .optionCounter {
 	display: flex;
 	align-items: center;
@@ -98,6 +174,7 @@
 	font-size: 12px;
 	color: black;
 }
+
 .optionCounterButton {
 	width: 30px;
 	height: 30px;
@@ -105,7 +182,59 @@
 	color: #0071c2;
 	cursor: pointer;
 	background-color: white;
+
 	&:disabled {
 		cursor: not-allowed;
 	}
 }
+
+@media (max-width: 1366px) and (max-height: 1024px) {
+	.headerSearch {
+	  /* Điều chỉnh chiều cao, padding, độ rộng, ... tại đây */
+	  /* Ví dụ: */
+	  height: 25px;
+	  padding: 7px 0;
+	  width: 960px;
+
+	}
+  }
+  
+  /* Mã CSS cho màn hình có độ phân giải 960x */
+  @media (max-width: 960px) {
+	.headerSearch {
+	  /* Điều chỉnh chiều cao, padding, độ rộng, ... tại đây */
+	  /* Ví dụ: */
+	  height: 20px;
+	  padding: 5px 0;
+	  width: 80%;
+	}
+  }
+
+@media (max-width: 768px) {
+	.headerSearch {
+	  /* Đặt chiều cao ngắn hơn */
+	  height: 20px;
+	  /* Đặt khoảng cách giữa các mục tìm kiếm nhỏ hơn */
+	  padding: 5px 0;
+	  /* Đặt khoảng cách dưới cùng của thanh tìm kiếm nhỏ hơn */
+	  bottom: -15px;
+	  /* Đặt độ rộng của thanh tìm kiếm nhỏ hơn */
+	  width: 80%;
+	}
+	
+	/* Ẩn một số phần tử không quan trọng trong trường hợp này */
+	.headerSearchItem:last-child {
+	  display: none;
+	}
+	
+	/* Điều chỉnh độ rộng của input tìm kiếm khi màn hình nhỏ hơn */
+	.headerSearchItem input {
+	  width: 70%;
+	}
+	
+	/* Điều chỉnh font size của nút tìm kiếm khi màn hình nhỏ hơn */
+	.headerBtn {
+	  font-size: 12px;
+	  padding: 5px 10px;
+	}
+  }
