@@ -5,19 +5,18 @@ import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalance
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
-const Widget = ({ type }) => {
-  let data;
+const Widget = ({ type, data }) => {
+  let form;
 
-  //temporary
-  const amount = 100;
-  const diff = 20;
 
   switch (type) {
     case "user":
-      data = {
+      form = {
         title: "USERS",
         isMoney: false,
-        link: "See all users",
+        link: "See all users", 
+        total: data.usersThisMonth,
+        diff: ((data.usersThisMonth - data.usersLastMonth)/ data.usersLastMonth) *100,
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -30,10 +29,12 @@ const Widget = ({ type }) => {
       };
       break;
     case "order":
-      data = {
+      form = {
         title: "ORDERS",
         isMoney: false,
         link: "View all orders",
+        total: data.thisMonth,
+        diff: ((data.thisMonth - data.lastMonth)/ data.lastMonth) *100,
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -46,10 +47,12 @@ const Widget = ({ type }) => {
       };
       break;
     case "earning":
-      data = {
+      form = {
         title: "EARNINGS",
         isMoney: true,
         link: "View net earnings",
+        total: data.thisMonth,
+        diff: ((data.thisMonth - data.lastMonth)/ data.lastMonth) *100,
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -59,7 +62,7 @@ const Widget = ({ type }) => {
       };
       break;
     case "balance":
-      data = {
+      form = {
         title: "BALANCE",
         isMoney: true,
         link: "See details",
@@ -81,18 +84,18 @@ const Widget = ({ type }) => {
   return (
     <div className="widget">
       <div className="left">
-        <span className="title">{data.title}</span>
+        <span className="title">{form.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {form.isMoney && "$"} {form.total}
         </span>
-        <span className="link">{data.link}</span>
+        <span className="link">{form.link}</span>
       </div>
       <div className="right">
         <div className="percentage positive">
           <KeyboardArrowUpIcon />
-          {diff} %
+          {form.diff.toFixed(1)} %
         </div>
-        {data.icon}
+        {form.icon}
       </div>
     </div>
   );

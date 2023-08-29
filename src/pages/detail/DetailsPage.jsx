@@ -1,29 +1,35 @@
 import { useEffect, useRef, useState } from "react";
 import Navbar from "../../layout/navbar/navbar";
-import Header from "../../components/header/Header";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./detailsPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getHotelById } from "../../redux/hotel/hotelThunks";
 import CommentItem from "../../components/comment/CommentItem";
-import { FaWifi, FaAirbnb, FaTv } from "react-icons/fa";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateRange } from "react-date-range";
-import { format, differenceInDays  } from "date-fns";
+import { format  } from "date-fns";
 import ImagesDatails from "./ImagesDatails";
 import AmenityIcon from "../../components/amenity/AmenityIcon";
 import moment from "moment";
+import { createOrder } from "../../redux/order/orderThunk";
+import { FaBed} from 'react-icons/fa';
+import { BsFillPeopleFill, BsFillCalendarCheckFill, BsFillClockFill } from 'react-icons/bs';
+import { MdOutlineFreeBreakfast } from 'react-icons/md';
+import { BiSolidHelpCircle, BiWifi2 } from 'react-icons/bi';
+
 
 export default function DetailsPage() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const { id } = useParams();
   const { details, loading } = useSelector((state) => state.hotel);
-  console.log(details);
+  const roomsTest = useSelector((state)=> state.hotel.details.rooms)
+  console.log(details)
   useEffect(() => {
     dispatch(getHotelById(id));
   }, [id, dispatch]);
 
+  console.log(details)
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const [date, setDate] = useState([
@@ -33,7 +39,6 @@ export default function DetailsPage() {
       key: "selection",
     },
   ]);
-  console.log(date);
   const datePickerRef = useRef(null);
   useEffect(() => {
     // Lắng nghe sự kiện click trên toàn bộ document
@@ -60,7 +65,7 @@ export default function DetailsPage() {
     room: 1,
   });
 
-  if (loading) {
+  if (!loading) {
     return <div>Loading...</div>;
   }
 
@@ -141,11 +146,8 @@ export default function DetailsPage() {
   const formattedEndDate = moment(date[0].endDate).format("YYYY-MM-DD") + "T" + details.checkOutTime + ":00.000Z";
   const startDate = moment(date[0].startDate);
   const endDate = moment(date[0].endDate);
-  
   const numberOfDays = Math.max(endDate.diff(startDate, "days"), 1);
   
-  console.log(formattedStartDate,formattedEndDate )
-  console.log(numberOfDays)
 
 
   const vatRate = 0.1; // 10% VAT
@@ -164,7 +166,18 @@ export default function DetailsPage() {
   // const totalPriceWithVAT = roomPrice + totalServiceWithVat;
 
 
+  const handleBooking= async (e)=>{
+    e.preventDefault();
 
+    try{
+      const create = await dispatch(createOrder({checkIn:formattedStartDate, checkOut: formattedEndDate, price: totalPrice, roomId: roomsTest[0].id , hotelId: details?.id})).unwrap();
+      console.log(create)
+      navigate(`/hotels/stays/${create.id}`)
+
+    }catch(error){
+      console.error('Đã xảy ra lỗi:', error);
+    }
+  }
 
 
   
@@ -174,7 +187,13 @@ export default function DetailsPage() {
       {/* <Header type="list" /> */}
       <div className="mt-4 bg-white-100 -mx-8 px-48 py-8 ">
         <h1 className="text-4xl font-bold font-roboto">{details.name}</h1>
-        <h2 className="text-xl font-roboto">{details?.address},{details?.city?.name},{details?.country?.name} </h2>
+        <h2 className="text-xl font-roboto">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+        </svg>
+          {details?.address},{details?.city?.name},{details?.country?.name} 
+          </h2>
         <ImagesDatails images={details} />
 
         <div className="mt-8 grid gap-8 grid-cols-1 md:grid-cols-2 test" >
@@ -332,7 +351,7 @@ export default function DetailsPage() {
               )}
             </div>
             <div className="book-now-section">
-              <button className="book-now-button">Book Now</button>
+              <button className="book-now-button" onClick={handleBooking}>Book Now</button>
             </div>
             {details?.rooms?.map((item) => (
               <div className="total" key={item.id}>
@@ -380,6 +399,110 @@ export default function DetailsPage() {
           </div>
         </div>
 
+
+        <div className="product">
+          <h1>Căn hộ một phòng ngủ</h1>
+          <div className="product_item">
+            <div className="product_left">
+              <img src="https://ik.imagekit.io/tvlk/generic-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/67841452-b8eaa284b3e0d55d645958c3569be662.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-550" alt="" />
+            </div>
+            <div className="product_right">
+              <div className="product_title">
+                <div>
+                  <h2>Căn hộ một phòng ngủ</h2>
+                </div>
+                <div>
+                  <p>Miễn phí huỷ phòng trước 13:00</p>
+                </div>
+              </div>
+              <div className="product_quantity">
+                <div className="item_service">
+                  <FaBed />
+                  <span>1 giường Cỡ King</span>
+                </div>
+                <div className="item_service item_service2">
+                  <BsFillPeopleFill />
+                  <span>3 khách</span>
+                </div>
+              </div>
+              <div className="product_service">
+                <div>
+                  <ul >
+                    <li className="item_service "><MdOutlineFreeBreakfast /> <span className="decoration">Không gồm bữa sáng</span></li>
+                    <li className="item_service service"><BiWifi2 /> <span className="service">Wifi miễn phí</span></li>
+                  </ul>
+                </div>
+                <div>
+                  <ul>
+                    <li className="item_service service"><BsFillClockFill /><span className="service">Miễn phí huỷ phòng</span></li>
+                    <li className="item_service service"><BsFillCalendarCheckFill /> <span className="service">Có thể đổi lịch</span></li>
+                    <li className="item_service help"><BiSolidHelpCircle /> <span className="help">Xem chính sách huỷ phòng</span></li>
+                  </ul>
+                </div>
+                <div>
+                  <ul>
+                    <li className="decoration">1.350.000 VND</li>
+                    <li className="service_total">800.000 VND</li>
+                    <li>/ Phòng / đêm</li>
+                    <li className="help">giá cuối cùng</li>
+                  </ul>
+                </div>
+              </div>
+              <button className="product_button">Đặt ngay</button>
+            </div>
+          </div>
+          <div className="product_item">
+            <div className="product_left">
+              <img src="https://ik.imagekit.io/tvlk/generic-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/67841452-b8eaa284b3e0d55d645958c3569be662.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-550" alt="" />
+            </div>
+            <div className="product_right">
+              <div className="product_title">
+                <div>
+                  <h2>Căn hộ một phòng ngủ</h2>
+                </div>
+                <div>
+                  <p>Miễn phí huỷ phòng trước 13:00</p>
+                </div>
+              </div>
+              <div className="product_quantity">
+                <div className="item_service">
+                  <FaBed />
+                  <span>1 giường Cỡ King</span>
+                </div>
+                <div className="item_service item_service2">
+                  <BsFillPeopleFill />
+                  <span>3 khách</span>
+                </div>
+              </div>
+              <div className="product_service">
+                <div>
+                  <ul >
+                    <li className="item_service "><MdOutlineFreeBreakfast /> <span className="decoration">Không gồm bữa sáng</span></li>
+                    <li className="item_service service"><BiWifi2 /> <span className="service">Wifi miễn phí</span></li>
+                  </ul>
+                </div>
+                <div>
+                  <ul>
+                    <li className="item_service service"><BsFillClockFill /><span className="service">Miễn phí huỷ phòng</span></li>
+                    <li className="item_service service"><BsFillCalendarCheckFill /> <span className="service">Có thể đổi lịch</span></li>
+                    <li className="item_service help"><BiSolidHelpCircle /> <span className="help">Xem chính sách huỷ phòng</span></li>
+                  </ul>
+                </div>
+                <div>
+                  <ul>
+                    <li className="decoration">1.350.000 VND</li>
+                    <li className="service_total">800.000 VND</li>
+                    <li>/ Phòng / đêm</li>
+                    <li className="help">giá cuối cùng</li>
+                  </ul>
+                </div>
+              </div>
+              <button className="product_button">Đặt ngay</button>
+            </div>
+          </div>
+        </div>
+
+        
         <div className="w-full h-px bg-gray-300 my-4"></div>
         <CommentItem data={sampleComments} />
         <div className="w-full h-px bg-gray-300 my-4"></div>

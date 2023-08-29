@@ -1,6 +1,5 @@
 import "./adminNavbar.scss"
 import { useState } from "react";
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlined";
@@ -18,7 +17,7 @@ import { PopupMenu } from "react-simple-widgets";
 const AdminNavbar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const [isOpen, setIsOpen] = useState(false);
-
+  
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -27,8 +26,7 @@ const AdminNavbar = () => {
     <div className="navbar-Admin">
       <div className="wrapper">
         <div className="search">
-          <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon />
+            ads
         </div>
         <div className="items">
           <div className="item">

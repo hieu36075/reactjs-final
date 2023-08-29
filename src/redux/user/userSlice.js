@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUsers } from "./userThunks";
+import { getUserThisMonth, getUsers, getUsersById } from "./userThunks";
 
 
 const initialState ={
-    isLogin: false,  
     loading: false,
     error: {},
     data: [],
@@ -16,12 +15,10 @@ const userSlice = createSlice({
     },
     extraReducers: builder =>{
         builder.addCase(getUsers.pending, (state, action) => {
-            state.isLogin = true;
-            state.loading = true
+            state.loading = false
         });
         builder.addCase(getUsers.fulfilled, (state, action) => {
-            state.isLogin = false
-            state.loading = false
+            state.loading = true
             state.data = action.payload
             state.error = ""
         });
@@ -29,8 +26,32 @@ const userSlice = createSlice({
             state.isLogin = true;
             state.error = action.payload
         });
-
-        
+        //
+        builder.addCase(getUsersById.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(getUsersById.fulfilled, (state, action) => {
+            state.loading = false
+            state.data = action.payload
+            state.error = ""
+        });
+        builder.addCase(getUsersById.rejected, (state, action) => {
+            state.isLogin = true;
+            state.error = action.payload
+        });
+        //
+        builder.addCase(getUserThisMonth.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(getUserThisMonth.fulfilled, (state, action) => {
+            state.loading = false
+            state.data = action.payload
+            state.error = ""
+        });
+        builder.addCase(getUserThisMonth.rejected, (state, action) => {
+            state.isLogin = true;
+            state.error = action.payload
+        });
     }
 });
 

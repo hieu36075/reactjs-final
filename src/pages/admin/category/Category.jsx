@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../../../layout/admin/sidebar/Sidebar";
 import AdminNavbar from "../../../layout/admin/navbar/AdminNavbar";
 import { getCategory } from "../../../redux/category/categoryThunks";
@@ -9,19 +9,26 @@ import Datatable from "../../../components/datatable/Datatable";
 
 const Categories = () => {
   const dispatch = useDispatch()
-  const {data, loadding}= useSelector(state=> state.category)
-
+  const {data, loading}= useSelector((state)=> state.category)
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(()=>{
-      dispatch(getCategory())
-  },[dispatch])
+    console.log("tét", currentPage)
+      dispatch(getCategory({page:currentPage, perPage:5}))
+  },[dispatch, currentPage])
 
   const handleDelete = (id) => {
     console.log(id)
   };
 
-  if (loadding) {
-    return <div>Loading...</div>;
-  }
+  const handlePageChange = (newPage) => {
+    console.log(newPage)
+    setCurrentPage(newPage);
+  };
+
+  // if (!loading) {
+  //   return <div>Loading...</div>;
+  // }
+
 
   const actionColumn = [
     {
@@ -45,14 +52,21 @@ const Categories = () => {
       },
     },
   ];
-
-  const categories = data?.map((data, index) => ({ ...data, index: index }));
+  const categories = data?.data?.map((data, index) => ({ ...data, index: index })) || [];
   return (
     <div className="list_table">
       <Sidebar/>
       <div className="listContainer_table">
         <AdminNavbar/>
-        <Datatable data={categories} Columns={categoryColumns} actionColumn={actionColumn} />
+        <Datatable 
+          data={categories} 
+          Columns={categoryColumns} 
+          actionColumn={actionColumn} 
+          meta={data?.meta}
+          title="Manager category"
+          onPageChange={handlePageChange}
+          isLoading={loading}
+        />
       </div>
     </div>
   )

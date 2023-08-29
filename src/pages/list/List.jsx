@@ -25,13 +25,13 @@ const List = () => {
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location?.state?.options || defaultOptions);
   const {id} = useParams();
-  const {loadding, data} = useSelector(state=> state.hotel)
+  const {loading, data} = useSelector(state=> state.hotel)
   const type = location?.state?.type
 
   const [countryId, setCountryId] = useState('');
   const [name, setName] = useState('');
   const [categoryId, setCategoryId] = useState('');
-  console.log(categoryId)
+ 
   const handleSearch = () => {
     dispatch(searchHotel({ countryId, name, categoryId }));
   };
@@ -49,7 +49,7 @@ const List = () => {
 
   },[id, dispatch, type])
 
-  if (loadding) {
+  if (!loading) {
     return <div>Loading...</div>;
   }
   

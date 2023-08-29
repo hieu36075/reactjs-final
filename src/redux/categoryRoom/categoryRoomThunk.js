@@ -11,3 +11,14 @@ export const getCategoryRoom = createAsyncThunk('categoryRoom/getCategoryRoom', 
         return rejectWithValue(error)
     }
 })
+
+export const createCategoryRoom = createAsyncThunk('categoryRoom/createCategoryRoom', async(data, {rejectWithValue}) =>{
+    try{
+        console.log(data)
+        const reponse = await http.post(`/categoryRoom` , data);
+        console.log(reponse)
+        return reponse
+    }catch(error){
+        return rejectWithValue(error)
+    }
+})

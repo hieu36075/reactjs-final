@@ -1,20 +1,34 @@
 // import { useState } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../../layout/navbar/navbar";
 // import Header from "../../components/header/Header";
 import "./profilePage.css"
+import { useDispatch, useSelector } from "react-redux";
+import { getUsersById } from "../../redux/user/userThunks";
 
 export default function ProfilePage() {
-
-  // const [user, setUser] = useState({
-  //   name: 'John Doe',
-  //   email: 'john.doe@example.com',
-  //   age: "1221",
-  //   phone: "019230-12"
-  // });
-  // const { name, email, age, phone } = user;
+  const dispatch = useDispatch()
+  const {data} = useSelector((state) => state.user)
+  console.log(data)
+    const [user, setUser] = useState({
+        name: data.name,
+        email: data.email,
+        phoneNumber: data.phoneNumber,
+        address: data.address,
+        dateOrBirth: data.dateOrBirth
+    })
+    
+    useEffect(()=>{
+      dispatch(getUsersById())
+    },[dispatch])
 
   const [show, setShow] = useState(false);
+  const [showName, setShowName] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
+  const [showPhoneNumber, setShowPhoneNumber] = useState(false);
+  const [showAddress, setShowAddress] = useState(false);
+  const [showDateOrBirth, setShowDateOrBirth] = useState(false);
+
 
   
   return (
@@ -25,32 +39,46 @@ export default function ProfilePage() {
           <h1>Personal information</h1>
           <div className="info">
             <div className="info_item">
-              <h3>Tên pháp lý</h3>
-              <h4>Hiếu ngu</h4>
+              <h3>Full name</h3>
+              <h4>{user.name}</h4>
+              {showName?
+              <div>
+                 <input type="text" placeholder="Tên"/> 
+                </div> : ""
+              }
             </div>
             <div className="info_item">
-              <h3>Địa chỉ email</h3>
-              <h4>Hiếu ngu</h4>
+              <h3>Email</h3>
+              <h4>{user.email}</h4>
+              {showEmail ? 
+              <div>
+                  <input type="text" placeholder="email " />
+              </div>: ""
+              }
             </div>
             <div className="info_item">
-              <h3>Số điện thoại</h3>
-              <h4>Hiếu ngu</h4>
+              <h3>Phone Number</h3>
+              <h4>{user.phoneNumber}</h4>
+              {showPhoneNumber ? 
+              <div>
+                  <input type="text" placeholder="Input for phone number " />
+              </div>: ""
+              }
             </div>
             <div className="info_item">
-              <h3>Giấy tờ tuỳ thân do chính phủ cấp</h3>
-              <h4>Hiếu ngu</h4>
-            </div>
-            <div className="info_item">
-              <h3>Địa chỉ</h3>
-              <h4>Hiếu ngu</h4>
+              <h3>Address</h3>
+              <h4>{user.address}</h4>
+              {showAddress ? 
+              <div>
+                  <input type="text" placeholder="Input for phone number " />
+              </div>: ""
+              }
             </div>
             <div className="info_item">
               <h3>Liên hệ trong trường hợp khẩn cấp</h3>
               <h4>Hiếu ngu</h4>
               {show?
               <div className="info_show">
-                  <input type="text" placeholder="Tên"/>
-                  <input type="text" placeholder="Mối quan hệ " />
                   <input type="text" placeholder="Email"/>
                   <input type="text" placeholder="Số điện thoại"/>
               <button>Lưu</button>
@@ -60,10 +88,10 @@ export default function ProfilePage() {
             </div>
           </div>
           <div className="action">
-            <button>Chỉnh sửa</button>
-            <button>Chỉnh sửa</button>
-            <button>Thêm</button>
-            <button>Thêm</button>
+            <button onClick={()=>{setShowName(!showName)}}>{showName? 'cancel':'edit'}</button>
+            <button onClick={()=>{setShowEmail(!showEmail)}}>{showEmail? 'cancel': 'edit'}</button>
+            <button onClick={()=>{setShowPhoneNumber(!showPhoneNumber)}}>{showPhoneNumber? 'cancel' : 'edit'}</button>
+            <button onClick={()=>{setShowAddress(!showAddress)}}>{showAddress? 'cancel' : 'edit'}</button>
             <button>Chỉnh sửa</button>
             <button onClick={()=>{
               setShow(!show)

@@ -9,15 +9,18 @@ import { userColumns } from "./userColumns";
 import Datatable from "../../../components/datatable/Datatable";
 const UserList = () => {
   const dispatch = useDispatch()
-  const {data} = useSelector((state)=> state.user)
+  const {data, loading} = useSelector((state)=> state.user)
+  console.log(data)
   useEffect(()=>{
-      dispatch(getUsers())
+      dispatch(getUsers({page:1, perPage:5}))
   },[dispatch])
 
   const handleDelete = (id) => {
     // setData(data.filter((item) => item.id !== id));
   };
-
+  if (!loading) {
+    return <div>Loading...</div>;
+  }
   const actionColumn = [
     {
       field: "action",
@@ -35,20 +38,26 @@ const UserList = () => {
             >
               Delete
             </div>
+            <div
+              className="deleteButton"
+              onClick={() => handleDelete(params.row.id)}
+            >
+              Band
+            </div>
           </div>
         );
       },
     },
   ];
 
-  const user = data.map((data, index) => ({ ...data, index: index }));
+  const user = data?.data?.map((data, index) => ({ ...data, index: index }));
 
   return (
     <div className="list_table">
       <Sidebar/>
       <div className="listContainer_table">
         <AdminNavbar/>
-        <Datatable data={user} Columns={userColumns} actionColumn={actionColumn} />
+        <Datatable data={user} Columns={userColumns} actionColumn={actionColumn} meta={data?.meta} title="Manager User"/>
       </div>
     </div>
   )

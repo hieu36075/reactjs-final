@@ -17,6 +17,8 @@ import ProfilePage from "../../pages/profile/ProfilePage";
 import HotelsFormPage from "../../pages/hotel/HotelsFormPage";
 import AlertPopup from "../../components/aleart/AlertPopup";
 import RequireNoAuth from "../../routes/RequireNoAuth";
+import BookingsPage from "../../pages/booking/Bookings";
+import MyHotelPage from "../../pages/myHotel/MyHotel";
 const Body = () => {
   return (
     <>
@@ -28,6 +30,8 @@ const Body = () => {
       <Route path="/hotels/stays/:id" element={<ConfirmationPaymentPage />} />
       <Route path="/hotels/new/:id" element={<HotelsFormPage />} />
       <Route path="/account/profile" element={<ProfilePage />} />
+      <Route path="/account/myBooking" element={< BookingsPage/>} />
+      <Route path="/account/myHotel" element={< MyHotelPage/>} />
       <Route path="/" element={<Navbar type="home"/>}>
         <Route index element={<Home/>}/>
 

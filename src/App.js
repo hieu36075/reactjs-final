@@ -5,8 +5,6 @@ function App() {
   return (
     // <BrowserRouter>
     <div className="App">
-        {/* <Navbar/> */}
-        {/* {<AdminNavbar/>} */}
         <div className='body'>
               <Body/>       
         </div>      

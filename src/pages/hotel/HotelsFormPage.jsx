@@ -5,11 +5,16 @@ import HotelForm from "./HotelForm";
 import FormProgress from "./FormProgress";
 import RoomForm from "./RoomForm";
 import TermsPage from "./TermsPage";
+import CategoryRoomForm from "./CategoryRoomFrom";
+import { useLocation } from "react-router-dom";
+
 export default function HotelsFormPage() {
+  const location = useLocation();
+
   const formArray = [1, 2, 3];
-  const [formNo, setFormNo] = useState(formArray[2])
+  const [formNo, setFormNo] = useState(formArray[location?.state?.form ? location.state.form : 0])
 
-
+  console.log(location)
 
   // useEffect(() => {
   //   if (!id) {
@@ -52,15 +57,11 @@ export default function HotelsFormPage() {
         {formNo === 1 && (
           <div>
          <HotelForm type='create' onNext={next} />
-         <div className='mt-4 gap-3 flex justify-center items-center'>
-              <button onClick={pre} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Previous</button>
-              <button onClick={next} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Next</button>
-            </div>
          </div>
         )}
 
         {
-          formNo === 2 && <div>
+          formNo === 3 && <div>
             {/* {console.log("a",hotel)} */}
             <RoomForm onPre={pre}/>
             {/* <div className='mt-4 gap-3 flex justify-center items-center'>
@@ -70,13 +71,14 @@ export default function HotelsFormPage() {
           </div>
         }
 
-{
-          formNo === 3 && <div>
-            <TermsPage/>
-            <div className='mt-4 gap-3 flex justify-center items-center'>
+      {
+          formNo === 2 && <div>
+            {/* <TermsPage/> */}
+            <CategoryRoomForm onNext={next}/>
+            {/* <div className='mt-4 gap-3 flex justify-center items-center'>
               <button onClick={pre} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Previous</button>
               <button onClick={next} className='px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500'>Next</button>
-            </div>
+            </div> */}
           </div>
         }
 

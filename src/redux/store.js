@@ -13,7 +13,8 @@ import imageHotelSlice from "./imageHotel/imageHotelSlice";
 import citySlice from "./city/citySlice";
 import roomSlice from "./room/roomSlice";
 import imageRoomSlice from "./imageRoom/imageRoomSlice";
-// import orderSlice from "./order/orderSlice";
+import orderSlice from "./order/orderSlice";
+import paymentSlice from "./payment/paymentSlice";
 // import orderDetailSlice from "./orderDetail/orderDetailSlice";
 const { configureStore } = require("@reduxjs/toolkit");
 
@@ -43,8 +44,9 @@ const reducer = combineReducers({
   city: citySlice,
   room: roomSlice,
   imageRoom: imageRoomSlice,
-  // order: orderSlice,
-  // orderDetail: orderDetailSlice
+  order: orderSlice,
+  // orderDetail: orderDetailSlice,
+  payment: paymentSlice
 })
 
 

@@ -23,7 +23,7 @@ export const userColumns = [
       headerName: "Email",
       width: 230,
     },
-  
+    
     {
       field: "role.name",
       headerName: "Role",
@@ -31,13 +31,14 @@ export const userColumns = [
       valueGetter: (params) => params.row.role.name
     },
     {
-      field: "status",
+      field: "isActive",
       headerName: "Status",
       width: 160,
       renderCell: (params) => {
+        const statusText = params.row.isActive ? "Active" : "Inactive";
         return (
-          <div className={`cellWithStatus ${params.row.status}`}>
-            {params.row.status}
+          <div className={`cellWithStatus ${params.row.isActive ? "active" : "inactive"}`}>
+            {statusText}
           </div>
         );
       },

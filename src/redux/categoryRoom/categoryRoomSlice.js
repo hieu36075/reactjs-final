@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCategoryRoom } from "./categoryRoomThunk";
+import { createCategoryRoom, getCategoryRoom } from "./categoryRoomThunk";
 
 
 const initialState ={
     loading: false,
     error: {},
     data: [],
+    detail:[]
 }
 
 const categoryRoomSlice = createSlice({
@@ -24,6 +25,17 @@ const categoryRoomSlice = createSlice({
                 state.error = ""
             })
             .addCase(getCategoryRoom.rejected, (state, action) => {
+                state.error = action.payload
+            })
+            .addCase(createCategoryRoom.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(createCategoryRoom.fulfilled, (state, action) => {
+                state.loading = false
+                state.detail = action.payload
+                state.error = ""
+            })
+            .addCase(createCategoryRoom.rejected, (state, action) => {
                 state.error = action.payload
             })
     }

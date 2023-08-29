@@ -20,6 +20,17 @@ export const getHotelByCountry = createAsyncThunk('hotel/getHotelByCountry', asy
     }
 })
 
+export const getHotelByUserId = createAsyncThunk('hotel/getHotelByUserId', async(data, {rejectWithValue})=>{
+   const {page, perPage}= data
+    try {
+        const reponse = await http.get(`/hotel/get-by-user/?page=${page}&perPage=${perPage}`)
+        console.log(reponse)
+        return reponse.data
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
 export const getHotelByCategory = createAsyncThunk('hotel/getHotelByCategory', async(categoryId, {rejectWithValue})=>{
     try {
         const reponse = await http.get(`/hotel/get-hotel-by-category/${categoryId}`)

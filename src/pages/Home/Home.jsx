@@ -18,6 +18,7 @@ const Home = () => {
   const hotel = useSelector(SelectAllHotel)
   const categoryData = useSelector(SelectCategories)
   const country = useSelector(SelectCountry)
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
