@@ -4,24 +4,23 @@ import axios from "axios";
 import AddressLink from "../AddressLink";
 import PlaceGallery from "../PlaceGallery";
 import BookingDates from "../BookingDates";
+import { useDispatch } from "react-redux";
+import { getHotelByRoom } from "../../redux/hotel/hotelThunks";
+
 
 export default function BookingPage() {
-//   const {id} = useParams();
-//   const [booking,setBooking] = useState(null);
-//   useEffect(() => {
-//     if (id) {
-//       axios.get('/bookings').then(response => {
-//         const foundBooking = response.data.find(({_id}) => _id === id);
-//         if (foundBooking) {
-//           setBooking(foundBooking);
-//         }
-//       });
-//     }
-//   }, [id]);
+  const {id} = useParams();
+  const dispatch = useDispatch()
+  const [booking,setBooking] = useState(null);
+  useEffect(() => {
+    if (id) {
+      dispatch(getHotelByRoom(id))
+    }
+  }, [id]);
 
-//   if (!booking) {
-//     return '';
-//   }
+  if (!booking) {
+    return '';
+  }
 
   return (
     // <div className="my-8">

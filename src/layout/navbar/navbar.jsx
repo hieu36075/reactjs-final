@@ -11,7 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getNoticationById } from "../../redux/notification/notificationThunks";
 import RegisterModal from "../../pages/register/Register";
 import { logOut } from "../../redux/auth/authSlice";
-
+import LoginModal from '../../pages/login/LoginModal'
+import useLoginModal from "../../context/modal/useLoginModal";
+import useRegisterModal from "../../context/modal/useRegisterModal";
 
 function Navbar({type}) {
   const dispatch = useDispatch();
@@ -24,15 +26,25 @@ function Navbar({type}) {
   const isLogin = useSelector((state) => state.auth.isLogin);
   const {data, loading} = useSelector((state) => state.notification);
   const [notifications, setNotifications] = useState([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-    const openModal = () => {
-    setIsModalOpen(true);
+  const loginModal = useLoginModal(); // Sử dụng hook Login Modal
+  const registerModal = useRegisterModal(); //
+  
+  const openLoginModal = () => {
+    loginModal.openModal();
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const closeLoginModal = () => {
+    loginModal.closeModal();
   };
+
+  const openRegisterModal = () => {
+    registerModal.openModal();
+  };
+
+  const closeRegisterModal = () => {
+    registerModal.closeModal();
+  };
+
   const token = localStorage.getItem('token');
   useEffect(() => {
     if (!notificationsLoaded && isLogin) {
@@ -144,32 +156,33 @@ function Navbar({type}) {
               </li>
               {!isLogin 
               ? 
-                <>
-              <li className="nav-item">
-                <NavLink
-                  to="/login"
-                  className={({ isActive }) =>
-                  "nav-links" + (isActive ? " activated" : "")
-                }
-                onClick={closeMobileMenu}
-                >
-                  Login
-                </NavLink>
-              </li>
-
-              <li className="nav-item">
-                <NavLink
-                  // to="/login"
-                  className={({ isActive }) =>
-                  "nav-links" + (isActive ? " activated" : "")
-                }
-                onClick={openModal}
-                >
-                  Register
-                </NavLink>
-              </li>
-              <RegisterModal isOpen={isModalOpen} onClose={closeModal} />
-                  </>
+<>
+          <li className="nav-item">
+            <NavLink
+              className={({ isActive }) =>
+                "nav-links" + (isActive ? " activated" : "")
+              }
+              onClick={openLoginModal} // Mở Modal đăng nhập
+            >
+              Login
+            </NavLink>
+          </li>
+          <LoginModal isOpen={loginModal.isOpen} onClose={closeLoginModal} />
+          <li className="nav-item">
+            <NavLink
+              className={({ isActive }) =>
+                "nav-links" + (isActive ? " activated" : "")
+              }
+              onClick={openRegisterModal} // Mở Modal đăng ký
+            >
+              Register
+            </NavLink>
+          </li>
+          <RegisterModal
+            isOpen={registerModal.isOpen}
+            onClose={closeRegisterModal}
+          />
+        </>
               :
               <>
                 <li className="nav-item noti" >

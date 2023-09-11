@@ -11,3 +11,12 @@ export const createRoom = createAsyncThunk('room/createRoom', async(room, {rejec
         return rejectWithValue(error)
     }
 })
+
+export const getRoomByCategoryId = createAsyncThunk('room/getRoomByCategoryId', async(id, {rejectWithValue})=>{
+    try {
+        const reponse = await http.get(`/room&id=${id}`)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})

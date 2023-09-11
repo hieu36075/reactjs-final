@@ -14,7 +14,7 @@ root.render(
         <Provider store={store}>
         <AlertProvider>
           <App />
-        </AlertProvider>,
+        </AlertProvider>
         </Provider>
     </Router>
   // {/* </React.StrictMode> */}

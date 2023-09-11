@@ -11,11 +11,9 @@ import { format  } from "date-fns";
 import ImagesDatails from "./ImagesDatails";
 import AmenityIcon from "../../components/amenity/AmenityIcon";
 import moment from "moment";
-import { createOrder } from "../../redux/order/orderThunk";
-import { FaBed} from 'react-icons/fa';
-import { BsFillPeopleFill, BsFillCalendarCheckFill, BsFillClockFill } from 'react-icons/bs';
-import { MdOutlineFreeBreakfast } from 'react-icons/md';
-import { BiSolidHelpCircle, BiWifi2 } from 'react-icons/bi';
+import { createOrder, updateOrder } from "../../redux/order/orderThunk";
+import CategoryRoomItem from "../../components/categoryRoomItem/CategoryRoomItem";
+
 
 
 export default function DetailsPage() {
@@ -23,10 +21,11 @@ export default function DetailsPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { details, loading } = useSelector((state) => state.hotel);
+  const {isLogin} = useSelector((state) => state.auth)
   const roomsTest = useSelector((state)=> state.hotel.details.rooms)
-  console.log(details)
   useEffect(() => {
     dispatch(getHotelById(id));
+    // dispatch(getCategoryRoomByHotel())
   }, [id, dispatch]);
 
   console.log(details)
@@ -35,10 +34,11 @@ export default function DetailsPage() {
   const [date, setDate] = useState([
     {
       startDate: new Date(),
-      endDate: new Date(),
+      endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000), // Thêm 1 ngày
       key: "selection",
     },
   ]);
+  
   const datePickerRef = useRef(null);
   useEffect(() => {
     // Lắng nghe sự kiện click trên toàn bộ document
@@ -65,7 +65,7 @@ export default function DetailsPage() {
     room: 1,
   });
 
-  if (!loading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
 
@@ -147,7 +147,7 @@ export default function DetailsPage() {
   const startDate = moment(date[0].startDate);
   const endDate = moment(date[0].endDate);
   const numberOfDays = Math.max(endDate.diff(startDate, "days"), 1);
-  
+
 
 
   const vatRate = 0.1; // 10% VAT
@@ -156,29 +156,66 @@ export default function DetailsPage() {
     return total + item.price * numberOfDays;
   }, 0);
 
-  // Tính phí VAT dựa trên phí phòng
   const vatAmount = roomPrice * vatRate;
   const serviceAmount = roomPrice * serviceRate;
   const totalservice = vatAmount + serviceAmount
   const totalPrice = roomPrice + totalservice
-  // // Tính phí dịch vụ dựa trên tổng tiền (bao gồm cả phí phòng và phí VAT)
-  // const totalServiceWithVat = vatAmount * (1 + serviceRate);
-  // const totalPriceWithVAT = roomPrice + totalServiceWithVat;
 
-
-  const handleBooking= async (e)=>{
+  const isOrderChanged = (existingOrder, updatedOrder) => {
+    // Kiểm tra sự khác biệt ở trường checkIn
+    const checkInChanged = existingOrder.checkIn !== updatedOrder.checkIn;
+  
+    // Kiểm tra sự khác biệt ở trường checkOut
+    const checkOutChanged = existingOrder.checkOut !== updatedOrder.checkOut;
+    
+    const priceChanged = existingOrder.price !== updatedOrder.price;
+    // Kiểm tra sự khác biệt ở các trường thông tin khác bạn quan tâm
+    // Ví dụ: roomPrice, numberOfGuests, ... 
+  
+    // Trả về true nếu có bất kỳ sự khác biệt nào
+    return checkInChanged || checkOutChanged || priceChanged/* || ... */;
+  }
+  
+  const handleBooking= async (e, price, roomId)=>{
+    if(!isLogin){
+      return console.log('please login')
+    }
     e.preventDefault();
-
+    const priceOrder = price ? price + totalservice : totalPrice
+    const roomIdOrder = roomId? roomId : roomsTest[0].id
+    console.log(priceOrder)
+    console.log(roomIdOrder)
     try{
-      const create = await dispatch(createOrder({checkIn:formattedStartDate, checkOut: formattedEndDate, price: totalPrice, roomId: roomsTest[0].id , hotelId: details?.id})).unwrap();
-      console.log(create)
-      navigate(`/hotels/stays/${create.id}`)
+      const order = await dispatch(createOrder({
+        checkIn:formattedStartDate, 
+        checkOut: formattedEndDate, 
+        price: priceOrder, 
+        roomId: roomIdOrder , 
+        hotelId: details?.id})).unwrap();
+      if(order){
+        const newOrder ={
+          ...order,
+          checkIn: formattedStartDate,
+          checkOut: formattedEndDate,
+          price: priceOrder
+        }
+        if(isOrderChanged(order,newOrder)){
+          await dispatch(updateOrder({
+            id: order.id, 
+            checkIn:formattedStartDate, 
+            checkOut: formattedEndDate, 
+            price: priceOrder, 
+            hotelId: details?.id})).unwrap();
+        }
+      }
+    navigate(`/hotels/stays/${order.id}`)
 
     }catch(error){
       console.error('Đã xảy ra lỗi:', error);
     }
   }
 
+  
 
   
   return (
@@ -398,113 +435,10 @@ export default function DetailsPage() {
             ))}
           </div>
         </div>
-
-
-        <div className="product">
-          <h1>Căn hộ một phòng ngủ</h1>
-          <div className="product_item">
-            <div className="product_left">
-              <img src="https://ik.imagekit.io/tvlk/generic-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/67841452-b8eaa284b3e0d55d645958c3569be662.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-550" alt="" />
-            </div>
-            <div className="product_right">
-              <div className="product_title">
-                <div>
-                  <h2>Căn hộ một phòng ngủ</h2>
-                </div>
-                <div>
-                  <p>Miễn phí huỷ phòng trước 13:00</p>
-                </div>
-              </div>
-              <div className="product_quantity">
-                <div className="item_service">
-                  <FaBed />
-                  <span>1 giường Cỡ King</span>
-                </div>
-                <div className="item_service item_service2">
-                  <BsFillPeopleFill />
-                  <span>3 khách</span>
-                </div>
-              </div>
-              <div className="product_service">
-                <div>
-                  <ul >
-                    <li className="item_service "><MdOutlineFreeBreakfast /> <span className="decoration">Không gồm bữa sáng</span></li>
-                    <li className="item_service service"><BiWifi2 /> <span className="service">Wifi miễn phí</span></li>
-                  </ul>
-                </div>
-                <div>
-                  <ul>
-                    <li className="item_service service"><BsFillClockFill /><span className="service">Miễn phí huỷ phòng</span></li>
-                    <li className="item_service service"><BsFillCalendarCheckFill /> <span className="service">Có thể đổi lịch</span></li>
-                    <li className="item_service help"><BiSolidHelpCircle /> <span className="help">Xem chính sách huỷ phòng</span></li>
-                  </ul>
-                </div>
-                <div>
-                  <ul>
-                    <li className="decoration">1.350.000 VND</li>
-                    <li className="service_total">800.000 VND</li>
-                    <li>/ Phòng / đêm</li>
-                    <li className="help">giá cuối cùng</li>
-                  </ul>
-                </div>
-              </div>
-              <button className="product_button">Đặt ngay</button>
-            </div>
-          </div>
-          <div className="product_item">
-            <div className="product_left">
-              <img src="https://ik.imagekit.io/tvlk/generic-asset/Ixf4aptF5N2Qdfmh4fGGYhTN274kJXuNMkUAzpL5HuD9jzSxIGG5kZNhhHY-p7nw/hotel/asset/67841452-b8eaa284b3e0d55d645958c3569be662.jpeg?_src=imagekit&tr=c-at_max,h-360,q-40,w-550" alt="" />
-            </div>
-            <div className="product_right">
-              <div className="product_title">
-                <div>
-                  <h2>Căn hộ một phòng ngủ</h2>
-                </div>
-                <div>
-                  <p>Miễn phí huỷ phòng trước 13:00</p>
-                </div>
-              </div>
-              <div className="product_quantity">
-                <div className="item_service">
-                  <FaBed />
-                  <span>1 giường Cỡ King</span>
-                </div>
-                <div className="item_service item_service2">
-                  <BsFillPeopleFill />
-                  <span>3 khách</span>
-                </div>
-              </div>
-              <div className="product_service">
-                <div>
-                  <ul >
-                    <li className="item_service "><MdOutlineFreeBreakfast /> <span className="decoration">Không gồm bữa sáng</span></li>
-                    <li className="item_service service"><BiWifi2 /> <span className="service">Wifi miễn phí</span></li>
-                  </ul>
-                </div>
-                <div>
-                  <ul>
-                    <li className="item_service service"><BsFillClockFill /><span className="service">Miễn phí huỷ phòng</span></li>
-                    <li className="item_service service"><BsFillCalendarCheckFill /> <span className="service">Có thể đổi lịch</span></li>
-                    <li className="item_service help"><BiSolidHelpCircle /> <span className="help">Xem chính sách huỷ phòng</span></li>
-                  </ul>
-                </div>
-                <div>
-                  <ul>
-                    <li className="decoration">1.350.000 VND</li>
-                    <li className="service_total">800.000 VND</li>
-                    <li>/ Phòng / đêm</li>
-                    <li className="help">giá cuối cùng</li>
-                  </ul>
-                </div>
-              </div>
-              <button className="product_button">Đặt ngay</button>
-            </div>
-          </div>
-        </div>
-
-        
         <div className="w-full h-px bg-gray-300 my-4"></div>
-        <CommentItem data={sampleComments} />
+          <CategoryRoomItem hotel={details} onSubmit={handleBooking}/>
+        <div className="w-full h-px bg-gray-300 my-4"></div>
+          <CommentItem data={sampleComments} />
         <div className="w-full h-px bg-gray-300 my-4"></div>
       </div>
     </div>

@@ -29,7 +29,8 @@ const authSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) =>{
             state.loading=false
             state.token = action.payload
-            localStorage.setItem("token",action.payload)
+            localStorage.setItem("token",action.payload.access_token)
+            localStorage.setItem("rfToken",action.payload.refresh_token)
             state.isLogin= true
             state.error = ''
         })

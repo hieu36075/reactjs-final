@@ -25,10 +25,9 @@ export default function Login(){
   
     const handleErrorLogin = (error) => {
       console.log(error)
-      // dispatch(showSnackbar(error));
     };
 
-    // const [isSignIn, setIsSignIn] = useState(true);
+
 
     const handleEmail = (e) =>{
         setAccount((preV) => {
@@ -55,7 +54,6 @@ export default function Login(){
 
     const handleSubmit = async() => {
       dispatch(login(account))
-
     };
 
     return(

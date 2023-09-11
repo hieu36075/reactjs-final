@@ -3,9 +3,7 @@ import http from "../../services/axios-interceptor"
 
 export const createBill = createAsyncThunk('payment/createBill', async(data, {rejectWithValue})=>{
     try {
-        console.log("a",data)
         const reponse = await http.post(`/payment/create-payment-intent`, data)
-        console.log(reponse)
         return reponse
     } catch (error) {
         return rejectWithValue(error)
@@ -13,9 +11,9 @@ export const createBill = createAsyncThunk('payment/createBill', async(data, {re
 })
 
 export const updateAmountPayment = createAsyncThunk('payment/updateAmountPayment', async(data, {rejectWithValue})=>{
-    const {id, amount} = data
+    const {id} = data
     try {
-        const reponse = await http.patch(`/payment/${id}`,amount)
+        const reponse = await http.patch(`/payment/${id}`,data)
         console.log(reponse)
         return reponse
     } catch (error) {

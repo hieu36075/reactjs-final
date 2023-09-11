@@ -27,31 +27,31 @@ const List = () => {
   const {id} = useParams();
   const {loading, data} = useSelector(state=> state.hotel)
   const type = location?.state?.type
-
+  
   const [countryId, setCountryId] = useState('');
   const [name, setName] = useState('');
   const [categoryId, setCategoryId] = useState('');
- 
+  const [occupancy, setOccupancy] = useState(location?.state?.options?.adult || 1);
+  const [minPrice, setMinPrice] = useState(1);
+  const [maxPrice, setMaxPrice] = useState(99999);
+
   const handleSearch = () => {
-    dispatch(searchHotel({ countryId, name, categoryId }));
+    dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice }));
   };
 
   useEffect(()=>{
     if(type){
       if(type=== "country"){
-        dispatch(getHotelByCountry(id))
+        dispatch(searchHotel({countryId: id, name: "", categoryId:"", occupancy:"",minPrice:"", maxPrice:""}))
       }else if(type ==="category"){
-        dispatch(getHotelByCategory(id))
+        dispatch(searchHotel({categoryId: id, name: "", categoryId: "", occupancy: "",minPrice:"", maxPrice:""}))
       }
     }else{
+      dispatch(searchHotel({ countryId, name : destination, categoryId , occupancy, minPrice, maxPrice }));
       console.log("get all")
     }
 
-  },[id, dispatch, type])
-
-  if (!loading) {
-    return <div>Loading...</div>;
-  }
+  },[id, type])
   
   return (
     <div>
@@ -90,13 +90,13 @@ const List = () => {
                   <span className="lsOptionText">
                     Min price <small>per night</small>
                   </span>
-                  <input type="number" className="lsOptionInput" />
+                  <input type="number" className="lsOptionInput"  onChange={(e) => setMinPrice(e.target.value)}/>
                 </div>
                 <div className="lsOptionItem">
                   <span className="lsOptionText">
                     Max price <small>per night</small>
                   </span>
-                  <input type="number" className="lsOptionInput" />
+                  <input type="number" className="lsOptionInput" onChange={(e) => setMaxPrice(e.target.value)} />
                 </div>
                 <div className="list-select">
                 <CustomAsyncSelect 

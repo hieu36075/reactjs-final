@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 
 const Featured = ({data}) => {
-    console.log(data)
     const navigate = useNavigate();
 
     return (

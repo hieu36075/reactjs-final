@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Login from "../../pages/login/login";
+import Login from "../../pages/login/Login";
 import Home from "../../pages/home/Home";
 import Navbar from "../navbar/navbar";
 import AdminDashboard from "../../pages/admin/home/AdminDashboard";
@@ -19,12 +19,13 @@ import AlertPopup from "../../components/aleart/AlertPopup";
 import RequireNoAuth from "../../routes/RequireNoAuth";
 import BookingsPage from "../../pages/booking/Bookings";
 import MyHotelPage from "../../pages/myHotel/MyHotel";
+import ManagerHotel from "../../pages/ownerHotel/manager/ManagerHotel";
 const Body = () => {
   return (
     <>
       <AlertPopup />
       <Routes>
-      <Route path="/login" element={<RequireNoAuth element={<Login />} />} />
+      <Route path="/login" element={<RequireNoAuth element={<Login /> } />} />
       <Route path="/hotels/:id" element={<List />} />
       <Route path="/hotels/details/:id" element={<DetailsPage />} />
       <Route path="/hotels/stays/:id" element={<ConfirmationPaymentPage />} />
@@ -32,6 +33,7 @@ const Body = () => {
       <Route path="/account/profile" element={<ProfilePage />} />
       <Route path="/account/myBooking" element={< BookingsPage/>} />
       <Route path="/account/myHotel" element={< MyHotelPage/>} />
+      <Route path="/account/manager/:id" element={< ManagerHotel/>} />
       <Route path="/" element={<Navbar type="home"/>}>
         <Route index element={<Home/>}/>
 

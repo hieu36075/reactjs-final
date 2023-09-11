@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import AsyncSelect from 'react-select/async';
 import { useDispatch } from 'react-redux';
 
@@ -9,7 +9,9 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [prevId, setPrevId] = useState(true);
-  
+  console.log(prevId)
+  const [previousId, setPreviousId] = useState(null);
+  const [oldId, setOldId] = useState(null);
   const fetchData = async (pageNumber ) => {
     setIsLoading(true);
     try {
@@ -38,12 +40,23 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
   useEffect(() => {
     fetchData(page);
   }, [page]);
-  
+
   useEffect(() => {
     if(id){
       fetchData(1);
-      setPrevId(!prevId)
-      console.log(prevId)
+      setPreviousId(oldId); // Save the previous id before updating it
+      setOldId(id)
+      if(previousId !== oldId){
+        console.log("khac")
+        setData([])
+        setPrevId(false)
+      }else{
+        console.log("giong")
+        setPrevId(true)
+
+      }
+      // setPrevId(!prevId)
+      // console.log(prevId)
     }
   }, [id]);
 

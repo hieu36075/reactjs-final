@@ -17,9 +17,9 @@ const {loading} = useSelector((state) => state.order)
   useEffect(() => {
     dispatch(getOrderByUserId({page: 1 , perPage: 5}))
   }, []);
-  if(!loading){
-    return <h1>loading ...</h1>
-  }
+  // if(loading){
+  //   return <h1>loading ...</h1>
+  // }
   return (
     <>
     <Navbar/>

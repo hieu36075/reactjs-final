@@ -1,112 +1,243 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import axios from "axios";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
-// import { signIn } from "next-auth/react";
-// import { toast } from "react-hot-toast";
-// import {
-//   FieldValues,
-//   useForm
-// } from "react-hook-form";
-
 import Modal from "./Modal";
-
 import Heading from "./Heading";
-
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import useLoginModal from "../../context/modal/useLoginModal";
+import useRegisterModal from "../../context/modal/useRegisterModal";
 
 const RegisterModal = ({ isOpen, onClose }) => {
+  const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<FieldValues>({
-//     defaultValues: {
-//       name: "",
-//       email: "",
-//       password: "",
-//     },
-//   });
+  const [formData, setFormData] = useState({
+    email: "",
+    name: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+  });
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [validationErrors, setValidationErrors] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    address: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-  const onSubmit = (data) => {
-    // setIsLoading(true);
+  const validateStep1 = () => {
+    const errors = {};
 
-    // axios
-    //   .post("/api/register", data)
-    //   .then(() => {
-    //     toast.success("Registered!");
-    //     onClose();
-    //   })
-    //   .catch((error) => {
-    //     toast.error(error.message || "An error occurred");
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    if (formData.firstName.trim() === "") {
+      errors.firstName = "First name is required.";
+    }
+
+    if (formData.lastName.trim() === "") {
+      errors.lastName = "Last name is required.";
+    }
+
+    if (formData.phoneNumber.trim() === "") {
+      errors.phoneNumber = "Phone number is required.";
+    }
+
+    if (formData.address.trim() === "") {
+      errors.address = "Address is required.";
+    }
+
+    setValidationErrors(errors);
+
+    return Object.keys(errors).length === 0;
   };
 
-  const bodyContent = (
-    <div className="flex flex-col gap-4">
-      <Heading title="Welcome to Airbnb" subtitle="Create an account!" />
-      <input
-      className="form__input "
-        id="email"
-        label="Email"
-        type="email"
-        // disabled={isLoading}
-        // register={register}
-        // errors={errors}
-        // required
-      />
-      <input
-         className="form__input "
-        id="name"
-        label="Name"
-        type="password"
-        // disabled={isLoading}
-        // register={register}
-        // errors={errors}
-        // required
-      />
-      <input
-        className="form__input "
-        id="password"
-        label="Password"
-        type="password"
-        // disabled={isLoading}
-        // register={register}
-        // errors={errors}
-        // required
-      />
-      
-    </div>
-  );
+  const validateStep2 = () => {
+    const errors = {};
+
+    if (formData.email.trim() === "") {
+      errors.email = "Email is required.";
+    }
+
+    if (formData.password.trim() === "") {
+      errors.password = "Password is required.";
+    }
+
+    if (confirmPassword.trim() === "") {
+      errors.confirmPassword = "Confirm Password is required.";
+    }
+
+    if (formData.password !== confirmPassword) {
+      errors.confirmPassword = "Passwords do not match.";
+    }
+
+    setValidationErrors(errors);
+
+    return Object.keys(errors).length === 0;
+  };
+
+  const onSubmit = (data) => {
+    if (currentStep === 1) {
+      if (!validateStep1()) {
+        return;
+      }
+    }
+    if (currentStep === 2) {
+      if (!validateStep2()) {
+        return;
+      }
+      console.log("Registering...");
+    } else {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handleGoogleLoginSuccess = (response) => {
+    console.log("Logged in with Google:", response);
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+  const handleCloseModal = () => {
+
+    registerModal.closeModal();
+        console.log('a')
+  };
+
+  const renderStep = () => {
+    switch (currentStep) {
+      case 1:
+        return (
+          <div className="flex flex-col gap-4">
+            <Heading title="Welcome to Airbnb" subtitle="Create an account!" />
+            <div className="flex flex-row gap-4">
+              <input
+                className={`form__input ${validationErrors.firstName ? "border-red-500" : ""}`}
+                name="firstName"
+                type="text"
+                placeholder="first name"
+                value={formData.firstName}
+                onChange={handleInputChange}
+              />
+              {validationErrors.firstName && (
+                <div className="text-red-500 text-sm">{validationErrors.firstName}</div>
+              )}
+              <input
+                className={`form__input ${validationErrors.lastName ? "border-red-500" : ""}`}
+                name="lastName"
+                type="text"
+                placeholder="last name"
+                value={formData.lastName}
+                onChange={handleInputChange}
+              />
+              {validationErrors.lastName && (
+                <div className="text-red-500 text-sm">{validationErrors.lastName}</div>
+              )}
+            </div>
+            <input
+              className={`form__input ${validationErrors.phoneNumber ? "border-red-500" : ""}`}
+              name="phoneNumber"
+              type="text"
+              placeholder="Phone Number"
+              value={formData.phoneNumber}
+              onChange={handleInputChange}
+            />
+            {validationErrors.phoneNumber && (
+              <div className="text-red-500 text-sm">{validationErrors.phoneNumber}</div>
+            )}
+            <input
+              className={`form__input ${validationErrors.address ? "border-red-500" : ""}`}
+              name="address"
+              type="text"
+              placeholder="Address"
+              value={formData.address}
+              onChange={handleInputChange}
+            />
+            {validationErrors.address && (
+              <div className="text-red-500 text-sm">{validationErrors.address}</div>
+            )}
+          </div>
+        );
+      case 2:
+        return (
+          <div className="flex flex-col gap-4">
+            <input
+              className={`form__input ${validationErrors.email ? "border-red-500" : ""}`}
+              name="email"
+              type="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+            {validationErrors.email && (
+              <div className="text-red-500 text-sm">{validationErrors.email}</div>
+            )}
+            <input
+              className={`form__input ${validationErrors.password ? "border-red-500" : ""}`}
+              name="password"
+              type="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+            {validationErrors.password && (
+              <div className="text-red-500 text-sm">{validationErrors.password}</div>
+            )}
+            <input
+              className={`form__input ${validationErrors.confirmPassword ? "border-red-500" : ""}`}
+              type="password"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value);
+              }}
+            />
+            {validationErrors.confirmPassword && (
+              <div className="text-red-500 text-sm">{validationErrors.confirmPassword}</div>
+            )}
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <button className=" relative disabled:opacity-70 disabled:cursor-not-allowed rounded-lg hover:opacity-80 transition w-full bg-white border-black text-black text-sm py-2 font-light border-[1px] flex items-center justify-center gap-2"
-         // onClick={() => signIn("google")}
-      >
-        <span className="text-xl"><FcGoogle /></span> 
-        Continue with Google
-        </button>
-      {/* <button className=""
-        outline
-        label="Continue with Github"
-        icon={AiFillGithub}
-        onClick={() => signIn("github")}
-      /> */}
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+        <div className="flex justify-center">
+          <GoogleLogin
+            className="mt-16 w-full"
+            cookiePolicy={"single_host_origin"}
+            isSignedIn={true}
+            onSuccess={handleGoogleLoginSuccess}
+          />
+        </div>
+      </GoogleOAuthProvider>
       <div className="text-neutral-500 text-center mt-4 font-light">
         <p>
           Already have an account?
           <span
-            onClick={onClose}
+            onClick={handleCloseModal}
             className="text-neutral-800 cursor-pointer hover:underline"
           >
             {" "}
-            Close
+            Log In
           </span>
         </p>
       </div>
@@ -114,19 +245,18 @@ const RegisterModal = ({ isOpen, onClose }) => {
   );
 
   return (
-            <Modal
-            disabled={isLoading}
-            isOpen={isOpen}
-            title="Register"
-            actionLabel="Continue"
-            onClose={onClose}
-            onSubmit={onSubmit} // Đã không cần () ở đây
-            body={bodyContent}
-            footer={footerContent}
-            // secondaryAction={onSubmit} // (tuỳ chọn) Thêm secondaryAction và secondaryActionLabel nếu bạn muốn
-            // secondaryActionLabel="Secondary Action"
-            />
-
+    <Modal
+      disabled={isLoading}
+      isOpen={isOpen}
+      title="Register"
+      actionLabel={currentStep === 2 ? "Submit" : "Next"}
+      onClose={onClose}
+      onSubmit={onSubmit}
+      body={renderStep()}
+      footer={footerContent}
+      secondaryAction={currentStep > 1 ? handleBack : null}
+      secondaryActionLabel="Back"
+    />
   );
 };
 

@@ -18,19 +18,23 @@ const Home = () => {
   const hotel = useSelector(SelectAllHotel)
   const categoryData = useSelector(SelectCategories)
   const country = useSelector(SelectCountry)
- 
+  const {loading} = useSelector((state) => state.hotel)
   useEffect(() => {
     const fetchData = async () => {
       try {
-        dispatch(getHotels({ page: 1, perPage: 5 }));
-        dispatch(getTopHotelInCountry({page:1, perPage:3}));
-        dispatch(getCategory({ page: 1, perPage: 5 }));
+        await dispatch(getHotels({ page: 1, perPage: 5 })).unwrap();
+        await dispatch(getTopHotelInCountry({page:1, perPage:3})).unwrap();
+        await dispatch(getCategory({ page: 1, perPage: 5 })).unwrap();
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
     fetchData(); 
-  }, [dispatch]);
+  }, []);
+
+  if(loading){
+    return <h1> load</h1>
+  }
     return (
       <div>
         {/* <Navbar /> */}

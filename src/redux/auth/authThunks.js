@@ -6,7 +6,7 @@ export const login = createAsyncThunk('auth/login', async(data, {rejectWithValue
     try {
         const reponse = await http.post('auth/login', data)
 
-        return reponse.accessToken
+        return reponse
     } catch (error) {
         return rejectWithValue(error.message)
     }

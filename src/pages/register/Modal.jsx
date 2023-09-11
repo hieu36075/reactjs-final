@@ -73,17 +73,28 @@ const Modal = (props) => {
               </button>
               <div className="text-lg font-semibold">{title}</div>
             </div>
-            <div className="relative p-6 flex-auto h-80">{body}</div>
+            <div className="relative p-6 flex-auto min-h-[100px] h-auto max-h-[80vh] overflow-y-auto">{body}</div>
             <div className="flex flex-col gap-2 p-6">
               <div className="flex flex-row items-center gap-4 w-full">
                 {secondaryAction && secondaryActionLabel && (
                   <button
-                  className="px-3 py-2 text-lg rounded-md w-full text-white bg-blue-500"
+                  className="relative
+                  disabled:opacity-70
+                  disabled:cursor-not-allowed
+                  rounded-lg
+                  hover:opacity-80
+                  transition
+                  w-full
+                   bg-white
+                  border-black
+                  text-black
+                  text-sm
+                  py-3
+                  font-light
+                  border-[1px]"
                     disabled={disabled}
-                    label={secondaryActionLabel}
-                    // onClick={handleSecondaryAction}
-                    outline
-                  />
+                    onClick={handleSecondaryAction}
+                  >{secondaryActionLabel}</button>
                 )}
                 <button className=" relative
                     disabled:opacity-70
@@ -99,7 +110,7 @@ const Modal = (props) => {
                     py-2
                     font-semibold
                     border-2"
-                    disabled={disabled} label={actionLabel} onClick={handleSubmit}> tiep tuc </button>
+                    onClick={handleSubmit}> {actionLabel} </button>
               </div>
               {footer}
             </div>

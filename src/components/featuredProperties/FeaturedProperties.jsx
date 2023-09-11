@@ -2,7 +2,6 @@ import "./featuredProperties.scss";
 import { DEFAULT_IMAGE_URL } from "../../constants";
 const FeaturedProperties = ({data}) => {
   
-  
   if (!data || data.length === 0) {
     return <p>No data available.</p>;
   }
@@ -16,7 +15,7 @@ const FeaturedProperties = ({data}) => {
                 className="fpImg"
               />
               <span className="fpName">{item?.name}</span>
-              <span className="fpCity">{item?.city}</span>
+              <span className="fpCity">{item?.city?.name}</span>
               <span className="fpPrice">Starting from ${item?.cheapestPrice}</span>
               {item?.rating && <div className="fpRating">
                 <button>{item?.rating}</button>

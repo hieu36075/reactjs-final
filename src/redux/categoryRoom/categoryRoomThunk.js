@@ -12,6 +12,17 @@ export const getCategoryRoom = createAsyncThunk('categoryRoom/getCategoryRoom', 
     }
 })
 
+export const getCategoryRoomByHotel = createAsyncThunk('categoryRoom/getCategoryRoomByHotel', async(data, {rejectWithValue}) =>{
+    try{
+        const {id, page, perPage} = data;
+        const reponse = await http.get(`/categoryRoom/get-by-hotel?hotelId=${id}&page=${page}&perPage=${perPage}`);
+        return reponse.data
+    }catch(error){
+        return rejectWithValue(error)
+    }
+})
+
+
 export const createCategoryRoom = createAsyncThunk('categoryRoom/createCategoryRoom', async(data, {rejectWithValue}) =>{
     try{
         console.log(data)

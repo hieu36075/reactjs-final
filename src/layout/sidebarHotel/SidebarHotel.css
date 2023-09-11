@@ -1,0 +1,27 @@
+.cd-box {
+    position: fixed;
+    top: 30%;
+    left: 0;
+    height: 270px;
+    width: 100px;
+    background-color: rgba(134, 134, 134, 0.986);
+    border-radius: 10px;
+}
+.cd_item{
+    padding: 5px 0;
+    color: white;
+}
+
+.cd_item svg {
+    font-size: 30px;
+    margin-left: 30%;
+}
+.cd_item p{
+    font-size: 18px;
+    text-align: center;
+}
+.cd_item:hover{
+    color: black;
+    background-color: rgba(245, 245, 245, 0.192);
+    transition: all 0.5s;
+}

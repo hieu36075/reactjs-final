@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createCategoryRoom, getCategoryRoom } from "./categoryRoomThunk";
+import { createCategoryRoom, getCategoryRoom, getCategoryRoomByHotel } from "./categoryRoomThunk";
+import { getHotelByCategory } from "../hotel/hotelThunks";
 
 
 const initialState ={
@@ -17,10 +18,10 @@ const categoryRoomSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getCategoryRoom.pending, (state) => {
-                state.loading = true
+                state.loading = false
             })
             .addCase(getCategoryRoom.fulfilled, (state, action) => {
-                state.loading = false
+                state.loading = true
                 state.data = action.payload
                 state.error = ""
             })
@@ -28,14 +29,26 @@ const categoryRoomSlice = createSlice({
                 state.error = action.payload
             })
             .addCase(createCategoryRoom.pending, (state) => {
-                state.loading = true
+                state.loading = false
             })
             .addCase(createCategoryRoom.fulfilled, (state, action) => {
-                state.loading = false
+                state.loading = true
                 state.detail = action.payload
                 state.error = ""
             })
             .addCase(createCategoryRoom.rejected, (state, action) => {
+                state.error = action.payload
+            })
+            //
+            .addCase(getCategoryRoomByHotel.pending, (state) => {
+                state.loading = false
+            })
+            .addCase(getCategoryRoomByHotel.fulfilled, (state, action) => {
+                state.loading = true
+                state.data = action.payload
+                state.error = ""
+            })
+            .addCase(getCategoryRoomByHotel.rejected, (state, action) => {
                 state.error = action.payload
             })
     }

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux/es/hooks/useSelector";
+import {CiLocationOn} from 'react-icons/ci'
 import "./searchItem.scss";
 
 const SearchItem = ({data}) => {
@@ -7,7 +8,7 @@ const SearchItem = ({data}) => {
   const navigate = useNavigate();
   const {loading} = useSelector(state=> state.hotel)
 
-  if (!loading) {
+  if (loading) {
     return (
       <div role="status" className="space-y-8 animate-pulse md:space-y-0 md:space-x-8 md:flex md:items-center">
           <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded sm:w-96 dark:bg-gray-700">
@@ -45,13 +46,14 @@ const SearchItem = ({data}) => {
         />
       <div className="siDesc">
         <h1 className="siTitle">{item?.name}</h1>
-        <span className="siDistance">500m from center</span>
+        {/* <span className="siDistance">500m from center</span> */}
         <span className="siTaxiOp">Free airport taxi</span>
         <span className="siSubtitle">
-          Studio Apartment with Air conditioning
+          {item?.category?.name} with Air conditioning
         </span>
         <span className="siFeatures">
-          Entire studio • 1 bathroom • 21m² 1 full bed
+          <CiLocationOn/> 
+          {item?.address}, {item?.city?.name}, {item?.country?.name}
         </span>
         <span className="siCancelOp">Free cancellation </span>
         <span className="siCancelOpSubtitle">
@@ -64,8 +66,8 @@ const SearchItem = ({data}) => {
           <button>{item?.starRating}</button>
         </div>
         <div className="siDetailTexts">
-          <span className="siPrice">$112</span>
-          <span className="siTaxOp">Includes taxes and fees</span>
+          <span className="siPrice">${item?.rooms?.length > 0 ? item?.rooms[0].price : ""} / night</span>
+          <span className="siTaxOp">Taxes and fees are not included</span>
           <button className="siCheckButton" >See availability</button>
         </div>
       </div>
