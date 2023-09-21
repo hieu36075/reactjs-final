@@ -18,37 +18,40 @@ const categoryRoomSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getCategoryRoom.pending, (state) => {
-                state.loading = false
+                state.loading = true
             })
             .addCase(getCategoryRoom.fulfilled, (state, action) => {
-                state.loading = true
+                state.loading = false
                 state.data = action.payload
                 state.error = ""
             })
             .addCase(getCategoryRoom.rejected, (state, action) => {
+                state.loading = false
                 state.error = action.payload
             })
             .addCase(createCategoryRoom.pending, (state) => {
-                state.loading = false
+                state.loading = true
             })
             .addCase(createCategoryRoom.fulfilled, (state, action) => {
-                state.loading = true
+                state.loading = false
                 state.detail = action.payload
                 state.error = ""
             })
             .addCase(createCategoryRoom.rejected, (state, action) => {
+                state.loading = false
                 state.error = action.payload
             })
             //
             .addCase(getCategoryRoomByHotel.pending, (state) => {
-                state.loading = false
+                state.loading = true
             })
             .addCase(getCategoryRoomByHotel.fulfilled, (state, action) => {
-                state.loading = true
+                state.loading = false
                 state.data = action.payload
                 state.error = ""
             })
             .addCase(getCategoryRoomByHotel.rejected, (state, action) => {
+                state.loading = false
                 state.error = action.payload
             })
     }

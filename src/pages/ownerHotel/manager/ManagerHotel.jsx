@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "../../../layout/navbar/navbar";
 import SidebarHotel from "../../../layout/sidebarHotel/SidebarHotel";
 import "./ManagerHotel.css";
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillEdit, AiOutlinePlus } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRoomByHotel } from "../../../redux/categoryRoom/categoryRoomThunk";
@@ -11,11 +11,11 @@ export default function ManagerHotel() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data, loading } = useSelector((state) => state.categoryRoom);
-  const [edit, setEdit] = useState(false)
+  const [edit, setEdit] = useState(false);
   const [category, setCategory] = useState({
-    id: '',
-    name: ''
-  })
+    id: "",
+    name: "",
+  });
   useEffect(() => {
     const flechData = async () => {
       await dispatch(
@@ -25,16 +25,16 @@ export default function ManagerHotel() {
     flechData();
   }, [id]);
 
-  const editName = (categoryId, nameCategory) =>{
-    setEdit(!edit)
-        // setCategory((preV)=>{
-        //     return{...preV, id: categoryId}
-        // })
+  const editName = (categoryId, nameCategory) => {
+    setEdit(!edit);
+    // setCategory((preV)=>{
+    //     return{...preV, id: categoryId}
+    // })
     setCategory({
-        id: categoryId,
-        name: nameCategory
-    })
-  }
+      id: categoryId,
+      name: nameCategory,
+    });
+  };
 
   if (!loading) {
     return (
@@ -124,20 +124,26 @@ export default function ManagerHotel() {
           data?.map((item) => (
             <div className="room_type" key={item?.id}>
               <div className="room_title">
-                {edit & category.id === item.id ? 
-                <input
-                className="bg-transparent border-none focus:outline-none text-lg w-20" 
-                type="name"
-                 value={category.name}  
-                 onChange={(e) => setCategory({ ...category, name: e.target.value })} 
-                 
-                 />
-                :
-                <h2>{item?.name}</h2>
-                }
-                <AiFillEdit onClick={()=>{editName(item?.id, item?.name)}} />
+                {edit & (category.id === item.id) ? (
+                  <input
+                    className="bg-transparent border-none focus:outline-none text-lg w-20"
+                    type="name"
+                    value={category.name}
+                    onChange={(e) =>
+                      setCategory({ ...category, name: e.target.value })
+                    }
+                  />
+                ) : (
+                  <h2>{item?.name}</h2>
+                )}
+                <AiFillEdit
+                  onClick={() => {
+                    editName(item?.id, item?.name);
+                  }}
+                />
               </div>
               {item?.rooms?.map((room) => (
+                
                 <div className="room_content" key={room.id}>
                   <div className="room_item">
                     <div className="room_left">
@@ -152,6 +158,13 @@ export default function ManagerHotel() {
                   </div>
                 </div>
               ))}
+              <div className="room_content">
+                <div className="room_item">
+                  <div className="new_room_item">
+                    <AiOutlinePlus />
+                  </div>
+                </div>
+              </div>
             </div>
           ))}
       </div>

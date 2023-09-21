@@ -20,6 +20,8 @@ import RequireNoAuth from "../../routes/RequireNoAuth";
 import BookingsPage from "../../pages/booking/Bookings";
 import MyHotelPage from "../../pages/myHotel/MyHotel";
 import ManagerHotel from "../../pages/ownerHotel/manager/ManagerHotel";
+import HotelDashboard from "../../pages/ownerHotel/dashboard/HotelDashboard";
+import ChatForm from "../../pages/chat/ChatForm";
 const Body = () => {
   return (
     <>
@@ -34,6 +36,8 @@ const Body = () => {
       <Route path="/account/myBooking" element={< BookingsPage/>} />
       <Route path="/account/myHotel" element={< MyHotelPage/>} />
       <Route path="/account/manager/:id" element={< ManagerHotel/>} />
+      <Route path="/account/managerDashboard" element={< HotelDashboard/>} />
+      <Route path="/account/message" element={< ChatForm/>} />
       <Route path="/" element={<Navbar type="home"/>}>
         <Route index element={<Home/>}/>
 

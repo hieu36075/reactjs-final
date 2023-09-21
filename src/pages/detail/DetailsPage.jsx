@@ -13,6 +13,7 @@ import AmenityIcon from "../../components/amenity/AmenityIcon";
 import moment from "moment";
 import { createOrder, updateOrder } from "../../redux/order/orderThunk";
 import CategoryRoomItem from "../../components/categoryRoomItem/CategoryRoomItem";
+import { getUsersById } from "../../redux/user/userThunks";
 
 
 
@@ -21,14 +22,19 @@ export default function DetailsPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const { details, loading } = useSelector((state) => state.hotel);
+  const user = useSelector((state) => state.user.details)
   const {isLogin} = useSelector((state) => state.auth)
   const roomsTest = useSelector((state)=> state.hotel.details.rooms)
+  console.log(user)
   useEffect(() => {
-    dispatch(getHotelById(id));
+    dispatch(getHotelById(id)).unwrap()
+    .then((res)=>{
+      dispatch(getUsersById(res.userId));
+    });
     // dispatch(getCategoryRoomByHotel())
   }, [id, dispatch]);
 
-  console.log(details)
+  // console.log(details)
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const [date, setDate] = useState([
@@ -255,7 +261,7 @@ export default function DetailsPage() {
                 </div>
               ))}
             </div>
-
+            <div className="w-full h-px bg-gray-300 my-4"></div>
             <div className="my-4">
               <h2 className="font-semibold text-2xl break-words">
                 Room Details
@@ -264,11 +270,25 @@ export default function DetailsPage() {
               {/* Thêm các thông tin cần thiết khác về phòng như chính sách hủy phòng, ... */}
               {/* <p>{details.extraInfo}</p> */}
             </div>
+
+            <div className="w-full h-px bg-gray-300 my-4"></div>
+
+            <div className="my-4">
+              <h2 className="font-semibold text-2xl break-words">
+                  Infomation 
+                </h2>
+                <div className="flex flex-col items-center">
+                <img  className="rounded-full w-32 h-32" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80" alt=""/>
+                <h1 className="mb-4" >{user.email}</h1>
+                <h1 className="mb-4">joined from {new Date(user.updatedAt).toLocaleDateString()}</h1>
+                <button className="ml-4 rounded-full border border-black px-4 py-2 text-black bg-white hover:bg-gray-900"> Contact the homeowner immediately</button>
+                </div>
+            </div>
           </div>
           <div className="booking-criteria-container">
             {/* <div className="price-section">
-  <div className="text-2xl text-center">Price: {item.price}$ / night</div>
-</div> */}
+              <div className="text-2xl text-center">Price: {item.price}$ / night</div>
+            </div> */}
             <div
               className="date-section mt-4"
               onClick={() => setShowDatePicker(!showDatePicker)}

@@ -11,9 +11,18 @@ export const getUsers = createAsyncThunk('user/getUsers', async(data, {rejectWit
     }
 })
 
-export const getUsersById = createAsyncThunk('user/getUsersById', async(_, {rejectWithValue}) =>{
+export const getYourProfile = createAsyncThunk('user/getYourProfile', async(_, {rejectWithValue}) =>{
     try{
-        const reponse = await http.get(`/user/getById`);
+        const reponse = await http.get(`/user/get-your-profile`);
+        return reponse
+    }catch(error){
+        return rejectWithValue(error)
+    }
+})
+
+export const getUsersById = createAsyncThunk('user/getUsersById', async(id, {rejectWithValue}) =>{
+    try{
+        const reponse = await http.get(`/user/${id}`);
         return reponse
     }catch(error){
         return rejectWithValue(error)

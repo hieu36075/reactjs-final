@@ -47,3 +47,13 @@
     background-color: transparent;
     text-decoration: underline;
 }
+.new_room_item{
+    border-radius: 10px;
+    border: solid 2px gray;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    /* margin-left: 20; */
+}

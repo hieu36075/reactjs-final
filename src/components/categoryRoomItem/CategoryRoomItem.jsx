@@ -6,16 +6,16 @@ import { getCategoryRoomByHotel } from "../../redux/categoryRoom/categoryRoomThu
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 export default function CategoryRoomItem({hotel, onSubmit}){
-    console.log(hotel)
+
     const dispatch = useDispatch();
     const {id} = hotel
     const {data, loading} = useSelector((state)=> state.categoryRoom)
-    console.log(data)
+
     useEffect(() => {
         dispatch(getCategoryRoomByHotel({id:id, page:1, perPage:5}));
       }, [id, dispatch]);
 
-    if(loading){
+    if(!loading){
         return <h1>loading</h1>
     }
 
