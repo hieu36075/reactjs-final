@@ -5,7 +5,6 @@ import { GiRocketThruster } from "react-icons/gi";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { IconContext } from "react-icons/lib";
 import { NavLink } from "react-router-dom";
-import io from 'socket.io-client';
 import jwtDecode from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { getNoticationById } from "../../redux/notification/notificationThunks";
@@ -14,6 +13,7 @@ import { logOut } from "../../redux/auth/authSlice";
 import LoginModal from '../../pages/login/LoginModal'
 import useLoginModal from "../../context/modal/useLoginModal";
 import useRegisterModal from "../../context/modal/useRegisterModal";
+import socket from "../../services/socket";
 
 function Navbar({type}) {
   const dispatch = useDispatch();
@@ -48,7 +48,6 @@ function Navbar({type}) {
   const token = localStorage.getItem('token');
   useEffect(() => {
     if (!notificationsLoaded && isLogin) {
-      const socket = io('http://localhost:3500');
       dispatch(getNoticationById());
       setNotificationsLoaded(true);
     }
@@ -61,7 +60,6 @@ function Navbar({type}) {
   
   useEffect(() => {
     if (isLogin && !socketInitialized) {
-      const socket = io('http://localhost:3500');
       const decode = jwtDecode(token);
       
       socket.emit('join', decode.id);
@@ -80,7 +78,6 @@ function Navbar({type}) {
 
   useEffect(() => {
     if (socketInitialized) {
-      const socket = io('http://localhost:3500');
       socket.on('notification', (data) => {
         console.log('Notification:', data);
         setNotifications((prevNotifications) => [data, ...prevNotifications]);
@@ -130,17 +127,6 @@ function Navbar({type}) {
                   onClick={closeMobileMenu}
                 >
                   Home
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  to="/about"
-                  className={({ isActive }) =>
-                    "nav-links" + (isActive ? " activated" : "")
-                  }
-                  onClick={closeMobileMenu}
-                >
-                  About
                 </NavLink>
               </li>
               <li className="nav-item">

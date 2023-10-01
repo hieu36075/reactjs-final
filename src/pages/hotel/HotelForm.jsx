@@ -11,10 +11,11 @@ import { createHotel } from "../../redux/hotel/hotelThunks";
 import { createIamgeHotel } from "../../redux/imageHotel/imageHotelThunk";
 import { getCityByCountryId } from "../../redux/city/cityThunk";
 import { useParams } from "react-router-dom";
+import getCoordinatesFromAddress from "./getCoordinatesFromAddress";
 
 
 export default function HotelForm({type, onNext}) {
-  const {id}= useParams()
+  const {id}= useParams();
   const dispatch = useDispatch()
   const amenityData = useSelector(SelectAmenity);
   const [validationErrors, setValidationErrors] = useState({});
@@ -30,16 +31,34 @@ export default function HotelForm({type, onNext}) {
     checkOutTime: "",
     extraInfo:"",
     cityId:"",
-    userId: id
+    userId: id,
+    latitude:1,
+    longitude:1
   });
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
   const [addedPhotos, setAddedPhotos] = useState([]);
   console.log(hotel)
   const setHotelData = (fieldName, value) => {
+    console.log(value)
     setHotel((prevHotel) => ({
       ...prevHotel,
       [fieldName]: value,
     }));
   };
+  const onChangeCountry= (selected) =>{
+    setCountry(selected.label)
+    setHotel((preV)=>{
+      return{...preV, countryId: selected.value}
+    })
+  }
+
+  const onChangeCity= (selected) =>{
+    setCity(selected.label)
+    setHotel((preV)=>{
+      return{...preV, cityId: selected.value}
+    })
+  }
   const handleAddPhotos = (photos) => {
     setAddedPhotos(photos);
   };
@@ -47,7 +66,21 @@ export default function HotelForm({type, onNext}) {
     dispatch(getAmenity());
   }, [dispatch])
 
-
+  useEffect(()=>{
+    const handleGetCoordinates = async () => {
+      if(hotel.address && city && country){
+      const coordinates = await getCoordinatesFromAddress(hotel.address, city, country);
+      if (coordinates) {
+        setHotel(prevHotel => ({
+          ...prevHotel,
+          latitude: coordinates.latitude,
+          longitude: coordinates.longitude
+        }));
+      }
+      }
+    };
+      handleGetCoordinates()
+  },[hotel.address, city, country ])
   function inputHeader(text) {
     return (
       <h2 className="text-2xl mt-4">{text}</h2>
@@ -174,7 +207,7 @@ export default function HotelForm({type, onNext}) {
         {preInput('Country', 'select the country')}
         <CustomAsyncSelect 
             fetchDataAction={getCountry} 
-            onChange={(selected) => setHotelData('countryId', selected)}
+            onChange={(selected) => onChangeCountry(selected)}
           />
         {validationErrors.countryId && (
           <p className="text-red-500 text-sm">{validationErrors.countryId}</p>
@@ -186,7 +219,7 @@ export default function HotelForm({type, onNext}) {
             <CustomAsyncSelect 
               fetchDataAction={getCityByCountryId}
               id={hotel.countryId}
-              onChange={(selected) => setHotelData('cityId', selected)}
+              onChange={(selected) => onChangeCity(selected)}
             />
           </div>
         )}
@@ -197,7 +230,7 @@ export default function HotelForm({type, onNext}) {
       {preInput('Category', 'select the category')}
       <CustomAsyncSelect 
         fetchDataAction={getCategory} // Sử dụng action lấy dữ liệu category
-        onChange={(selected) => setHotelData('categoryId', selected)}
+        onChange={(selected) => setHotelData('categoryId', selected.value)}
       />
       {validationErrors.categoryId && (
         <p className="text-red-500 text-sm">{validationErrors.categoryId}</p>

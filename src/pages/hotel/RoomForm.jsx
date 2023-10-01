@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "./RoomForm.css"
 import { useDispatch, useSelector } from 'react-redux';
-import { getCategoryRoom } from '../../redux/categoryRoom/categoryRoomThunk';
+import { getCategoryRoomByHotel } from '../../redux/categoryRoom/categoryRoomThunk';
 import { SelectCategoriesRoom } from '../../redux/categoryRoom/categoryRoomSelect';
 import cuid from 'cuid';
 import PhotosUploader from './PhotosUploader';
@@ -17,8 +17,8 @@ const RoomForm = ({ onPre }) => {
   const categoryRoomData = useSelector(SelectCategoriesRoom)
   const { loading } = useSelector(state => state.categoryRoom)
   const hotel = useSelector(SelectAllHotel)
-  const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel.id
-  const categoryId = location?.state?.categoryId? location.state.categoryId : hotel.categoryId
+  const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel[0].id
+  const categoryId = location?.state?.categoryId? location.state.categoryId : hotel[0].categoryId
   const navigate = useNavigate()
   const [room, setRoom] = useState({
     name: "",
@@ -37,7 +37,7 @@ const RoomForm = ({ onPre }) => {
   const [roomPhoto, setRoomPhoto] = useState([]);
   const [isCreating, setIsCreating] = useState(false);
 
-  console.log(rooms)
+
 
   const defaultRoomValues = {
     name: "",
@@ -49,7 +49,7 @@ const RoomForm = ({ onPre }) => {
     categoryId: ""
   };
   useEffect(() => {
-    dispatch(getCategoryRoom({ page: 1, perPage: 10 }))
+    dispatch(getCategoryRoomByHotel({ id: hotelId, page: 1, perPage: 10 }))
   }, [dispatch])
 
   const handleAddRoom = (newRoom) => {
@@ -135,7 +135,6 @@ const RoomForm = ({ onPre }) => {
 
       await Promise.all([...roomPromises, ...imagePromises]);
       navigate('/')
-      console.log("b");
       console.log("Dữ liệu phòng và ảnh đã được gửi lên server thành công!");
     } catch (error) {
       console.error("Lỗi khi gửi dữ liệu lên server:", error);
@@ -212,7 +211,11 @@ const RoomForm = ({ onPre }) => {
           <br />
           <label>
             Maximum occupancy:
-            <input type="number" value={room.occupancy} onChange={(e) => setRoom({ ...room, occupancy: e.target.value })} />
+            <input
+              type="number"
+              value={room.occupancy}
+              onChange={(e) => setRoom({ ...room, occupancy: parseInt(e.target.value, 10) || 0 })}
+            />
           </label>
           <br />
           <button className='button' type="submit">Add Room</button>

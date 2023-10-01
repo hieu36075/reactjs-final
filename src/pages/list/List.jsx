@@ -44,7 +44,7 @@ const List = () => {
       if(type=== "country"){
         dispatch(searchHotel({countryId: id, name: "", categoryId:"", occupancy:"",minPrice:"", maxPrice:""}))
       }else if(type ==="category"){
-        dispatch(searchHotel({categoryId: id, name: "", categoryId: "", occupancy: "",minPrice:"", maxPrice:""}))
+        dispatch(searchHotel({categoryId: id, name: "", countryId: "", occupancy: "",minPrice:"", maxPrice:""}))
       }
     }else{
       dispatch(searchHotel({ countryId, name : destination, categoryId , occupancy, minPrice, maxPrice }));

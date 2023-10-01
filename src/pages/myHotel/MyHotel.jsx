@@ -1,7 +1,7 @@
 
 import {useEffect, useState} from "react";
 // import PlaceImg from "../PlaceImg";
-import {Link, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../layout/navbar/navbar";
 import { getHotelByUserId } from "../../redux/hotel/hotelThunks";
@@ -12,7 +12,7 @@ export default function MyHotelPage() {
 //   const [bookings,setBookings] = useState([]);
   const [hotel , setHotel] = useState()
   const {loading} = useSelector((state) => state.hotel)
-  console.log(hotel)
+
 
   useEffect(() => {
     const flechData = async () =>{
@@ -22,7 +22,7 @@ export default function MyHotelPage() {
       })
     }
     flechData();
-  }, []);
+  }, [dispatch]);
 
   if(loading){
     return <h1>loading ...</h1>
@@ -31,7 +31,7 @@ export default function MyHotelPage() {
   const handleNavigate=(id, categoryId)=>{
     if(hotel[0].categoryRooms.length<0){
         navigate(`/hotels/new/${hotel[0].userId}`, {state:{form:1, hotelId: id, categoryId: categoryId}})
-    }else if(hotel[0].rooms.length < 0){
+    }else if(hotel[0].rooms.length === 0){
         navigate(`/hotels/new/${hotel[0].userId}`, {state:{form:2, hotelId:id, categoryId: categoryId}})
     }
     else{

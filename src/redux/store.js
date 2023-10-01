@@ -15,6 +15,8 @@ import roomSlice from "./room/roomSlice";
 import imageRoomSlice from "./imageRoom/imageRoomSlice";
 import orderSlice from "./order/orderSlice";
 import paymentSlice from "./payment/paymentSlice";
+import profileSlice from "./profile/profileSlice";
+import roomMessageSlice from "./roomMessage/roomMessageSlice";
 // import orderDetailSlice from "./orderDetail/orderDetailSlice";
 const { configureStore } = require("@reduxjs/toolkit");
 
@@ -46,7 +48,9 @@ const reducer = combineReducers({
   imageRoom: imageRoomSlice,
   order: orderSlice,
   // orderDetail: orderDetailSlice,
-  payment: paymentSlice
+  payment: paymentSlice,
+  profile: profileSlice,
+  roomMessage: roomMessageSlice
 })
 
 

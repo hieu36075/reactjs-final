@@ -92,7 +92,7 @@ const hotelSlice = createSlice({
         });
         builder.addCase(createHotel.fulfilled, (state, action) => {
             state.loading = false
-            state.data.data.pust(action.payload) 
+            state.data.push(action.payload) 
             state.error = ""
         });
         builder.addCase(createHotel.rejected, (state, action) => {
@@ -118,7 +118,7 @@ const hotelSlice = createSlice({
         });
         builder.addCase(getHotelByRoom.fulfilled, (state, action) => {
             state.loading = false
-            state.image = action.payload
+            state.details = action.payload
             state.error = ""
         });
         builder.addCase(getHotelByRoom.rejected, (state, action) => {

@@ -2,7 +2,7 @@ import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { Skeleton } from "@mui/material";
+// import { Skeleton } from "@mui/material";
 
 const Datatable  = ({data, Columns, actionColumn, title, meta, onPageChange, isLoading}) => {
   // console.log(meta)

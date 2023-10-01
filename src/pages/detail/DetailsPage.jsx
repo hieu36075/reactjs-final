@@ -14,6 +14,7 @@ import moment from "moment";
 import { createOrder, updateOrder } from "../../redux/order/orderThunk";
 import CategoryRoomItem from "../../components/categoryRoomItem/CategoryRoomItem";
 import { getUsersById } from "../../redux/user/userThunks";
+import Map from "../../components/location/Map";
 
 
 
@@ -25,16 +26,26 @@ export default function DetailsPage() {
   const user = useSelector((state) => state.user.details)
   const {isLogin} = useSelector((state) => state.auth)
   const roomsTest = useSelector((state)=> state.hotel.details.rooms)
-  console.log(user)
+  const [center, setCenter] = useState({
+    lat: '',
+    lng: '',
+    address: "My Market",
+  });
   useEffect(() => {
     dispatch(getHotelById(id)).unwrap()
     .then((res)=>{
       dispatch(getUsersById(res.userId));
+      setCenter(prevHotel => ({
+        ...prevHotel,
+        lat: res.latitude,
+        lng: res.longitude
+      }));
     });
     // dispatch(getCategoryRoomByHotel())
   }, [id, dispatch]);
 
-  // console.log(details)
+  
+
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const [date, setDate] = useState([
@@ -71,7 +82,7 @@ export default function DetailsPage() {
     room: 1,
   });
 
-  if (loading) {
+  if (loading && details) {
     return <div>Loading...</div>;
   }
 
@@ -154,8 +165,6 @@ export default function DetailsPage() {
   const endDate = moment(date[0].endDate);
   const numberOfDays = Math.max(endDate.diff(startDate, "days"), 1);
 
-
-
   const vatRate = 0.1; // 10% VAT
   const serviceRate = 0.05;
   const roomPrice = details?.rooms?.reduce((total, item) => {
@@ -189,8 +198,7 @@ export default function DetailsPage() {
     e.preventDefault();
     const priceOrder = price ? price + totalservice : totalPrice
     const roomIdOrder = roomId? roomId : roomsTest[0].id
-    console.log(priceOrder)
-    console.log(roomIdOrder)
+
     try{
       const order = await dispatch(createOrder({
         checkIn:formattedStartDate, 
@@ -215,7 +223,6 @@ export default function DetailsPage() {
         }
       }
     navigate(`/hotels/stays/${order.id}`)
-
     }catch(error){
       console.error('Đã xảy ra lỗi:', error);
     }
@@ -460,6 +467,10 @@ export default function DetailsPage() {
         <div className="w-full h-px bg-gray-300 my-4"></div>
           <CommentItem data={sampleComments} />
         <div className="w-full h-px bg-gray-300 my-4"></div>
+
+        <div style={{height:'600px', width:'100%'}}> 
+                <Map location={center} zoomLevel={15}/>
+        </div>
       </div>
     </div>
   );

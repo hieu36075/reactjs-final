@@ -23,7 +23,7 @@ export default function ManagerHotel() {
       ).unwrap();
     };
     flechData();
-  }, [id]);
+  }, [id, dispatch]);
 
   const editName = (categoryId, nameCategory) => {
     setEdit(!edit);
@@ -36,9 +36,9 @@ export default function ManagerHotel() {
     });
   };
 
-  if (!loading) {
+  if (loading) {
     return (
-      <div>
+      <div className="container">
         <Navbar />
         <div>
           <SidebarHotel />
@@ -142,29 +142,30 @@ export default function ManagerHotel() {
                   }}
                 />
               </div>
-              {item?.rooms?.map((room) => (
-                
-                <div className="room_content" key={room.id}>
-                  <div className="room_item">
-                    <div className="room_left">
-                      <h3>{room?.name}</h3>
-                      <p>Còn cái nịt</p>
-                    </div>
-                    <div className="room_right">
-                      <button>Update</button>
-                      <br />
-                      <button>Delete</button>
+              <div className="room_content">
+                {item?.rooms?.map((room) => (
+                  <div key={room.id}>
+                    <div className="room_item">
+                      <div className="room_left">
+                        <h3>{room?.name}</h3>
+                        <p>Còn cái nịt</p>
+                      </div>
+                      <div className="room_right">
+                        <button>Update</button>
+                        <br />
+                        <button>Delete</button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-              <div className="room_content">
-                <div className="room_item">
+                ))}
+                <div className="room_item_add">
                   <div className="new_room_item">
                     <AiOutlinePlus />
                   </div>
                 </div>
               </div>
+
+
             </div>
           ))}
       </div>

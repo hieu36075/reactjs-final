@@ -1,11 +1,10 @@
-import axios from "axios";
-import {useEffect, useState, useRef} from "react";
+import {useEffect, useRef} from "react";
 import Image from "./Image";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadMultiImangeHotel } from "../../redux/hotel/hotelThunks";
 
 export default function PhotosUploader({addedPhotos,onChange}) {
-  const [photoLink,setPhotoLink] = useState('');
+  // const [photoLink,setPhotoLink] = useState('');
   const dispatch = useDispatch();
   const {image} = useSelector(state => state.hotel)
   const prevImage = useRef(image);
@@ -14,15 +13,15 @@ export default function PhotosUploader({addedPhotos,onChange}) {
       onChange([...addedPhotos, ...image]);
     }
     prevImage.current = image;
-  }, [image]);
-  async function addPhotoByLink(ev) {
-    ev.preventDefault();
-    const {data:filename} = await axios.post('/upload-by-link', {link: photoLink});
-    onChange(prev => {
-      return [...prev, filename];
-    });
-    setPhotoLink('');
-  }
+  }, [image,onChange,addedPhotos]);
+  // async function addPhotoByLink(ev) {
+  //   ev.preventDefault();
+  //   const {data:filename} = await axios.post('/upload-by-link', {link: photoLink});
+  //   onChange(prev => {
+  //     return [...prev, filename];
+  //   });
+  //   setPhotoLink('');
+  // }
   function uploadPhoto(ev) {
     const files = ev.target.files;
     const data = new FormData();
@@ -42,12 +41,12 @@ export default function PhotosUploader({addedPhotos,onChange}) {
   }
   return (
     <>
-      <div className="flex gap-2">
+      {/* <div className="flex gap-2">
         <input value={photoLink}
                onChange={ev => setPhotoLink(ev.target.value)}
                type="text" placeholder={'Add using a link ....jpg'}/>
         <button onClick={addPhotoByLink} className="bg-gray-200 px-4 rounded-2xl">Add&nbsp;photo</button>
-      </div>
+      </div> */}
       <div className="mt-2 grid gap-2 grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {addedPhotos.length > 0 && addedPhotos.map((link, index) => (
           <div className="h-32 flex relative" key={index}>

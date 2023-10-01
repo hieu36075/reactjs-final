@@ -5,7 +5,7 @@ export const getCategoryRoom = createAsyncThunk('categoryRoom/getCategoryRoom', 
     try{
         const {page, perPage} = data;
         const reponse = await http.get(`/categoryRoom?page=${page}&perPage=${perPage}`);
-        console.log(reponse.data)
+
         return reponse.data
     }catch(error){
         return rejectWithValue(error)
@@ -25,9 +25,7 @@ export const getCategoryRoomByHotel = createAsyncThunk('categoryRoom/getCategory
 
 export const createCategoryRoom = createAsyncThunk('categoryRoom/createCategoryRoom', async(data, {rejectWithValue}) =>{
     try{
-        console.log(data)
         const reponse = await http.post(`/categoryRoom` , data);
-        console.log(reponse)
         return reponse
     }catch(error){
         return rejectWithValue(error)

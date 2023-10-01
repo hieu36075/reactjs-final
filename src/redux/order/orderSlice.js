@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createOrder, getEarningInMonth, getMonthlyRevenues, getOrderById, getOrderByUserId, getOrderInMonth, getTotalRevenues, updateOrder } from "./orderThunk";
+import { confirmOrder, createOrder, getEarningInMonth, getMonthlyRevenues, getOrderById, getOrderByUserId, getOrderInMonth, getTotalRevenues, updateOrder } from "./orderThunk";
 const initialState ={
     loading: false,
     error: {},
@@ -62,14 +62,24 @@ const orderSlice = createSlice({
             })
             .addCase(getOrderById.fulfilled, (state, action) => {
                 state.loading = false
-                console.log(action.payload)
-                state.data = action.payload
+                state.details = action.payload
             })
             .addCase(getOrderById.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })
-
+            //
+            .addCase(confirmOrder.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(confirmOrder.fulfilled, (state, action) => {
+                state.loading = false
+                state.totalRevenuse = action.payload
+            })
+            .addCase(confirmOrder.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
             //
             .addCase(getOrderInMonth.pending, (state) => {
                 state.loading = true

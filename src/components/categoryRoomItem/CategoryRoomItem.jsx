@@ -15,7 +15,7 @@ export default function CategoryRoomItem({hotel, onSubmit}){
         dispatch(getCategoryRoomByHotel({id:id, page:1, perPage:5}));
       }, [id, dispatch]);
 
-    if(!loading){
+    if(loading){
         return <h1>loading</h1>
     }
 

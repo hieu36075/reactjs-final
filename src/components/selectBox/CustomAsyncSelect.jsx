@@ -84,7 +84,7 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
       loadOptions={loadOptions}
       onChange={selectedOption => {
         if (selectedOption) {
-          onChange(selectedOption.value);
+          onChange(selectedOption);
         }else{
           onChange("")
         }

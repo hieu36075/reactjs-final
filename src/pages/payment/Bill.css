@@ -1,0 +1,111 @@
+.bill{
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+}
+.bill h1{
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.bill_left {
+    width: 50%;
+    margin-top: 20;
+}
+.bill_left h2 , .bill_title h2{
+    font-size: 24px;
+    font-weight: 700;
+}
+.info_product , .info_bill , .info_policy{
+    width: 70%;
+    border-radius: 10px;
+    border: solid 1px black;
+    padding: 20px;
+    margin: 30px;
+}
+.info_product h3, .bill_detail h3{
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px 0;
+}
+.info_product_item{
+    border-bottom: solid 1px grey;
+}
+.info_product_item:last-child{
+    border: none;
+}
+
+.info_bill h4{
+    font-size: 18px;
+    font-weight: 600;
+    margin: 10px 0;
+}
+.info_bill_item{
+    display: flex;
+    justify-content: space-between;
+}
+.info_bill_item p{
+    padding-top: 12px;
+}
+
+
+.info_policy p{
+    margin: 10px 0;
+    font-size: 18px;
+}
+.info_policy button{
+    width: 100%;
+    padding: 8px 0;
+    background-color: brown;
+    color: white;
+    font-weight: 600;
+}
+
+
+.bill_img{
+    width: 500px;
+    margin-bottom: 20px;
+}
+.bill_right{
+    position: relative;
+    width: 40%;
+    height: 700px;
+    border-radius: 10px;
+    border: solid 1px black;
+    padding: 30px;
+    margin-top: 50px;
+}
+.bill_title p{
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.bill_detail{
+    border-top: solid 1px grey;
+}
+.bill_detail_item{
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 0;
+}
+.bill_total{
+    display: flex;
+    justify-content: space-between;
+    border-top: solid 1px grey;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 10px;
+}
+.bill_total h4, .bill_total p{
+    margin-top: 20px;
+}
+.bill_success{
+    position: absolute;
+    z-index: 1;
+    bottom: 50px;
+    left: 40%;
+    padding: 10px 15px;
+    transform: rotate(-45deg);
+    border: solid 1px green;
+    background-color: transparent;
+    color: green;
+}

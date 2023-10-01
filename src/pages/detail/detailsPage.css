@@ -172,12 +172,15 @@ img{
   background-color: #f5f5f5;
   padding: 20px 0;
   border-radius: 10px;
+  margin: 10px;
 }
 .product_left{
  width: 30%;
+ padding: 0 10px;
 }
 .product_right{
   width: 70%;
+  padding: 0 10px;
 }
 .product_item{
     display: flex;

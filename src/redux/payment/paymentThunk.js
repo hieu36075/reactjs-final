@@ -14,7 +14,6 @@ export const updateAmountPayment = createAsyncThunk('payment/updateAmountPayment
     const {id} = data
     try {
         const reponse = await http.patch(`/payment/${id}`,data)
-        console.log(reponse)
         return reponse
     } catch (error) {
         return rejectWithValue(error)

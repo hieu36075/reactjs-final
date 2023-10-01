@@ -4,7 +4,6 @@ import http from "../../services/axios-interceptor";
 
 export const getOrderById = createAsyncThunk('order/getOrderById', async(id, {rejectWithValue}) =>{
     try{
-        console.log("a")
         const reponse = await http.get(`/order/${id}`);
         return reponse
     }catch(error){
@@ -71,7 +70,6 @@ export const updateOrder = createAsyncThunk('order/updateOrder', async(order, {r
    const {id} = order
     try {
         const reponse = await http.patch(`/order?id=${id}`, order)
-        console.log(reponse)
         return reponse
     } catch (error) {
         return rejectWithValue(error)
@@ -79,3 +77,11 @@ export const updateOrder = createAsyncThunk('order/updateOrder', async(order, {r
 })
 
 
+export const confirmOrder = createAsyncThunk('order/confirmOrder', async(id, {rejectWithValue})=>{
+    try {
+        const reponse = await http.patch(`/order/confirm-order/${id}`)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})

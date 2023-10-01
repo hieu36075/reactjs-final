@@ -3,17 +3,14 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { SelectAllHotel } from "../../redux/hotel/hotelSelect";
 import { createCategoryRoom } from "../../redux/categoryRoom/categoryRoomThunk";
-import { create } from "@mui/material/styles/createTransitions";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const CategoryRoomForm = ({onNext}) =>{
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const hotel = useSelector(SelectAllHotel)
-
     const location = useLocation();
-    const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel.id
-    console.log(hotelId)
+    const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel[0].id
+
     const [categoryRoom, setCategoryRoom] = useState({
         name: '',
         hotelId: hotelId,
@@ -73,10 +70,8 @@ const CategoryRoomForm = ({onNext}) =>{
 
       };
 
-      console.log(categoryRooms)
     const handleCreateSubmit =async ()=>{
         try {
-      
             const createPromises = categoryRooms.map(async (categoryRoom) => {
                 return dispatch(createCategoryRoom(categoryRoom)).unwrap();
               });

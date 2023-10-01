@@ -1,6 +1,6 @@
 
 import { createSlice } from "@reduxjs/toolkit";
-import { login, loginByGoogle } from "./authThunks";
+import { login, loginByGoogle, register } from "./authThunks";
 
 
 const initialState ={
@@ -17,6 +17,7 @@ const authSlice = createSlice({
         logOut:(state,action)=>{
             localStorage.removeItem('token')
             state.isLogin = false;
+            window.location.href ="/"
         },
         setIsLogin: (state, action) => {
             state.isLogin = action.payload;
@@ -48,6 +49,22 @@ const authSlice = createSlice({
             state.token = action.payload
         })
         builder.addCase(loginByGoogle.rejected, (state,action)=>{
+            state.loading= false
+            state.error = action.payload
+        })
+
+        builder.addCase(register.pending,(state,action)=>{
+            state.error = ''
+        })
+        builder.addCase(register.fulfilled, (state, action) =>{
+            state.loading=false
+            state.token = action.payload
+            localStorage.setItem("token",action.payload.access_token)
+            localStorage.setItem("rfToken",action.payload.refresh_token)
+            state.isLogin= true
+            state.error = ''
+        })
+        builder.addCase(register.rejected, (state,action) =>{
             state.loading= false
             state.error = action.payload
         })

@@ -30,7 +30,7 @@ const Home = () => {
       }
     };
     fetchData(); 
-  }, []);
+  }, [dispatch]);
 
   if(loading){
     return <h1> load</h1>

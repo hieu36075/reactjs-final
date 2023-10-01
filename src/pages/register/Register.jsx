@@ -1,34 +1,33 @@
-import React, { useCallback, useState } from "react";
-import axios from "axios";
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
+import React, { useState } from "react";
 import Modal from "./Modal";
 import Heading from "./Heading";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import useLoginModal from "../../context/modal/useLoginModal";
 import useRegisterModal from "../../context/modal/useRegisterModal";
+import { useDispatch } from "react-redux";
+import { register } from "../../redux/auth/authThunks";
 
 const RegisterModal = ({ isOpen, onClose }) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
+  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
 
   const [formData, setFormData] = useState({
     email: "",
-    name: "",
     password: "",
     firstName: "",
     lastName: "",
     phoneNumber: "",
-    address: "",
+    userName: "",
   });
   const [confirmPassword, setConfirmPassword] = useState("");
   const [validationErrors, setValidationErrors] = useState({
     firstName: "",
     lastName: "",
     phoneNumber: "",
-    address: "",
+    userName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -49,8 +48,8 @@ const RegisterModal = ({ isOpen, onClose }) => {
       errors.phoneNumber = "Phone number is required.";
     }
 
-    if (formData.address.trim() === "") {
-      errors.address = "Address is required.";
+    if (formData.userName.trim() === "") {
+      errors.userName = "User name is required.";
     }
 
     setValidationErrors(errors);
@@ -92,7 +91,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
       if (!validateStep2()) {
         return;
       }
-      console.log("Registering...");
+      dispatch(register(formData))
     } else {
       setCurrentStep(currentStep + 1);
     }
@@ -115,7 +114,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
   const handleCloseModal = () => {
 
     registerModal.closeModal();
-        console.log('a')
+  
   };
 
   const renderStep = () => {
@@ -149,6 +148,18 @@ const RegisterModal = ({ isOpen, onClose }) => {
               )}
             </div>
             <input
+              className={`form__input ${validationErrors.userName ? "border-red-500" : ""}`}
+              name="userName"
+              type="text"
+              placeholder="User Name"
+              value={formData.userName}
+              onChange={handleInputChange}
+            />
+            {validationErrors.userName && (
+              <div className="text-red-500 text-sm">{validationErrors.userName}</div>
+            )}
+
+            <input
               className={`form__input ${validationErrors.phoneNumber ? "border-red-500" : ""}`}
               name="phoneNumber"
               type="text"
@@ -159,17 +170,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
             {validationErrors.phoneNumber && (
               <div className="text-red-500 text-sm">{validationErrors.phoneNumber}</div>
             )}
-            <input
-              className={`form__input ${validationErrors.address ? "border-red-500" : ""}`}
-              name="address"
-              type="text"
-              placeholder="Address"
-              value={formData.address}
-              onChange={handleInputChange}
-            />
-            {validationErrors.address && (
-              <div className="text-red-500 text-sm">{validationErrors.address}</div>
-            )}
+
           </div>
         );
       case 2:

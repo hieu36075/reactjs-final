@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createCategoryRoom, getCategoryRoom, getCategoryRoomByHotel } from "./categoryRoomThunk";
-import { getHotelByCategory } from "../hotel/hotelThunks";
+
 
 
 const initialState ={

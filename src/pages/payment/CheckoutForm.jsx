@@ -12,7 +12,7 @@ export default function CheckoutForm({onStripeElementsSet}) {
 
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
   const handelEmailChange=(e)=>{
     setEmail(e.value)
@@ -87,6 +87,7 @@ export default function CheckoutForm({onStripeElementsSet}) {
     <form id="payment-form" >
       <LinkAuthenticationElement
         id="link-authentication-element"
+        value={email}
         onChange={handelEmailChange}
       />
       <PaymentElement id="payment-element" options={paymentElementOptions} />
