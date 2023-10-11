@@ -3,17 +3,20 @@ import { useDispatch } from "react-redux";
 import { getProfileById } from "../../redux/profile/profileThunk";
 import socket from "../../services/socket";
 const ListUserChat=({id, userId, onPress , message})=>{
-  console.log(message[0]?.content || '')
+  // console.log(message[0]?.content || '')
     const dispatch = useDispatch();
     const [user, setUser] = useState([]);
-    const [newMessage, setNewMessage] = useState(message[0]?.content || '')
+    const [newMessage, setNewMessage] = useState(message?.[0]?.content || '')
     const [isRead, setIsRead] = useState(false)
+    console.log(user)
     useEffect(()=>{
-        dispatch(getProfileById(userId)).unwrap()
-        .then((res)=>{
-            setUser(res)
-        })
-    },[])
+        if(userId){
+          dispatch(getProfileById(userId)).unwrap()
+          .then((res)=>{
+              setUser(res)
+          })
+        }
+    },[userId])
     useEffect(()=>{
       socket.on('message-received',(data)=>{
         console.log('message:', data)
@@ -23,6 +26,12 @@ const ListUserChat=({id, userId, onPress , message})=>{
         }
       })
     },[])
+
+    if(!user){
+      return(
+        <h1>wait..</h1>
+      )
+    }
     return(
         <div className="flex flex-col mb-4 " key={id}>
         <div className="flex items-center my-2 px-5 chat-item" onClick={()=>onPress(id)}>

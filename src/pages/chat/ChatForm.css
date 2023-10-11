@@ -7,10 +7,12 @@
 }
 .chat-right{
     position: relative;
+    max-height: 99%;
 }
 .message-input{
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
-    width: 100%;
+    width: 75%;
+    background-color: white;
 }

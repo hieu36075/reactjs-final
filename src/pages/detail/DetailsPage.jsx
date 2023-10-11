@@ -15,6 +15,7 @@ import { createOrder, updateOrder } from "../../redux/order/orderThunk";
 import CategoryRoomItem from "../../components/categoryRoomItem/CategoryRoomItem";
 import { getUsersById } from "../../redux/user/userThunks";
 import Map from "../../components/location/Map";
+import socket from "../../services/socket";
 
 
 
@@ -228,6 +229,18 @@ export default function DetailsPage() {
     }
   }
 
+
+  const handleMesage=(id)=>{
+    console.log(id)
+    navigate(`/account/message`,{state:{userId: id}})
+    // console.log('a')
+    // socket.emit('sendNotification', {
+    //   userId: '123',
+    //   description: 'Create hotel successful, click here to view',
+    //   action: 'action_create_hotel',
+    //   id: '123'
+    // });
+  }
   
 
   
@@ -288,7 +301,7 @@ export default function DetailsPage() {
                 <img  className="rounded-full w-32 h-32" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80" alt=""/>
                 <h1 className="mb-4" >{user.email}</h1>
                 <h1 className="mb-4">joined from {new Date(user.updatedAt).toLocaleDateString()}</h1>
-                <button className="ml-4 rounded-full border border-black px-4 py-2 text-black bg-white hover:bg-gray-900"> Contact the homeowner immediately</button>
+                <button className="ml-4 rounded-full border border-black px-4 py-2 text-black bg-white hover:bg-gray-900" onClick={()=>{handleMesage(user.id)}}> Contact the homeowner immediately</button>
                 </div>
             </div>
           </div>

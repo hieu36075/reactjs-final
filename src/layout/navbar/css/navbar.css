@@ -132,10 +132,15 @@
   display: block;
 }
 
+
 .profile-content a:hover {background-color: #f1f1f1}
 
 .profile:hover .profile-content {
   display: block;
+}
+
+.spann{
+  padding-left: 10px;
 }
 
 .noti {
@@ -161,14 +166,13 @@
   padding: 10px 0;
 }
 .noti-item{
-  background-color: gray;
+  cursor: pointer;
   padding: 0;
   margin: 10px 0;
   font-weight: 500;
 }
 .noti-item:hover {
-  background-color: #003580c4;
-  color: white;
+  background-color: rgba(179, 172, 172, 0.192);
 }
 
 

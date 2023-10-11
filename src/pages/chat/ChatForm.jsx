@@ -7,25 +7,33 @@ import ListUserChat from './ListUserChat';
 import jwtDecode from 'jwt-decode';
 import { getMyMessage } from '../../redux/roomMessage/roomMessageThunk';
 import Message from './Message';
+import { useLocation } from 'react-router-dom';
+import { updateListUser, updateNewRoom } from '../../redux/roomMessage/roomMessageSlice';
 export default function ChatForm() {
   const dispatch = useDispatch();
   const [roomId, setRoomId] = useState('')
-
+  const location = useLocation();
   const {data} = useSelector((state) => state.roomMessage)
   const token = jwtDecode(localStorage.getItem('token'))
   useEffect(()=>{
     dispatch(getMyMessage()).unwrap()
     .then((res)=>{
-      setRoomId(res[0].id)
-      res.forEach(element => {
-        socket.emit('joinRoom', element.id)
-      });
+      if(res){
+        // setRoomId(res[0].id)
+        res.forEach(element => {
+          socket.emit('joinRoom', element.id)
+        });
+      }
     })
     // dispatch(getProfileById())
     
   },[dispatch])
 
-
+  useEffect(()=>{
+    if(location?.state?.userId){
+      dispatch(updateListUser())
+    }
+  },[location?.state?.userId])
 
   // const sendMessage=()=>{
   //   socket.emit('Message', {
@@ -33,12 +41,24 @@ export default function ChatForm() {
   //     userId: 'cln0eljqj0001c3q8k2fa4ixc'
   //   });
   // }
-
+ 
   const chooseRoom=(id)=>{
     console.log('chooseRoom called with ID:', id);
     // socket.emit('joinRoom', id) 
     setRoomId(id)
   }
+
+  useEffect(()=>{
+    socket.on('newRoom-received',(data)=>{
+      console.log('message:', data.newRoom)
+      dispatch(updateNewRoom(data.newRoom))
+      if(!roomId){h
+        setRoomId(data?.newRoom?.id)
+        socket.emit('joinRoom', data?.newRoom?.id)
+      }
+    })
+    
+  },[])
   return (
     <>
         <Navbar />
@@ -55,12 +75,13 @@ export default function ChatForm() {
             />
             {/* List of users */}
             {data?.map(room =>(
+              
               <ListUserChat 
-              key={room.id} 
+              key={room?.id} 
               id={room?.id} 
-              userId={room?.userRoomMessage[0].userId} 
+              userId={room?.userRoomMessage?.[0]?.userId} 
               onPress={chooseRoom}
-              message={room.message}
+              message={room?.message}
 
 
               />
@@ -68,7 +89,7 @@ export default function ChatForm() {
           </div>
 
           {/* Chat Section */}
-          <div className="w-3/4 p-4 flex flex-col chat-right">
+          <div className="w-3/4 p-4 flex flex-col chat-right overflow-y-auto">
             {/* Chat header */} 
               <Message id={roomId} userId={token.id}/>
             {/* Message input and send button */}

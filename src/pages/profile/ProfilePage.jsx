@@ -2,22 +2,33 @@ import { useEffect, useState } from "react";
 import Navbar from "../../layout/navbar/navbar";
 import "./profilePage.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getMyProfile } from "../../redux/profile/profileThunk";
+import { getMyProfile, updateProfile, uploadAvatar } from "../../redux/profile/profileThunk";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.profile);
-
-  const [user, setUser] = useState({
-    name: data.fullName,
-    email: data.email,
-    phoneNumber: data.phoneNumber,
-    address: data.address,
-    dateOrBirth: data.dateOrBirth,
+  const { details, loading, image } = useSelector((state) => state.profile);
+  const [profile, setProfile] = useState({
+    firstName: "",
+    lastName: "",
+    fullName: "",
+    phoneNumber: "",
+    address: "",
+    avatarUrl: "",
   });
 
   useEffect(() => {
-    dispatch(getMyProfile());
+    dispatch(getMyProfile())
+      .unwrap()
+      .then((res) => {
+        setProfile({
+          firstName: res.firstName,
+          lastName: res.lastName,
+          fullName: res.fullName,
+          phoneNumber: res.phoneNumber,
+          address: res.address,
+          avatarUrl: res.avatarUrl,
+        });
+      });
   }, []);
 
   const [show, setShow] = useState(false);
@@ -27,108 +38,264 @@ export default function ProfilePage() {
   const [showAddress, setShowAddress] = useState(false);
   const [showDateOrBirth, setShowDateOrBirth] = useState(false);
 
+  const handleChangeAvatar = async (ev) => {
+    const files = ev.target.files;
+    
+    // Kiểm tra số lượng tệp
+    if (files.length !== 1) {
+      alert('Vui lòng chọn một ảnh duy nhất.');
+      return;
+    }
+  
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    
+    try {
+      const uploadedAvatar = await dispatch(uploadAvatar(formData)).unwrap();
+      setProfile({
+        ...profile,
+        avatarUrl: uploadedAvatar
+      });
+  
+    } catch (error) {
+      console.error('Error uploading avatar:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (profile.avatarUrl) {
+      // Gọi updateProfile khi avatarUrl đã được cập nhật
+      dispatch(updateProfile(profile));
+    }
+  }, [profile.avatarUrl, dispatch]);
+  
+  const openChangeName = () =>{
+    setShowName(true)
+    if(showName){
+      setProfile({
+        ...profile,
+        firstName: details?.firstName,
+        lastName: details?.lastName,
+      });
+      setShowName(false);
+    }
+  }
+  const handleChange = (field, value) => {
+    setProfile((prevProfile) => ({
+      ...prevProfile,
+      [field]: value,
+    }));
+  };
+  const onSubmitName=()=>{
+    dispatch(updateProfile(profile));
+    setShowName(false);
+  }
+  const openChangePhoneNumber = () =>{
+    setShowPhoneNumber(true)
+    if(showPhoneNumber){
+      setProfile({
+        ...profile,
+        phoneNumber: details?.phoneNumber
+      });
+      setShowPhoneNumber(false);
+    }
+  }
+
+  const onSubmitPhoneNumber=()=>{
+    dispatch(updateProfile(profile));
+    setShowPhoneNumber(!showPhoneNumber);
+
+  }
+  const onSubmitAdress=()=>{
+    dispatch(updateProfile(profile));
+    setShowAddress(!showAddress)
+
+  }
+  const openChangeAddress = () =>{
+    setShowAddress(true)
+    if(showAddress){
+      setProfile({
+        ...profile,
+        address: details?.address
+      });
+      setShowAddress(false);
+    }
+  }
+  if (!details && loading) {
+    return <h1>loading..</h1>;
+  }
   return (
     <div>
       <Navbar />
       <div className="profile_content">
         <div className="profile_left">
           <h1>Personal information</h1>
-          <div className="info">
-            <div className="info_item">
-              <h3>Full name</h3>
-              <h4>{user.name}</h4>
-              {showName ? (
-                <div>
-                  <input type="text" placeholder="Tên" />
-                </div>
-              ) : (
-                ""
-              )}
+          <div className="m-10">
+            <div className="text-center">
+              <div className="relative inline-block ">
+                <label
+                  htmlFor="avatarInput"
+                  className="rounded-full w-52 h-52 relative cursor-pointer"
+                >
+                  <img
+                    src={details?.avatarUrl}
+                    alt="img"
+                    className="rounded-full w-full h-full"
+                  />
+                  <div className="absolute bottom-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 text-center">
+                    Change Avatar
+                  </div>
+                </label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  id="avatarInput"
+                  className="hidden"
+                  onChange={handleChangeAvatar}
+                />
+              </div>
             </div>
-            <div className="info_item">
-              <h3>Email</h3>
-              <h4>{user.email}</h4>
-              {showEmail ? (
-                <div>
-                  <input type="text" placeholder="email " />
-                </div>
-              ) : (
-                ""
-              )}
+            <div className="m-5 flex justify-between flex-row relative">
+              <div className="flex flex-col">
+                <h3>Full name</h3>
+                <h4>{details?.fullName}</h4>
+              </div>
+              <div className="justify-end">
+                <button
+                  className="bg-transparent border-b border-black text-black hover:bg-opacity-25 font-bold text-lg top-0 right-0"
+                  onClick={() => {
+                    openChangeName()
+                  }}
+                >
+                  {showName ? "Cancel" : "Change"}
+                </button>
+              </div>
             </div>
-            <div className="info_item">
-              <h3>Phone Number</h3>
-              <h4>{user.phoneNumber}</h4>
-              {showPhoneNumber ? (
-                <div>
-                  <input type="text" placeholder="Input for phone number " />
+            {showName ? (
+              <>
+                <div className="m-5 flex items-center">
+                  <input
+                    type="text"
+                    className="mr-2"
+                    placeholder="First Name"
+                    value={profile.firstName}
+                    onChange={(e) => handleChange('firstName', e.target.value)}
+                  />{" "}
+                  {/* Use margin-right for spacing */}
+                  <input
+                    type="text"
+                    placeholder="Last Name"
+                    value={profile.lastName}
+                    onChange={(e) => handleChange('lastName', e.target.value)}
+                  />
                 </div>
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="info_item">
-              <h3>Address</h3>
-              <h4>{user.address}</h4>
-              {showAddress ? (
-                <div>
-                  <input type="text" placeholder="Input for phone number " />
+                <div className="m-5">
+                  <button className="bg-black text-white rounded-full px-4 py-2" onClick={()=>{onSubmitName()}}>
+                    Submit
+                  </button>
                 </div>
-              ) : (
-                ""
-              )}
+              </>
+            ) : (
+              ""
+            )}
+            <div className="my-2 border-t border-gray-400 m-5"></div>
+            <div className="m-5 flex justify-between flex-row relative">
+              <div className="flex flex-col">
+                <h3>Email</h3>
+                <h4>{profile?.email}</h4>
+              </div>
+              <div className="justify-end">
+                <button
+                  className="bg-transparent border-b border-black text-black hover:bg-opacity-25 font-bold text-lg top-0 right-0"
+                  onClick={() => {
+                    setShowEmail(!showEmail);
+                  }}
+                >
+                  {showEmail ? "Cancel" : "Change"}
+                </button>
+              </div>
             </div>
-            <div className="info_item">
-              <h3>Liên hệ trong trường hợp khẩn cấp</h3>
-              <h4>Hiếu ngu</h4>
-              {show ? (
-                <div className="info_show">
-                  <input type="text" placeholder="Email" />
-                  <input type="text" placeholder="Số điện thoại" />
-                  <button>Lưu</button>
+
+            <div className="my-2 border-t border-gray-400 m-5"></div>
+            <div className="m-5 flex justify-between flex-row relative">
+              <div className="flex flex-col">
+                <h3>Phone Number</h3>
+                <h4>{details?.phoneNumber || "Please add phone number"}</h4>
+              </div>
+              <div className="justify-end">
+                <button
+                  className="bg-transparent border-b border-black text-black hover:bg-opacity-25 font-bold text-lg top-0 right-0"
+                  onClick={() => {
+                    openChangePhoneNumber();
+                  }}
+                >
+                  {showPhoneNumber ? "Cancel" : "Change"}
+                </button>
+              </div>
+            </div>
+
+            {showPhoneNumber ? (
+              <>
+                <div className="m-5 flex items-center">
+                  <input
+                    type="text"
+                    className="mr-2"
+                    placeholder="Phone number"
+                    value={profile.phoneNumber}
+                    onChange={(e) => handleChange('phoneNumber', e.target.value)}
+                  />{" "}
+                  {/* Use margin-right for spacing */}
                 </div>
-              ) : (
-                ""
-              )}
+                <div className="m-5">
+                  <button className="bg-black text-white rounded-full px-4 py-2" onClick={()=>{onSubmitPhoneNumber()}}>
+                    Submit
+                  </button>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+            <div className="my-2 border-t border-gray-400 m-5"></div>
+            <div className="m-5 flex justify-between flex-row relative">
+              <div className="flex flex-col">
+                <h3>Adress</h3>
+                <h4>{details?.address || "Add your address"}</h4>
+              </div>
+              <div className="justify-end">
+                <button
+                  className="bg-transparent border-b border-black text-black hover:bg-opacity-25 font-bold text-lg top-0 right-0"
+                  onClick={() => {
+                    openChangeAddress();
+                  }}
+                >
+                  {showAddress ? "Cancel" : "Change"}
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="action">
-            <button
-              onClick={() => {
-                setShowName(!showName);
-              }}
-            >
-              {showName ? "cancel" : "edit"}
-            </button>
-            <button
-              onClick={() => {
-                setShowEmail(!showEmail);
-              }}
-            >
-              {showEmail ? "cancel" : "edit"}
-            </button>
-            <button
-              onClick={() => {
-                setShowPhoneNumber(!showPhoneNumber);
-              }}
-            >
-              {showPhoneNumber ? "cancel" : "edit"}
-            </button>
-            <button
-              onClick={() => {
-                setShowAddress(!showAddress);
-              }}
-            >
-              {showAddress ? "cancel" : "edit"}
-            </button>
-            <button>Chỉnh sửa</button>
-            <button
-              onClick={() => {
-                setShow(!show);
-              }}
-            >
-              {show ? "Huỷ" : "Thêm"}
-            </button>
+
+            {showAddress ? (
+              <>
+                <div className="m-5 flex items-center">
+                  <input
+                    type="text"
+                    className="mr-2"
+                    placeholder="Address"
+                    value={profile?.address}
+                    onChange={(e) => handleChange('address', e.target.value)}
+                  />{" "}
+                  {/* Use margin-right for spacing */}
+                </div>
+                <div className="m-5">
+                  <button className="bg-black text-white rounded-full px-4 py-2" onClick={()=>{onSubmitAdress()}}>
+                    Submit
+                  </button>
+                </div>
+              </>
+            ) : (
+              ""
+            )}
+
+            <div className="my-2 border-t border-gray-400 m-5"></div>
           </div>
         </div>
 

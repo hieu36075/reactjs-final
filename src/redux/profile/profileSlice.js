@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyProfile, getProfileById } from "./profileThunk";
+import { getMyProfile, getProfileById, updateProfile, uploadAvatar } from "./profileThunk";
 
 
 const initialState ={
     loading: false,
     error: {},
     data: [],
+    details: [],
+    image: []
 }
 
 const profileSlice = createSlice({
@@ -19,8 +21,8 @@ const profileSlice = createSlice({
                 state.loading = true
             })
             .addCase(getMyProfile.fulfilled, (state, action) => {
+                state.details = action.payload
                 state.loading = false
-                state.data = action.payload
                 state.error = ""
             })
             .addCase(getMyProfile.rejected, (state, action) => {
@@ -31,8 +33,8 @@ const profileSlice = createSlice({
                 state.loading = true
             })
             .addCase(getProfileById.fulfilled, (state, action) => {
-                state.loading = false
                 state.data = action.payload
+                state.loading = false
                 state.error = ""
             })
             .addCase(getProfileById.rejected, (state, action) => {
@@ -40,18 +42,33 @@ const profileSlice = createSlice({
                 state.error = action.payload
             })
 
-            // .addCase(getRoomByCategoryId.pending, (state) => {
-            //     state.loading = true
-            // })
-            // .addCase(getRoomByCategoryId.fulfilled, (state, action) => {
-            //     state.loading = false
-            //     state.data = action.payload
-            //     state.error = ""
-            // })
-            // .addCase(getRoomByCategoryId.rejected, (state, action) => {
-            //     state.loading = false
-            //     state.error = action.payload
-            // })
+            .addCase(updateProfile.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(updateProfile.fulfilled, (state, action) => {
+                state.loading = false
+                state.details = action.payload
+                state.error = ""
+            })
+            .addCase(updateProfile.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+
+            .addCase(uploadAvatar.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(uploadAvatar.fulfilled, (state, action) => {
+                state.loading = false
+                state.image = action.payload
+                state.error = ""
+            })
+            .addCase(uploadAvatar.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+
+
     }
 });
 

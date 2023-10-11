@@ -9,9 +9,11 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createRoom } from '../../redux/room/roomThunk';
 import { createImageRoom } from '../../redux/imageRoom/imageRoomThunk';
 import { SelectAllHotel, SelectLoadingInHotel } from '../../redux/hotel/hotelSelect';
+import socket from '../../services/socket';
 
 
 const RoomForm = ({ onPre }) => {
+  const {id} = useParams();
   const dispatch = useDispatch()
   const location = useLocation();
   const categoryRoomData = useSelector(SelectCategoriesRoom)
@@ -134,6 +136,12 @@ const RoomForm = ({ onPre }) => {
 
 
       await Promise.all([...roomPromises, ...imagePromises]);
+      socket.emit('sendNotification',{
+        userId: id,
+        description: 'Create hotel succesful, click here to view',
+        action: 'action_create_hotel',
+        id: hotelId
+      })
       navigate('/')
       console.log("Dữ liệu phòng và ảnh đã được gửi lên server thành công!");
     } catch (error) {

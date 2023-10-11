@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     flex: 1;
-    padding: 10px;
+    padding: 10px 15px;
     -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
     box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
     border-radius: 10px;
@@ -14,7 +14,7 @@
       flex-direction: column;
       justify-content: space-between;
   
-      .title {
+      .title_name {
         font-weight: bold;
         font-size: 14px;
         color: rgb(160, 160, 160);

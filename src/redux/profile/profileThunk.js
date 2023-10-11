@@ -19,3 +19,24 @@ export const getProfileById = createAsyncThunk('room/getProfileById', async(user
     }
 })
 
+
+
+export const updateProfile = createAsyncThunk('room/updateProfile', async(data, {rejectWithValue})=>{
+    try {
+        const reponse = await http.patch(`/profile/`, data)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const uploadAvatar = createAsyncThunk('auth/uploadAvatar', async(file, {rejectWithValue})=>{
+    try {
+        console.log(file)
+        const reponse = await http.post(`/auth/file-upload`, file)
+        return reponse
+        // return {message: 'true'}
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})

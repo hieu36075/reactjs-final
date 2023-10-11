@@ -16,6 +16,7 @@
 .info{
     float: left;
     width: 60%;
+    flex-direction: row;
 }
 .action{
     float: left;

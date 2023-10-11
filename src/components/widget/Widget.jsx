@@ -16,7 +16,7 @@ const Widget = ({ type, data }) => {
         isMoney: false,
         link: "See all users", 
         total: data.usersThisMonth,
-        diff: ((data.usersThisMonth - data.usersLastMonth)/ data.usersLastMonth) *100,
+        diff: ((data.usersThisMonth - data.usersLastMonth)/ data.usersLastMonth) *100 ,
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -84,7 +84,7 @@ const Widget = ({ type, data }) => {
   return (
     <div className="widget">
       <div className="left">
-        <span className="title">{form.title}</span>
+        <span className="title_name">{form.title}</span>
         <span className="counter">
           {form.isMoney && "$"} {form.total}
         </span>

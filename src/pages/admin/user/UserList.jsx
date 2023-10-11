@@ -10,7 +10,7 @@ import Datatable from "../../../components/datatable/Datatable";
 const UserList = () => {
   const dispatch = useDispatch()
   const {data, loading} = useSelector((state)=> state.user)
-  console.log(data)
+  
   useEffect(()=>{
       dispatch(getUsers({page:1, perPage:5}))
   },[dispatch])

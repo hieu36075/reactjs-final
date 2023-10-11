@@ -87,3 +87,21 @@ export const uploadMultiImangeHotel = createAsyncThunk('hotel/uploadMultiImangeH
         return rejectWithValue(error)
     }
 })
+
+export const getUserInHotel = createAsyncThunk('hotel/getUserInHotel', async(hotelId, {rejectWithValue})=>{
+    try {
+        const reponse = await http.get(`/hotel/${hotelId}/users?page=1&perPage=5`)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const chartUserInMonth = createAsyncThunk('hotel/chartUserInMonth', async(hotelId, {rejectWithValue})=>{
+    try {
+        const reponse = await http.get(`/hotel/${hotelId}/user-in-month`)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})

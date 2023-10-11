@@ -3,20 +3,32 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMessageByRoomId } from "../../redux/roomMessage/roomMessageThunk";
 import socket from "../../services/socket";
 import { addMessage } from "../../redux/roomMessage/roomMessageSlice";
+import { useLocation } from "react-router-dom";
 const Message = ({ id, userId }) => {
   const dispatch = useDispatch();
   const { details, loading } = useSelector((state) => state.roomMessage);
   const [message, setMessage] = useState('')
-  
+  // const [use]
+  const location = useLocation();
+  console.log(id)
   useEffect(() => {
-    dispatch(getMessageByRoomId(id));
+    if(id){
+      dispatch(getMessageByRoomId(id));
+    }
   }, [id]);
 
   const sendMessage=()=>{
-    socket.emit('sendMessage', {
-      content: message,
-      roomId: details.id
-    });
+    if(!id){
+      socket.emit('Message', {
+        content: message,
+        userId: location?.state?.userId
+      });
+    }else{
+      socket.emit('sendMessage', {
+        content: message,
+        roomId: details.id
+      });
+    }
   }
 
   useEffect(()=>{
@@ -33,12 +45,12 @@ const Message = ({ id, userId }) => {
   }
   return (
     <>
-      <div className="text-xl font-bold mb-4 text-center">Chat with User</div>
       {/* Chat messages */}
+      <div className="text-xl font-bold mb-4 text-center">Chat with User</div>
       {details.message &&
         details.message.map((item) => {
           return (
-            <div className="flex flex-col overflow-y-auto mb-4" key={item.id}>
+            <div className="flex flex-col mb-4" key={item.id}>
               <div className={`flex items-center mb-2 ${item.sederId === userId ? 'justify-end' : ''}` }  >
                 <div className={item.sederId === userId ?  "bg-blue-500 p-2 rounded-lg ml-2 font-bold" : "bg-gray-300 p-2 rounded-lg ml-2 font-bold"} >
                   {item.content}

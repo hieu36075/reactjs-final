@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createHotel, getHotelByCategory, getHotelByCountry, getHotelById, getHotelByRoom, getHotelByUserId, getHotels, searchHotel, uploadMultiImangeHotel } from "./hotelThunks";
+import { chartUserInMonth, createHotel, getHotelByCategory, getHotelByCountry, getHotelById, getHotelByRoom, getHotelByUserId, getHotels, getUserInHotel, searchHotel, uploadMultiImangeHotel } from "./hotelThunks";
 
 const initialState ={
     loading: false,
@@ -7,7 +7,9 @@ const initialState ={
     data: [],
     details: [],
     page:[],
-    image:[]
+    image:[],
+    users: [],
+    userInMonth:[],
 }
 
 const hotelSlice = createSlice({
@@ -125,6 +127,34 @@ const hotelSlice = createSlice({
             state.loading = false
             state.error = action.payload
         });
+
+        builder.addCase(getUserInHotel.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(getUserInHotel.fulfilled, (state, action) => {
+            state.loading = false
+            state.users = action.payload
+            state.error = ""
+        });
+        builder.addCase(getUserInHotel.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+
+        builder.addCase(chartUserInMonth.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(chartUserInMonth.fulfilled, (state, action) => {
+            state.loading = false
+            state.userInMonth = action.payload
+            state.error = ""
+        });
+        builder.addCase(chartUserInMonth.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+
+        
     }
 });
 

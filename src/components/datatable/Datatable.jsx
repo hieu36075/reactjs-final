@@ -5,8 +5,7 @@ import { useLocation } from "react-router-dom";
 // import { Skeleton } from "@mui/material";
 
 const Datatable  = ({data, Columns, actionColumn, title, meta, onPageChange, isLoading}) => {
-  // console.log(meta)
-
+  console.log(data)
     const location = useLocation();
     const pathname = location.pathname.split("/")[2];
     if (!meta || !data) {
@@ -24,9 +23,10 @@ const Datatable  = ({data, Columns, actionColumn, title, meta, onPageChange, isL
         className="datagrid"
         rows={data}
         columns={Columns.concat(actionColumn)}
+        // getRowId={(row) => row.index}
         // pageSize={parseInt(meta?.perPage)}
         // page={parseInt(meta?.page)}
-        loading={!isLoading}
+        loading={isLoading}
         rowCount={parseInt(meta?.totalItems)}
         paginationMode="server"
         pageSizeOptions={[5]}
