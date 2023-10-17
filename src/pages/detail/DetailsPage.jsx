@@ -15,7 +15,6 @@ import { createOrder, updateOrder } from "../../redux/order/orderThunk";
 import CategoryRoomItem from "../../components/categoryRoomItem/CategoryRoomItem";
 import { getUsersById } from "../../redux/user/userThunks";
 import Map from "../../components/location/Map";
-import socket from "../../services/socket";
 
 
 
@@ -30,8 +29,9 @@ export default function DetailsPage() {
   const [center, setCenter] = useState({
     lat: '',
     lng: '',
-    address: "My Market",
+    address: "My Hotel",
   });
+  console.log(center)
   useEffect(() => {
     dispatch(getHotelById(id)).unwrap()
     .then((res)=>{
@@ -45,7 +45,9 @@ export default function DetailsPage() {
     // dispatch(getCategoryRoomByHotel())
   }, [id, dispatch]);
 
-  
+  // useEffect(()=>{
+  //   if()
+  // },[])
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
@@ -233,13 +235,6 @@ export default function DetailsPage() {
   const handleMesage=(id)=>{
     console.log(id)
     navigate(`/account/message`,{state:{userId: id}})
-    // console.log('a')
-    // socket.emit('sendNotification', {
-    //   userId: '123',
-    //   description: 'Create hotel successful, click here to view',
-    //   action: 'action_create_hotel',
-    //   id: '123'
-    // });
   }
   
 
@@ -480,10 +475,14 @@ export default function DetailsPage() {
         <div className="w-full h-px bg-gray-300 my-4"></div>
           <CommentItem data={sampleComments} />
         <div className="w-full h-px bg-gray-300 my-4"></div>
-
+        {center?.lat && center?.lng ?(
         <div style={{height:'600px', width:'100%'}}> 
                 <Map location={center} zoomLevel={15}/>
         </div>
+
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import './commentItem.css'
+
 
 const CommentItem = ({data}) => {
     const initialVisibleComments = data.slice(0, 6);
@@ -24,16 +24,16 @@ const CommentItem = ({data}) => {
     
     const renderAllComments = () => {
       return (
-          <div className="popup-overlay fixed inset-0 z-50 flex justify-center items-center">
-          <div className="popup bg-white rounded-lg p-4 shadow-md w-4/5 max-w-3xl max-h-4/5 relative">
+          <div className="bg-blackOverlay fixed inset-0 z-50 flex justify-center items-center">
+          <div className="max-h-[80vh] m-20 overflow-y-auto bg-white rounded-lg p-4 shadow-md w-4/5 max-w-3xl max-h-4/5 relative">
             <button
               onClick={handleCloseAllComments}
-              className="bg-blue-500 text-white px-4 py-2 rounded-full close-button absolute top-4 left-4"
+              className="bg-blue-500 text-white px-4 py-2 rounded-full absolute top-4 left-4 "
             >
               Đóng
             </button>
-            <div className="popup-content">
-              <h2 className="font-semibold text-2xl mb-4">Tất cả bình luận</h2>
+            <div className="max-h-[80vh]">
+              <h2 className="font-semibold text-2xl mb-4 text-center mb-5">Tất cả bình luận</h2>
               {visibleComments?.map((comment) => (
                 <div key={comment.id} className="bg-white rounded-lg p-4 shadow-md mb-4">
                   {/* Hiển thị nội dung comment */}

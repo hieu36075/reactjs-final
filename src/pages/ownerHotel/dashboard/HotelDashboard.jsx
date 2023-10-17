@@ -10,16 +10,44 @@ import { chartUserInMonth, getUserInHotel } from "../../../redux/hotel/hotelThun
 import Datatable from "../../../components/datatable/Datatable";
 import { userOrderColumns } from "./userOrderColumns";
 // import "./HotelDashboard.css"
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+const TreeChart = ({ data }) => {
+  return (
+    <ResponsiveContainer width="100%" height={300}>
+      <BarChart data={data}>
+        <XAxis dataKey="month" />
+        <YAxis />
+        <Tooltip />
+        <Bar dataKey="revenue" fill="#8884d8" />
+      </BarChart>
+    </ResponsiveContainer>
+  );
+};
 
+const yourChartData = [
+  { month: 'January', revenue: 5000 },
+  { month: 'February', revenue: 6000 },
+  { month: 'March', revenue: 7500 },
+  { month: 'April', revenue: 4000 },
+  { month: 'May', revenue: 9000 },
+  { month: 'June', revenue: 6500 },
+  { month: 'July', revenue: 8000 },
+  { month: 'August', revenue: 7000 },
+  { month: 'September', revenue: 9500 },
+  { month: 'October', revenue: 8500 },
+  { month: 'November', revenue: 10000 },
+  { month: 'December', revenue: 9500 }
+];
 const HotelDashboard = () => {
   const {id} = useParams();
   const dispatch = useDispatch();
   const userInMonth = useSelector((state) => state.hotel.userInMonth);
   const usersInHotel = useSelector((state) => state.hotel.users)
 
-  console.log(usersInHotel.meta)
+  console.log(usersInHotel)
   useEffect(() => {
-    dispatch(chartUserInMonth(id))
+    dispatch(getUserInHotel(id));
+    dispatch(chartUserInMonth(id));
   },[]);
   const actionColumn = [
     {
@@ -56,7 +84,7 @@ const userData = [25, 35];
     <>
 
     <Navbar />
-      <SidebarHotel/>
+      {/* <SidebarHotel/> */}
       <div className="flex-1 dashboard">
         <div className="flex flex-col p-5 border-b-2">
           <h1>title</h1>
@@ -71,19 +99,12 @@ const userData = [25, 35];
             <Widget type="user" data={userInMonth} />
           </div>
         </div>
-        <div className="flex-6">
-          <Charts
-            hotelBookingsData={hotelBookingsData
-            }
-            userData={
-                userData
-            }
-          />
+        <div className="flex flex-1 mt-10 m-5 shadow-lg p-2 border border-gray-300 rounded-lg">
+        <TreeChart data={yourChartData} />
         </div>
-        <div className="flex w-max ">
+        <div className="flex items-center justify-center w-full ">
           <div className="flex-6">
-          <h1>abc</h1>
-          <Datatable data={user} Columns={userOrderColumns} meta={usersInHotel?.meta} actionColumn={actionColumn} title="List Order In Hotel" />
+          <Datatable data={user} Columns={userOrderColumns} meta={usersInHotel?.meta} title="List Order In Hotel" />
           </div>
         </div>
       </div>

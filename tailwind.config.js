@@ -8,6 +8,7 @@ module.exports = {
     extend: {
       colors: {
         primary: '#F5385D',
+        blackOverlay: 'rgba(0, 0, 0, 0.5)',
       },
       height: {
         "10v": "10vh",

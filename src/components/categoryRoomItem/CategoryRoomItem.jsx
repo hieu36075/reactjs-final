@@ -12,7 +12,9 @@ export default function CategoryRoomItem({hotel, onSubmit}){
     const {data, loading} = useSelector((state)=> state.categoryRoom)
 
     useEffect(() => {
-        dispatch(getCategoryRoomByHotel({id:id, page:1, perPage:5}));
+        if(id){
+            dispatch(getCategoryRoomByHotel({id:id, page:1, perPage:5}));
+        }
       }, [id, dispatch]);
 
     if(loading){
