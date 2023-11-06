@@ -12,7 +12,6 @@ const Categories = () => {
   const {data, loading}= useSelector((state)=> state.category)
   const [currentPage, setCurrentPage] = useState(1);
   useEffect(()=>{
-    console.log("tét", currentPage)
       dispatch(getCategory({page:currentPage, perPage:5}))
   },[dispatch, currentPage])
 
@@ -54,9 +53,9 @@ const Categories = () => {
   ];
   const categories = data?.data?.map((data, index) => ({ ...data, index: index })) || [];
   return (
-    <div className="list_table">
+    <div className="flex w-full">
       <Sidebar/>
-      <div className="listContainer_table">
+      <div className="flex-[2_2_0%]">
         <AdminNavbar/>
         <Datatable 
           data={categories} 
@@ -65,7 +64,7 @@ const Categories = () => {
           meta={data?.meta}
           title="Manager category"
           onPageChange={handlePageChange}
-          isLoading={loading}
+          isLoading={!loading}
         />
       </div>
     </div>

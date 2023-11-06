@@ -1,15 +1,9 @@
-import "./sidebar.scss";
+
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../../context/DarkMode/darkModeContext";
@@ -18,85 +12,50 @@ import { useContext } from "react";
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
   return (
-    <div className="sidebar">
-      <div className="top">
+    <div className="min-h-screen bg-white">
+      <div className="h-12 flex items-center justify-center">
         <Link to="/admin/dashboard" style={{ textDecoration: "none" }}>
-          <span className="logo">Admin</span>
+          <span className="text-xl font-bold text-purple-600">Admin</span>
         </Link>
       </div>
-      <hr />
-      <div className="center">
-        <ul>
-          <p className="title">MAIN</p>
+      <hr className="h-0"/>
+      <div className="pl-2">
+        <ul className="m-0 p-0">
+          <p className="font-bold mt-4 mb-1">MAIN</p>
           <Link to="/admin/dashboard" style={{ textDecoration: "none" }}>
-          <li>
-            <DashboardIcon className="icon" />
-            <span>Dashboard</span>
+          <li className="flex items-center p-1 cursor-pointer hover:bg-indigo-100">
+            <DashboardIcon className="text-lg text-purple-600" />
+            <span className="text-xs font-semibold ml-2">Dashboard</span>
           </li>
           </Link>
-          <p className="title">LISTS</p>
+          <p className="font-bold mt-4 mb-1">LISTS</p>
           <Link to="/admin/users" style={{ textDecoration: "none" }}>
-            <li>
-              <PersonOutlineIcon className="icon" />
-              <span>Users</span>
+            <li className="flex items-center p-1 cursor-pointer hover:bg-indigo-100">
+              <PersonOutlineIcon className="text-lg text-purple-600" />
+              <span className="text-xs font-semibold ml-2">Users</span>
             </li>
           </Link>
           <Link to="/admin/category" style={{ textDecoration: "none" }}>
-            <li>
-              <StoreIcon className="icon" />
-              <span>Category</span>
+            <li className="flex items-center p-1 cursor-pointer hover:bg-indigo-100">
+              <StoreIcon className="text-lg text-purple-600" />
+              <span className="text-xs font-semibold ml-2">Category</span>
             </li>
           </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
+          <li className="flex items-center p-1 cursor-pointer hover:bg-indigo-100">
+            <LocalShippingIcon  className="text-lg text-purple-600"/>
+            <span className="text-xs font-semibold ml-2">Delivery</span>
           </li>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
+         
+          <p className="font-bold mt-4 mb-1">USER</p>
+          <li className="flex items-center p-1 cursor-pointer hover:bg-indigo-100">
+            <AccountCircleOutlinedIcon  className="text-lg text-purple-600" />
+            <span className="text-xs font-semibold ml-2">Profile</span>
           </li>
-          <p className="title">USEFUL</p>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Stats</span>
-          </li>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
-          </li>
-          <p className="title">SERVICE</p>
-          <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
-          </li>
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
-          <p className="title">USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
-            <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+          <li className="flex items-center p-1 cursor-pointer hover:bg-indigo-100">
+            <ExitToAppIcon  className="text-lg text-purple-600" />
+            <span className="text-xs font-semibold ml-2">Logout</span>
           </li>
         </ul>
-      </div>
-      <div className="bottom">
-        <div
-          className="colorOption"
-          onClick={() => dispatch({ type: "LIGHT" })}
-        ></div>
-        <div
-          className="colorOption"
-          onClick={() => dispatch({ type: "DARK" })}
-        ></div>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from '../../layout/navbar/navbar';
+import Navbar from '../../layout/navbar/Navbar';
 import "./ChatForm.css"
 import socket from "../../services/socket";
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,7 +52,7 @@ export default function ChatForm() {
     socket.on('newRoom-received',(data)=>{
       console.log('message:', data.newRoom)
       dispatch(updateNewRoom(data.newRoom))
-      if(!roomId){h
+      if(!roomId){
         setRoomId(data?.newRoom?.id)
         socket.emit('joinRoom', data?.newRoom?.id)
       }
@@ -62,7 +62,6 @@ export default function ChatForm() {
   return (
     <>
         <Navbar />
-
         <div className="flex h-screen overflow-hidden chat-content ">
           {/* Side Left */}
           <div className="w-1/4 bg-gray-200 p-4 overflow-y chat-left overflow-y-auto">

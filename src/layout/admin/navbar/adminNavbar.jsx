@@ -1,4 +1,3 @@
-import "./adminNavbar.scss"
 import { useState } from "react";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
@@ -23,46 +22,45 @@ const AdminNavbar = () => {
   };
 
   return (
-    <div className="navbar-Admin">
-      <div className="wrapper">
-        <div className="search">
-            ads
+    <div className="h-12 flex items-center text-sm border-b border-gray">
+      <div className="w-full p-5 flex items-center justify-between">
+        <div className="flex items-center p-1">
         </div>
-        <div className="items">
-          <div className="item">
-            <LanguageOutlinedIcon className="icon" />
+        <div className="flex items-center">
+          <div className="flex items-center mr-5 relative">
+            <LanguageOutlinedIcon className="text-xl" />
             English
           </div>
-          <div className="item">
+          <div className="flex items-center mr-5 relative">
             <DarkModeOutlinedIcon
-              className="icon"
+              className="text-xl"
               onClick={() => dispatch({ type: "TOGGLE" })}
             />
           </div>
-          <div className="item">
+          <div className="flex items-center mr-5 relative">
             <FullscreenExitOutlinedIcon className="icon" />
           </div>
-          <div className="item">
+          <div className="flex items-center mr-5 relative">
             <NotificationsNoneOutlinedIcon className="icon" />
-            <div className="counter">1</div>
+            <div className="w-4 h-4 bg-red-700 text-white flex items-center justify-center font-bold absolute">1</div>
           </div>
-          <div className="item">
+          <div className="flex items-center mr-5 relative">
             <ChatBubbleOutlineOutlinedIcon className="icon" />
-            <div className="counter">2</div>
+            <div className="w-4 h-4 bg-red-700 text-white flex items-center justify-center font-bold absolute">2</div>
           </div>
-          <div className="item">
-            <ListOutlinedIcon className="icon"  />
+          <div className="flex items-center mr-5 relative">
+            <ListOutlinedIcon className="text-xl"  />
           </div>
           <PopupMenu>
-          <div className="item" onClick={toggleDropdown} >
+          <div className="flex items-center mr-5 relative" onClick={toggleDropdown} >
             <img
               src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
               alt=""
-              className="avatar" 
+              className="w-8 h-8" 
             />
           </div>
-          <div className={`dropdown-menu ${isOpen? 'active' : 'inactive'}`} >
-          <h3>The Kiet<br/>
+          <div className={`absolute bg-white w-48 absolute h-5 w-5 ${isOpen? 'opacity-100 visible' : 'opacity-0 invisible'}`} >
+          <h3 className="w-full text-center text-lg font-medium leading-5">The Kiet<br/>
           <span>Website Designer</span>
           </h3>
           <ul>

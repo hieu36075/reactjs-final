@@ -3,7 +3,7 @@ const token = localStorage.getItem('token');
 
 
 const http = axios.create({
-  baseURL: "http://localhost:3500/",
+  baseURL: process.env.REACT_APP_BASE_URL,
   headers: { Authorization: `Bearer ${token}` },
 });
 
@@ -29,7 +29,7 @@ http.interceptors.response.use(
   },
   async function (error) {
     if (error) {
-      return Promise.reject(error.response.data);
+      return Promise.reject(error.response);
     }
     return Promise.reject(error);
   }

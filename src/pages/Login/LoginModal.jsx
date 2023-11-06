@@ -8,12 +8,11 @@ import { FcGoogle } from "react-icons/fc";
 //   FieldValues,
 //   useForm
 // } from "react-hook-form";
-
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import Modal from "../register/Modal";
-
 import Heading from "../register/Heading";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/auth/authThunks";
+import { login, loginByGoogle } from "../../redux/auth/authThunks";
 import useAlert from "../../context/aleart/useAlert";
 
 const LoginModal = ({ isOpen, onClose }) => {
@@ -50,6 +49,15 @@ const handlePassword = (e) =>{
 
   };
 
+  const handleSuccessLogin = async (response) => {
+    const token = await response.credential;
+       dispatch(loginByGoogle({token: token}))
+  };
+
+  const handleErrorLogin = (error) => {
+    console.log(error)
+  };
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Welcome to Airbnb" subtitle="Welecome back !" />
@@ -60,10 +68,6 @@ const handlePassword = (e) =>{
         type="email"
         value={account.email}
         onChange={handleEmail}
-        // disabled={isLoading}
-        // register={register}
-        // errors={errors}
-        // required
       />
       <input
         className="form__input "
@@ -72,10 +76,6 @@ const handlePassword = (e) =>{
         type="password"
         value={account.password}
         onChange={handlePassword}
-        // disabled={isLoading}
-        // register={register}
-        // errors={errors}
-        // required
       />
     </div>
   );
@@ -83,21 +83,16 @@ const handlePassword = (e) =>{
   const footerContent = (
     <div className="flex flex-col gap-4 mt-3">
       <hr />
-      <button
-        className=" relative disabled:opacity-70 disabled:cursor-not-allowed rounded-lg hover:opacity-80 transition w-full bg-white border-black text-black text-sm py-2 font-light border-[1px] flex items-center justify-center gap-2"
-        // onClick={() => signIn("google")}
-      >
-        <span className="text-xl">
-          <FcGoogle />
-        </span>
-        Continue with Google
-      </button>
-      {/* <button className=""
-        outline
-        label="Continue with Github"
-        icon={AiFillGithub}
-        onClick={() => signIn("github")}
-      /> */}
+              <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                <GoogleLogin
+                  onSuccess={handleSuccessLogin}
+                  onError={handleErrorLogin}
+                  style={{ marginTop: "100px" }}
+                  cookiePolicy={"single_host_origin"}
+                  isSignedIn={true}
+                  
+                />
+              </GoogleOAuthProvider>
       <div className="text-neutral-500 text-center mt-4 font-light">
         <p>
           Already have an account?

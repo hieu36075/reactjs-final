@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import Navbar from "../../layout/navbar/navbar";
+import Navbar from "../../layout/navbar/Navbar";
 import "./Bill.css";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

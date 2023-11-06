@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
-const currentToken = localStorage.getItem('token')
-const socket = io('http://localhost:3500', {
+
+const socket = io(process.env.REACT_APP_BASE_URL, {
   transportOptions: {
     polling: {
       extraHeaders: {
@@ -10,6 +10,5 @@ const socket = io('http://localhost:3500', {
     }
   }
 });
- // Thay đổi URL thành máy chủ socket của bạn
 
 export default socket;

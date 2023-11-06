@@ -1,21 +1,26 @@
 import { useParams } from "react-router-dom";
-import Navbar from "../../../layout/navbar/navbar";
+import Navbar from "../../../layout/navbar/Navbar";
 import SidebarHotel from "../../../layout/sidebarHotel/SidebarHotel";
-import "./ManagerHotel.css";
-import { AiFillEdit, AiOutlinePlus } from "react-icons/ai";
+import { AiFillEdit, AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRoomByHotel } from "../../../redux/categoryRoom/categoryRoomThunk";
+import { deleteRoom } from "../../../redux/room/roomThunk";
+import RoomModal from "./RoomModal";
 
 export default function ManagerHotel() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data, loading } = useSelector((state) => state.categoryRoom);
+  console.log(data)
   const [edit, setEdit] = useState(false);
+  const [roomId, setRoomId] = useState('');
+  const [type, setType] = useState('');
   const [category, setCategory] = useState({
     id: "",
     name: "",
   });
+  const [openModal, setOpenModal] = useState(false)
   useEffect(() => {
     const flechData = async () => {
       await dispatch(
@@ -27,24 +32,29 @@ export default function ManagerHotel() {
 
   const editName = (categoryId, nameCategory) => {
     setEdit(!edit);
-    // setCategory((preV)=>{
-    //     return{...preV, id: categoryId}
-    // })
     setCategory({
       id: categoryId,
       name: nameCategory,
     });
   };
 
+  const handleDelete = (id) =>{
+      dispatch(deleteRoom(id))
+  }
+
+  const handleClodeModal = () =>{
+    setOpenModal(false)
+  }
   if (loading) {
     return (
-      <div className="container">
+    <>
         <Navbar />
+      <div className="w-full m-20 px-12 py-6">
         <div>
           <SidebarHotel />
         </div>
         <div className="room ">
-          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5 "></div>
           <div className="room_type">
             <div className="room_title">
               <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700 "></div>
@@ -109,6 +119,7 @@ export default function ManagerHotel() {
           </div>
         </div>
       </div>
+    </>
     );
   }
 
@@ -118,54 +129,81 @@ export default function ManagerHotel() {
       <div>
         <SidebarHotel />
       </div>
-      <div className="room">
-        <h1>Rooms</h1>
+      <div className="w-full m-20 px-12 py-6">
+        <h1 className="text-4xl text-medium font-bold">Rooms</h1>
         {data &&
           data?.map((item) => (
-            <div className="room_type" key={item?.id}>
-              <div className="room_title">
+            <div className="p-10" key={item?.id}>
+              <div className="flex flex-row">
                 {edit & (category.id === item.id) ? (
+                  <div className="flex flex-row">
                   <input
-                    className="bg-transparent border-none focus:outline-none text-lg w-20"
+                    className="bg-transparent border-none focus:outline-none text-lg w-20 mr-5"
                     type="name"
                     value={category.name}
                     onChange={(e) =>
                       setCategory({ ...category, name: e.target.value })
                     }
-                  />
+                    />
+                  <AiOutlineCheck className=" text-xl " />
+                    </div>
                 ) : (
-                  <h2>{item?.name}</h2>
+                  <h2 className="text-2xl font-meidum mr-4  ">{item?.name}</h2>
                 )}
                 <AiFillEdit
+                className=""
+                size={24}
                   onClick={() => {
                     editName(item?.id, item?.name);
                   }}
                 />
               </div>
-              <div className="room_content">
+              <div className="grid grid-cols-4 gap-4">
                 {item?.rooms?.map((room) => (
                   <div key={room.id}>
-                    <div className="room_item">
-                      <div className="room_left">
+                    <div className="flex justify-center border rounded-lg border-black w-5/6 h-4/5 m-2.5">
+                      <div className="w-auto m-10">
                         <h3>{room?.name}</h3>
                         <p>Còn cái nịt</p>
                       </div>
-                      <div className="room_right">
-                        <button>Update</button>
-                        <br />
-                        <button>Delete</button>
+                      <div className="flex items-center justify-center">
+                        <div className="flex flex-col">
+                        <button className="text-20 font-semibold my-2  bg-transparent underline"
+                        onClick={()=>{
+                          setRoomId(room.id)
+                          setType('update')
+                          setOpenModal(!openModal)
+                        }}
+                        >Update</button>
+                        <button className="text-20 font-semibold my-2 bg-transparent underline" onClick={()=>{handleDelete(room.id)}}>Delete</button>
+                          </div>
                       </div>
                     </div>
                   </div>
                 ))}
-                <div className="room_item_add">
-                  <div className="new_room_item">
+                <div className="h-5/6 w-20 mt-2"
+                                  onClick={()=>{
+                                    setOpenModal(!openModal)
+                                    setType('add')
+                                  }}
+                >
+                  <div 
+                  className="border rounded-lg border-black flex items-center h-full w-full justify-center"
+
+                  >
                     <AiOutlinePlus />
                   </div>
                 </div>
+                  <RoomModal 
+                  isOpen={openModal} 
+                  isClose={handleClodeModal}
+                  hotelId={id}
+                  categoryId={data.categoryId}
+                  roomId={item.id}
+                  id={roomId}
+                  type={type}
+                  />
               </div>
-
-
             </div>
           ))}
       </div>

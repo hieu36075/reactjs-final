@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createRoom, getRoomByCategoryId } from "./roomThunk";
+import { createRoom, deleteRoom, getRoomById, updateRoom } from "./roomThunk";
 
 const initialState ={
     loading: false,
     error: {},
     data: [],
+    details: [],
 }
 
 const roomSlice = createSlice({
@@ -19,7 +20,7 @@ const roomSlice = createSlice({
             })
             .addCase(createRoom.fulfilled, (state, action) => {
                 state.loading = false
-                state.data = action.payload
+                state.data.push(action.payload)
                 state.error = ""
             })
             .addCase(createRoom.rejected, (state, action) => {
@@ -27,15 +28,43 @@ const roomSlice = createSlice({
                 state.error = action.payload
             })
 
-            .addCase(getRoomByCategoryId.pending, (state) => {
+            .addCase(updateRoom.pending, (state) => {
                 state.loading = true
             })
-            .addCase(getRoomByCategoryId.fulfilled, (state, action) => {
+            .addCase(updateRoom.fulfilled, (state, action) => {
                 state.loading = false
-                state.data = action.payload
+                state.details = action.payload
                 state.error = ""
             })
-            .addCase(getRoomByCategoryId.rejected, (state, action) => {
+            .addCase(updateRoom.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+
+            .addCase(getRoomById.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getRoomById.fulfilled, (state, action) => {
+                state.loading = false
+                state.details = action.payload
+
+                state.error = ""
+            })
+            .addCase(getRoomById.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload
+            })
+
+            .addCase(deleteRoom.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(deleteRoom.fulfilled, (state, action) => {
+                state.loading = false
+                const {id} = action.payload
+                state.data = state.data.filter((item) => item.id !== id);
+                state.error = ""
+            })
+            .addCase(deleteRoom.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload
             })

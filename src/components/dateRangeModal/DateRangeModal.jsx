@@ -14,7 +14,7 @@ const customModalStyles = {
     },
   };
   
-const DateRangeModal = ({ isOpen, onClose, initialDate, onSave }) => {
+const DateRangeModal = ({ isOpen, onClose, initialDate, onSave, ...props }) => {
   const [tempDate, setTempDate] = useState(initialDate);
 
   const handleDateChange = (item) => {
@@ -36,23 +36,38 @@ const DateRangeModal = ({ isOpen, onClose, initialDate, onSave }) => {
       isOpen={isOpen}
       onRequestClose={onClose}
       contentLabel="Date Range Modal"
-      style={customModalStyles} //
+      style={customModalStyles}
+      className="fixed inset-0 flex items-center justify-center"
     >
-    <div className="modal-header">
-      <h2>Date Range Selection</h2>
-    </div>
-      <DateRange
-        editableDateInputs={true}
-        onChange={handleDateChange}
-        moveRangeOnFirstSelection={false}
-        ranges={tempDate}
-        className="border rounded p-2 flex"
-        minDate={new Date()}
-      />
-      <button onClick={handleCancel}>Cancel</button>
-      <button onClick={handleSubmit}>Submit</button>
+
+      <div className="bg-white p-4 rounded shadow-md w-96"> {/* Vùng trắng */}
+        <DateRange
+          editableDateInputs={true}
+          onChange={handleDateChange}
+          moveRangeOnFirstSelection={false}
+          ranges={tempDate}
+          className="border rounded p-2 flex"
+          minDate={new Date()}
+          {...props}
+        />
+        <div className="flex justify-end mt-4">
+          <button
+            className="bg-red-500 hover:bg-red-600 text-white rounded px-3 py-1 mr-2"
+            onClick={handleCancel}
+          >
+            Cancel
+          </button>
+          <button
+            className="bg-blue-500 hover:bg-blue-600 text-white rounded px-3 py-1"
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </div>
+      </div>
     </Modal>
   );
+  
 };
 
 export default DateRangeModal;

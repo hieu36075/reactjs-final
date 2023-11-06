@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Widget from "../../../components/widget/Widget";
-import Navbar from "../../../layout/navbar/navbar";
+import Navbar from "../../../layout/navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserThisMonth } from "../../../redux/user/userThunks";
 import Charts from "../../../components/chart/Charts";

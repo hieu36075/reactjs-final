@@ -1,4 +1,4 @@
-import Navbar from '../navbar/navbar';
+import Navbar from '../navbar/Navbar';
 import Body from '../body/Body';
 
 function AdminTest() {

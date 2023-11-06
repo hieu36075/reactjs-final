@@ -11,7 +11,7 @@ export const getUsers = createAsyncThunk('user/getUsers', async(data, {rejectWit
     }
 })
 
-export const getYourProfile = createAsyncThunk('user/getYourProfile', async(_, {rejectWithValue}) =>{
+export const getMyUser = createAsyncThunk('user/getMyUser', async(_, {rejectWithValue}) =>{
     try{
         const reponse = await http.get(`/user/get-your-profile`);
         return reponse

@@ -9,6 +9,7 @@ module.exports = {
       colors: {
         primary: '#F5385D',
         blackOverlay: 'rgba(0, 0, 0, 0.5)',
+        primary1: '#F7F9FA'
       },
       height: {
         "10v": "10vh",
@@ -21,6 +22,9 @@ module.exports = {
         "80v": "80vh",
         "90v": "90vh",
         "100v": "100vh",
+      },
+      flex: {
+        '6': '6 1 0%',
       },
     },
   },

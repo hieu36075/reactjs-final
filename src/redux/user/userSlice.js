@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserThisMonth, getUsers, getUsersById, getYourProfile } from "./userThunks";
+import { getUserThisMonth, getUsers, getUsersById, getMyUser } from "./userThunks";
 
 
 const initialState ={
@@ -28,15 +28,15 @@ const userSlice = createSlice({
             state.error = action.payload
         });
         //
-        builder.addCase(getYourProfile.pending, (state, action) => {
+        builder.addCase(getMyUser.pending, (state, action) => {
             state.loading = true
         });
-        builder.addCase(getYourProfile.fulfilled, (state, action) => {
+        builder.addCase(getMyUser.fulfilled, (state, action) => {
             state.loading = false
             state.data = action.payload
             state.error = ""
         });
-        builder.addCase(getYourProfile.rejected, (state, action) => {
+        builder.addCase(getMyUser.rejected, (state, action) => {
             state.isLogin = true;
             state.error = action.payload
         });

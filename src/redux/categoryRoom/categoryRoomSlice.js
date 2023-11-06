@@ -14,6 +14,10 @@ const categoryRoomSlice = createSlice({
     name: "categoryRoom",
     initialState,
     reducers:{
+        updateRoomInCategoryRoom:(state, action)=>{
+            const curren = state.data.rooms.findIndex((item)=> item.id === action.payload.id)
+            console.log(state.data)
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -56,5 +60,5 @@ const categoryRoomSlice = createSlice({
             })
     }
 });
-
+export const {updateRoomInCategoryRoom} = categoryRoomSlice.actions
 export default categoryRoomSlice.reducer

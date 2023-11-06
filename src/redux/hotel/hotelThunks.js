@@ -41,6 +41,26 @@ export const getHotelByUserId = createAsyncThunk('hotel/getHotelByUserId', async
     }
 })
 
+export const filterHotelByUserId = createAsyncThunk('hotel/filterHotelByUserId', async(data, {rejectWithValue})=>{
+     try {
+         const reponse = await http.get(`/hotel/filter-by-user?active=${data}`)
+         return reponse
+     } catch (error) {
+         return rejectWithValue(error)
+     }
+ })
+
+ export const activeHotel = createAsyncThunk('hotel/activeHotel', async(data, {rejectWithValue})=>{
+    try {
+        const {id} = data
+        const reponse = await http.patch(`/hotel/active-hotel?id=${id}`,)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+
 export const getHotelByCategory = createAsyncThunk('hotel/getHotelByCategory', async(categoryId, {rejectWithValue})=>{
     try {
         const reponse = await http.get(`/hotel/get-hotel-by-category/${categoryId}`)

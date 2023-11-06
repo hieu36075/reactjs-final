@@ -4,7 +4,7 @@ import { login, loginByGoogle, register } from "./authThunks";
 
 
 const initialState ={
-    isLogin: false, // Đặt giá trị ban đầu là false
+    isLogin: false, 
     loading: false,
     error: '',
     token: []
@@ -22,6 +22,9 @@ const authSlice = createSlice({
         setIsLogin: (state, action) => {
             state.isLogin = action.payload;
         },
+        setToken:(state,action)=>{
+            state.token = action.payload
+        }
     },
     extraReducers: builder=>{
         builder.addCase(login.pending,(state,action)=>{
@@ -30,6 +33,7 @@ const authSlice = createSlice({
         builder.addCase(login.fulfilled, (state, action) =>{
             state.loading=false
             state.token = action.payload
+            state.token = action.payload.access_token
             localStorage.setItem("token",action.payload.access_token)
             localStorage.setItem("rfToken",action.payload.refresh_token)
             state.isLogin= true
@@ -45,8 +49,12 @@ const authSlice = createSlice({
         // })
         builder.addCase(loginByGoogle.fulfilled,(state,action)=>{
             state.isLogin= true
-            state.loading=false
             state.token = action.payload
+            state.token = action.payload.access_token
+            localStorage.setItem("token",action.payload.access_token)
+            localStorage.setItem("rfToken",action.payload.refresh_token)
+            state.loading=false
+       
         })
         builder.addCase(loginByGoogle.rejected, (state,action)=>{
             state.loading= false
@@ -59,6 +67,7 @@ const authSlice = createSlice({
         builder.addCase(register.fulfilled, (state, action) =>{
             state.loading=false
             state.token = action.payload
+            state.token = action.payload.access_token
             localStorage.setItem("token",action.payload.access_token)
             localStorage.setItem("rfToken",action.payload.refresh_token)
             state.isLogin= true
@@ -71,5 +80,5 @@ const authSlice = createSlice({
     }
 });
 
-export const {setIsLogin, logOut } = authSlice.actions;
+export const {setIsLogin, logOut,setToken } = authSlice.actions;
 export default authSlice.reducer

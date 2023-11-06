@@ -1,6 +1,6 @@
 
-import "./list.scss";
-import Navbar from "../../layout/navbar/navbar";
+
+import Navbar from "../../layout/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -11,7 +11,6 @@ import {defaultDate, defaultOptions } from './defaults';
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import { getHotelByCategory, getHotelByCountry } from "../../redux/hotel/hotelThunks";
 import { searchHotel } from "../../redux/hotel/hotelThunks";
 import CustomAsyncSelect from "../../components/selectBox/CustomAsyncSelect";
 import { getCountry } from "../../redux/country/countryThunks";
@@ -25,7 +24,7 @@ const List = () => {
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location?.state?.options || defaultOptions);
   const {id} = useParams();
-  const {loading, data} = useSelector(state=> state.hotel)
+  const {data} = useSelector(state=> state.hotel)
   const type = location?.state?.type
   
   const [countryId, setCountryId] = useState('');
@@ -34,7 +33,6 @@ const List = () => {
   const [occupancy, setOccupancy] = useState(location?.state?.options?.adult || 1);
   const [minPrice, setMinPrice] = useState(1);
   const [maxPrice, setMaxPrice] = useState(99999);
-
   const handleSearch = () => {
     dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice }));
   };
@@ -42,26 +40,26 @@ const List = () => {
   useEffect(()=>{
     if(type){
       if(type=== "country"){
-        dispatch(searchHotel({countryId: id, name: "", categoryId:"", occupancy:"",minPrice:"", maxPrice:""}))
+       setCountryId(id)
       }else if(type ==="category"){
-        dispatch(searchHotel({categoryId: id, name: "", countryId: "", occupancy: "",minPrice:"", maxPrice:""}))
+        setCategoryId(id)
       }
-    }else{
-      dispatch(searchHotel({ countryId, name : destination, categoryId , occupancy, minPrice, maxPrice }));
-      console.log("get all")
     }
-
-  },[id, type])
+  },[id, type ])
   
+
+  useEffect(()=>{
+    dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice }));
+  },[countryId, name, categoryId, occupancy, minPrice, maxPrice, destination])
   return (
     <div>
       <Navbar />
-      <Header type="list" />
-      <div className="listContainer">
-        <div className="listWrapper">
-          <div className="listSearch">
-            <h1 className="lsTitle">Search</h1>
-            <div className="lsItem">
+      <Header type="list" setOccupancy={setOccupancy}/>
+      <div className="flex justify-center mt-5 ">
+        <div className="w-full max-w-screen-lg flex">
+          <div className="bg-white p-2 sticky rounded-md ">
+            <h1 className="text-xl mb-2">Search</h1>
+            <div className="flex flex-col mb-2">
               <label>Name</label>
               <input
                placeholder={destination} 
@@ -69,9 +67,11 @@ const List = () => {
                onChange={(e) => setName(e.target.value)}
                />
             </div>
-            <div className="lsItem">
-              <label>Check-in Date</label>
-              <span onClick={() => setOpenDate(!openDate)}>{`${format(
+            <div className="flex flex-col mb-2">
+              <label className="text-xs">Check-in Date</label>
+              <span 
+              className="h-8 p-1 bg-white flex items-center cursor-pointer"
+              onClick={() => setOpenDate(!openDate)}>{`${format(
                 date[0].startDate,
                 "MM/dd/yyyy"
               )} to ${format(date[0].endDate, "MM/dd/yyyy")}`}</span>
@@ -83,64 +83,36 @@ const List = () => {
                 />
               )}
             </div>
-            <div className="lsItem">
+            <div className="flex flex-col mb-2">
               <label>Options</label>
-              <div className="lsOptions">
-                <div className="lsOptionItem">
+              <div className="p-2">
+                <div className="flex justify-between mb-2 text-xs">
                   <span className="lsOptionText">
                     Min price <small>per night</small>
                   </span>
-                  <input type="number" className="lsOptionInput"  onChange={(e) => setMinPrice(e.target.value)}/>
+                  <input type="number" className="w-12"  onChange={(e) => setMinPrice(e.target.value)}/>
                 </div>
-                <div className="lsOptionItem">
+                <div className="flex justify-between mb-2 text-xs">
                   <span className="lsOptionText">
                     Max price <small>per night</small>
                   </span>
-                  <input type="number" className="lsOptionInput" onChange={(e) => setMaxPrice(e.target.value)} />
+                  <input type="number" className="w-12" onChange={(e) => setMaxPrice(e.target.value)} />
                 </div>
-                <div className="list-select">
+                <div className="mb-2">
                 <CustomAsyncSelect 
                   fetchDataAction={getCountry}
-                  onChange={(selected) => setCountryId(selected)}
+                  onChange={(selected) => setCountryId(selected.value)}
                 />
                 </div>
                 <CustomAsyncSelect
                   fetchDataAction={getCategory}
-                  onChange={(selected) => setCategoryId(selected)}
-                  isClearable={true} 
+                  onChange={(selected) => setCategoryId(selected.value)}
                 />
-                {/* <div className="lsOptionItem">
-                  <span className="lsOptionText">Adult</span>
-                  <input
-                    type="number"
-                    min={1}
-                    className="lsOptionInput"
-                    placeholder={options.adult}
-                  />
-                </div> */}
-                {/* <div className="lsOptionItem">
-                  <span className="lsOptionText">Children</span>
-                  <input
-                    type="number"
-                    min={0}
-                    className="lsOptionInput"
-                    placeholder={options.children}
-                  />
-                </div> */}
-                {/* <div className="lsOptionItem">
-                  <span className="lsOptionText">Room</span>
-                  <input
-                    type="number"
-                    min={1}
-                    className="lsOptionInput"
-                    placeholder={options.room}
-                  />
-                </div> */}
               </div>
             </div>
-            <button onClick={handleSearch}>Search</button>
+            <button className="p-2 bg-blue-700 text-white w-full font-medium cursor-pointer" onClick={handleSearch}>Search</button>
           </div>
-          <div className="listResult">
+          <div className="flex flex-3 ml-5">
             <SearchItem  data={data} />
           </div>
         </div>

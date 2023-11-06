@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import "./css/navbar.css";
-import { GiRocketThruster } from "react-icons/gi";
+import { GiAirplaneDeparture } from "react-icons/gi";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { IconContext } from "react-icons/lib";
 import { NavLink } from "react-router-dom";
@@ -13,8 +13,8 @@ import { logOut } from "../../redux/auth/authSlice";
 import LoginModal from "../../pages/login/LoginModal";
 import useLoginModal from "../../context/modal/useLoginModal";
 import useRegisterModal from "../../context/modal/useRegisterModal";
-import socket from "../../services/socket";
-
+import socket from "../../services/socket"; 
+import {GrNotification} from "react-icons/gr"
 function Navbar({ type }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,7 +28,23 @@ function Navbar({ type }) {
   const [notifications, setNotifications] = useState([]);
   const loginModal = useLoginModal(); // Sử dụng hook Login Modal
   const registerModal = useRegisterModal(); //
+  const tokenNew = useSelector((state)=> state.auth.token)
+  const [token, setToken] = useState(localStorage.getItem("token"))
+  const [decode, setDecode] = useState('')
+  useEffect(()=>{
+    if(isLogin){
+      if(tokenNew?.length > 0){
+        setToken(tokenNew)
+        setDecode(jwtDecode(tokenNew))
+      }else{
+        setDecode(jwtDecode(localStorage.getItem('token')))
+      }
+    }
+  },[tokenNew,isLogin])
 
+  // useEffect(()=>{
+    
+  // },[])
   const openLoginModal = () => {
     loginModal.openModal();
   };
@@ -45,7 +61,7 @@ function Navbar({ type }) {
     registerModal.closeModal();
   };
 
-  const token = localStorage.getItem("token");
+
   useEffect(() => {
     if (!notificationsLoaded && isLogin) {
       dispatch(getNoticationById());
@@ -58,11 +74,8 @@ function Navbar({ type }) {
   }, [dispatch, notificationsLoaded, data, isLogin]);
 
   useEffect(() => {
-    if (isLogin && !socketInitialized) {
-      const decode = jwtDecode(token);
-
+    if (isLogin && !socketInitialized && decode) {
       socket.emit("join", decode.id);
-
       socket.on("ping", () => {
         socket.emit("pong", { timestamp: new Date() });
       });
@@ -77,7 +90,6 @@ function Navbar({ type }) {
   useEffect(() => {
     if (socketInitialized) {
       socket.on("notification", (data) => {
-        console.log("Notification:", data);
         setNotifications((prevNotifications) => [data, ...prevNotifications]);
       });
     }
@@ -100,11 +112,12 @@ function Navbar({ type }) {
     };
   }, []);
 
+
   const handleLogOut = () => {
     dispatch(logOut());
   };
   const handleNotification = (action, id) => {
-    // console.log(id)
+
     switch (action) {
       case "action_booking_hotel":
         navigate(`/account/bill/${id}`);
@@ -113,7 +126,7 @@ function Navbar({ type }) {
         navigate(`/account/managerDashboard/${id}`);
         break;
       case "action_create_hotel":
-        navigate(`hotels/details/${id}`);
+        navigate(`/hotels/details/${id}`);
         break;
 
       default:
@@ -129,38 +142,17 @@ function Navbar({ type }) {
         >
           <div className="navbar-container container">
             <Link to="/" className="navbar-logo" onClick={closeMobileMenu}>
-              <GiRocketThruster className="navbar-icon" />
-              Skye
+              <GiAirplaneDeparture className="navbar-icon" />
+              Travel
             </Link>
             <div className="menu-icon" onClick={handleClick}>
               {click ? <FaTimes /> : <FaBars />}
             </div>
             <ul className={click ? "nav-menu active" : "nav-menu"}>
-              <li className="nav-item">
-                <NavLink
-                  id="active"
-                  to="/"
-                  className={({ isActive }) =>
-                    "nav-links" + (isActive ? " activated" : "")
-                  }
-                  onClick={closeMobileMenu}
-                >
-                  Home
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink
-                  // to="/contact"
-                  className={({ isActive }) =>
-                    "nav-links" + (isActive ? " activated" : "")
-                  }
-                  onClick={closeMobileMenu}
-                >
-                  Contact
-                </NavLink>
-              </li>
+
               {!isLogin ? (
                 <>
+                
                   <li className="nav-item">
                     <NavLink
                       className={({ isActive }) =>
@@ -192,6 +184,19 @@ function Navbar({ type }) {
                 </>
               ) : (
                 <>
+                              <li className="nav-item">
+                <NavLink
+                  to={decode.roles === 'User' ? "/account/profile" : "/account/myHotel"}
+                  className={({ isActive }) =>
+                  "nav-links" + (isActive ? " activated" : "")
+                }
+                onClick={closeMobileMenu}
+                >
+                {decode.roles === 'User'? (
+                  'Accommodation for rent'
+                  ):('Manager Hotel')}
+                </NavLink>
+              </li>
                   <li className="nav-item noti">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +204,7 @@ function Navbar({ type }) {
                       viewBox="0 0 24 24"
                       strokeWidth={1.5}
                       stroke="currentColor"
-                      className="w-6 h-6"
+                      className="w-6 h-6 "
                       style={{ color: "white", margin: "28px 20px 0 0px" }}
                     >
                       <path
@@ -208,15 +213,17 @@ function Navbar({ type }) {
                         d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0"
                       />
                     </svg>
-                    <div className="noti-content">
-                      <h1>Thong Bao</h1>
+                    <div className="noti-content h-96">
+                      <h1 className="border-b-2 ">Thong Bao</h1>
                       {loading ? (
                         <p>Loading...</p>
                       ) : (
+                        <>
+                        {notifications?.length>0 ? (
                         notifications?.map((item) => (
                           <div
                             key={item.id}
-                            className="noti-item"
+                            className="noti-item ml-2 mr-2 rounded-lg "
                             onClick={() => {
                               handleNotification(item.action, item.actionId);
                             }}
@@ -224,7 +231,15 @@ function Navbar({ type }) {
                             <p>{item.data}</p>
                           </div>
                         ))
-                      )}
+                        ) : (
+                          <div className="flex flex-col h-96 justify-center items-center">
+                            <GrNotification className="" size={80}/>
+                            <h1 className="font-normal">Don't have notification </h1>
+                          </div>
+                        )}
+                        </>
+                      )
+                      }
                     </div>
                   </li>
                   <li className="nav-item profile ">
@@ -255,7 +270,7 @@ function Navbar({ type }) {
                           navigate("/account/profile");
                         }}
                       >
-                        <div className="flex">
+                        <div className="flex ">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -271,7 +286,7 @@ function Navbar({ type }) {
                             />
                           </svg>
 
-                          <span className="spann">Profile</span>
+                          <span className="spann ">Profile</span>
                         </div>
 
                       </a>
@@ -298,7 +313,6 @@ function Navbar({ type }) {
             </ul>
           </div>
         </nav>
-        <script></script>
       </IconContext.Provider>
       <Outlet />
     </>

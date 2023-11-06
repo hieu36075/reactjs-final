@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import "./userAdmin.scss"
 import Sidebar from "../../../layout/admin/sidebar/Sidebar";
 import AdminNavbar from "../../../layout/admin/navbar/AdminNavbar";
 import { getUsers } from "../../../redux/user/userThunks";
@@ -16,6 +15,7 @@ const UserList = () => {
   },[dispatch])
 
   const handleDelete = (id) => {
+    console.log(id)
     // setData(data.filter((item) => item.id !== id));
   };
   if (!loading) {
@@ -53,9 +53,9 @@ const UserList = () => {
   const user = data?.data?.map((data, index) => ({ ...data, index: index }));
 
   return (
-    <div className="list_table">
+    <div className="flex w-full">
       <Sidebar/>
-      <div className="listContainer_table">
+      <div className="flex-[2_2_0%]">
         <AdminNavbar/>
         <Datatable data={user} Columns={userColumns} actionColumn={actionColumn} meta={data?.meta} title="Manager User"/>
       </div>

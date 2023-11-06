@@ -1,13 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import Navbar from "../../layout/navbar/navbar";
+import Navbar from "../../layout/navbar/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import "./detailsPage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getHotelById } from "../../redux/hotel/hotelThunks";
-import CommentItem from "../../components/comment/CommentItem";
 import "react-datepicker/dist/react-datepicker.css";
 import { DateRange } from "react-date-range";
-import { format  } from "date-fns";
+import { format } from "date-fns";
 import ImagesDatails from "./ImagesDatails";
 import AmenityIcon from "../../components/amenity/AmenityIcon";
 import moment from "moment";
@@ -15,59 +14,60 @@ import { createOrder, updateOrder } from "../../redux/order/orderThunk";
 import CategoryRoomItem from "../../components/categoryRoomItem/CategoryRoomItem";
 import { getUsersById } from "../../redux/user/userThunks";
 import Map from "../../components/location/Map";
-
-
+import { isWithinInterval } from "date-fns";
+import Comment from "../../components/comment/Comment";
+import { isDateBlockedISO } from "../../components/dateRangeModal/DateAction";
+import { checkDateByRoom } from "../../redux/orderDetail/orderDetailThunk";
 
 export default function DetailsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { id } = useParams();
   const { details, loading } = useSelector((state) => state.hotel);
+  const checkDate = useSelector((state) => state.orderDetail.data)
   const user = useSelector((state) => state.user.details)
-  const {isLogin} = useSelector((state) => state.auth)
-  const roomsTest = useSelector((state)=> state.hotel.details.rooms)
+  const { isLogin } = useSelector((state) => state.auth)
+  const roomsTest = useSelector((state) => state.hotel.details.rooms)
   const [center, setCenter] = useState({
     lat: '',
     lng: '',
     address: "My Hotel",
   });
-  console.log(center)
   useEffect(() => {
     dispatch(getHotelById(id)).unwrap()
-    .then((res)=>{
-      dispatch(getUsersById(res.userId));
-      setCenter(prevHotel => ({
-        ...prevHotel,
-        lat: res.latitude,
-        lng: res.longitude
-      }));
-    });
-    // dispatch(getCategoryRoomByHotel())
+      .then((res) => {
+        dispatch(getUsersById(res.userId));
+        setCenter(prevHotel => ({
+          ...prevHotel,
+          lat: res.latitude,
+          lng: res.longitude
+        }));
+      });
   }, [id, dispatch]);
 
-  // useEffect(()=>{
-  //   if()
-  // },[])
+  useEffect(()=>{
+    if(details?.rooms?.[0]?.id){
+      dispatch(checkDateByRoom(details?.rooms?.[0]?.id))
+    }
+  },[details?.rooms?.[0]?.id])
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const [date, setDate] = useState([
     {
       startDate: new Date(),
-      endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000), // Thêm 1 ngày
+      endDate: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
       key: "selection",
     },
   ]);
-  
+
   const datePickerRef = useRef(null);
   useEffect(() => {
-    // Lắng nghe sự kiện click trên toàn bộ document
     const handleDocumentClick = (event) => {
       if (
         datePickerRef.current &&
         !datePickerRef.current.contains(event.target)
       ) {
-        // Nếu người dùng nhấp vào nơi khác ngoài DatePicker, đóng DatePicker
         setShowDatePicker(false);
       }
     };
@@ -89,65 +89,6 @@ export default function DetailsPage() {
     return <div>Loading...</div>;
   }
 
-  const sampleComments = [
-    {
-      id: 1,
-      author: "John Doe",
-      date: "July 27, 2023",
-      content:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, velit ac sodales fermentum, lacus dolor venenatis tortor.",
-      avatarUrl: "url_to_user_avatar_1",
-    },
-    {
-      id: 2,
-      author: "Jane Smith",
-      date: "July 28, 2023",
-      content:
-        "Praesent euismod enim vitae risus iaculis fermentum. In venenatis, turpis in facilisis vestibulum, ex est congue orci, sit amet.",
-      avatarUrl: "url_to_user_avatar_2",
-    },
-    {
-      id: 3,
-      author: "Jane Smith",
-      date: "July 28, 2023",
-      content:
-        "Praesent euismod enim vitae risus iaculis fermentum. In venenatis, turpis in facilisis vestibulum, ex est congue orci, sit amet.",
-      avatarUrl: "url_to_user_avatar_2",
-    },
-    {
-      id: 4,
-      author: "Jane Smith",
-      date: "July 28, 2023",
-      content:
-        "Praesent euismod enim vitae risus iaculis fermentum. In venenatis, turpis in facilisis vestibulum, ex est congue orci, sit amet.",
-      avatarUrl: "url_to_user_avatar_2",
-    },
-    {
-      id: 5,
-      author: "Jane Smith",
-      date: "July 28, 2023",
-      content:
-        "Praesent euismod enim vitae risus iaculis fermentum. In venenatis, turpis in facilisis vestibulum, ex est congue orci, sit amet.",
-      avatarUrl: "url_to_user_avatar_2",
-    },
-    {
-      id: 6,
-      author: "Jane Smith",
-      date: "July 28, 2023",
-      content:
-        "Praesent euismod enim vitae risus iaculis fermentum. In venenatis, turpis in facilisis vestibulum, ex est congue orci, sit amet.",
-      avatarUrl: "url_to_user_avatar_2",
-    },
-    {
-      id: 7,
-      author: "Jane Smith",
-      date: "July 28, 2023",
-      content:
-        "Praesent euismod enim vitae risus iaculis fermentum. In venenatis, turpis in facilisis vestibulum, ex est congue orci, sit amet.",
-      avatarUrl: "url_to_user_avatar_2",
-    },
-    // Thêm các comment mẫu khác vào đây
-  ];
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
@@ -168,7 +109,7 @@ export default function DetailsPage() {
   const endDate = moment(date[0].endDate);
   const numberOfDays = Math.max(endDate.diff(startDate, "days"), 1);
 
-  const vatRate = 0.1; // 10% VAT
+  const vatRate = 0.1; 
   const serviceRate = 0.05;
   const roomPrice = details?.rooms?.reduce((total, item) => {
     return total + item.price * numberOfDays;
@@ -180,65 +121,62 @@ export default function DetailsPage() {
   const totalPrice = roomPrice + totalservice
 
   const isOrderChanged = (existingOrder, updatedOrder) => {
-    // Kiểm tra sự khác biệt ở trường checkIn
     const checkInChanged = existingOrder.checkIn !== updatedOrder.checkIn;
-  
-    // Kiểm tra sự khác biệt ở trường checkOut
     const checkOutChanged = existingOrder.checkOut !== updatedOrder.checkOut;
-    
     const priceChanged = existingOrder.price !== updatedOrder.price;
-    // Kiểm tra sự khác biệt ở các trường thông tin khác bạn quan tâm
-    // Ví dụ: roomPrice, numberOfGuests, ... 
-  
-    // Trả về true nếu có bất kỳ sự khác biệt nào
-    return checkInChanged || checkOutChanged || priceChanged/* || ... */;
+    return checkInChanged || checkOutChanged || priceChanged
   }
-  
-  const handleBooking= async (e, price, roomId)=>{
-    if(!isLogin){
-      return console.log('please login')
+
+  const handleBooking = async (e, price, roomId) => {
+    if (!isLogin) {
+      return console.log('Please login')
     }
     e.preventDefault();
     const priceOrder = price ? price + totalservice : totalPrice
-    const roomIdOrder = roomId? roomId : roomsTest[0].id
+    const roomIdOrder = roomId ? roomId : roomsTest[0].id
 
-    try{
+    try {
       const order = await dispatch(createOrder({
-        checkIn:formattedStartDate, 
-        checkOut: formattedEndDate, 
-        price: priceOrder, 
-        roomId: roomIdOrder , 
-        hotelId: details?.id})).unwrap();
-      if(order){
-        const newOrder ={
+        checkIn: formattedStartDate,
+        checkOut: formattedEndDate,
+        price: priceOrder,
+        roomId: roomIdOrder,
+        hotelId: details?.id
+      })).unwrap();
+      if (order) {
+        const newOrder = {
           ...order,
           checkIn: formattedStartDate,
           checkOut: formattedEndDate,
           price: priceOrder
         }
-        if(isOrderChanged(order,newOrder)){
+        if (isOrderChanged(order, newOrder)) {
           await dispatch(updateOrder({
-            id: order.id, 
-            checkIn:formattedStartDate, 
-            checkOut: formattedEndDate, 
-            price: priceOrder, 
-            hotelId: details?.id})).unwrap();
+            id: order.id,
+            checkIn: formattedStartDate,
+            checkOut: formattedEndDate,
+            price: priceOrder,
+            hotelId: details?.id
+          })).unwrap();
         }
       }
-    navigate(`/hotels/stays/${order.id}`)
-    }catch(error){
+      navigate(`/hotels/stays/${order.id}`)
+    } catch (error) {
       console.error('Đã xảy ra lỗi:', error);
     }
   }
 
 
-  const handleMesage=(id)=>{
-    console.log(id)
-    navigate(`/account/message`,{state:{userId: id}})
+  const handleMesage = (id) => {
+    navigate(`/account/message`, { state: { userId: id } })
   }
-  
 
-  
+  const blockedDateRanges = checkDate.map((item) => ({
+    startDate: item.oder.checkIn,
+    endDate: item.oder.checkOut
+  }));
+
+
   return (
     <div>
       <Navbar />
@@ -246,12 +184,12 @@ export default function DetailsPage() {
       <div className="mt-4 bg-white-100 -mx-8 px-48 py-8 ">
         <h1 className="text-4xl font-bold font-roboto">{details.name}</h1>
         <h2 className="text-xl font-roboto">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-        </svg>
-          {details?.address},{details?.city?.name},{details?.country?.name} 
-          </h2>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+          </svg>
+          {details?.address},{details?.city?.name},{details?.country?.name}
+        </h2>
         <ImagesDatails images={details} />
 
         <div className="mt-8 grid gap-8 grid-cols-1 md:grid-cols-2 test" >
@@ -282,28 +220,23 @@ export default function DetailsPage() {
                 Room Details
               </h2>
               <p>Number of beds: 2</p>
-              {/* Thêm các thông tin cần thiết khác về phòng như chính sách hủy phòng, ... */}
-              {/* <p>{details.extraInfo}</p> */}
             </div>
 
             <div className="w-full h-px bg-gray-300 my-4"></div>
 
             <div className="my-4">
               <h2 className="font-semibold text-2xl break-words">
-                  Infomation 
-                </h2>
-                <div className="flex flex-col items-center">
-                <img  className="rounded-full w-32 h-32" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80" alt=""/>
+                Infomation
+              </h2>
+              <div className="flex flex-col items-center">
+                <img className="rounded-full w-32 h-32" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80" alt="" />
                 <h1 className="mb-4" >{user.email}</h1>
                 <h1 className="mb-4">joined from {new Date(user.updatedAt).toLocaleDateString()}</h1>
-                <button className="ml-4 rounded-full border border-black px-4 py-2 text-black bg-white hover:bg-gray-900" onClick={()=>{handleMesage(user.id)}}> Contact the homeowner immediately</button>
-                </div>
+                <button className="ml-4 rounded-full border border-black px-4 py-2 text-black bg-white hover:bg-gray-900" onClick={() => { handleMesage(user.id) }}> Contact the homeowner immediately</button>
+              </div>
             </div>
           </div>
           <div className="booking-criteria-container">
-            {/* <div className="price-section">
-              <div className="text-2xl text-center">Price: {item.price}$ / night</div>
-            </div> */}
             <div
               className="date-section mt-4"
               onClick={() => setShowDatePicker(!showDatePicker)}
@@ -339,6 +272,7 @@ export default function DetailsPage() {
                 ranges={date}
                 className="border rounded p-2"
                 minDate={new Date()}
+                disabledDay={(date) => isDateBlockedISO(date, blockedDateRanges)}
               />
             )}
 
@@ -433,23 +367,16 @@ export default function DetailsPage() {
                 <h3>You have not been deducted yet</h3>
                 <div className="total_item ">
                   <div className="title">
-                    <a href="">{item?.price} x {numberOfDays} night</a>
+                  <a href={`${item?.price}x${numberOfDays}night`}>{item?.price} x {numberOfDays} night</a>
+
                   </div>
                   <div className="price">
                     <p>${item?.price * numberOfDays}</p>
                   </div>
                 </div>
-                {/* <div className="total_item">
-                  <div className="title">
-                    <a href="">Phí d</a>
-                  </div>
-                  <div className="price">
-                    <p>$54</p>
-                  </div>
-                </div> */}
                 <div className="total_item">
                   <div className="title">
-                    <a href="">Service charge (including vat)</a>
+                    <h2>Service charge (including vat)</h2>
                   </div>
                   <div className="price">
                     <p>${totalservice.toFixed(2)}</p>
@@ -458,9 +385,9 @@ export default function DetailsPage() {
                 <div className="total_border"></div>
                 <div className="total_item">
                   <div className="title">
-                    <a className="total_bill" href="">
-                    Total 
-                    </a>
+                    <h2 className="total_bill">
+                      Total
+                    </h2>
                   </div>
                   <div className="price">
                     <p>${totalPrice.toFixed(2)}</p>
@@ -471,14 +398,14 @@ export default function DetailsPage() {
           </div>
         </div>
         <div className="w-full h-px bg-gray-300 my-4"></div>
-          <CategoryRoomItem hotel={details} onSubmit={handleBooking}/>
+        <CategoryRoomItem hotel={details} onSubmit={handleBooking} />
         <div className="w-full h-px bg-gray-300 my-4"></div>
-          <CommentItem data={sampleComments} />
+              <Comment id={id}/>
         <div className="w-full h-px bg-gray-300 my-4"></div>
-        {center?.lat && center?.lng ?(
-        <div style={{height:'600px', width:'100%'}}> 
-                <Map location={center} zoomLevel={15}/>
-        </div>
+        {center?.lat && center?.lng ? (
+          <div style={{ height: '600px', width: '100%' }}>
+            {/* <Map location={center} zoomLevel={15}/> */}
+          </div>
 
         ) : (
           ""

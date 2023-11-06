@@ -14,9 +14,7 @@ const roomSlice = createSlice({
     initialState,
     reducers:{
         addMessage: (state,action)=>{
-            // const roomIndex = state.data.findIndex(room=>)
             const {roomId, newMessage} = action.payload
-            console.log(roomId)
             const currentRoomIndex  = state.data.findIndex((item)=> item.id === roomId) 
             if(currentRoomIndex  !== -1){
                 const currentRoom = state.data[currentRoomIndex];

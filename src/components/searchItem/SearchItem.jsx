@@ -36,7 +36,7 @@ const SearchItem = ({data}) => {
   return (
   <div>
   {data?.map(item=>(
-    <div className="searchItem" key={item?.id} onClick={()=>{
+    <div className="searchItem bg-white" key={item?.id} onClick={()=>{
       navigate(`/hotels/details/${item?.id}`)
     }}>
       <img

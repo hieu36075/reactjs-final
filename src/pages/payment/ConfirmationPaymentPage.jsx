@@ -12,7 +12,9 @@ import {
   updateAmountPayment,
 } from "../../redux/payment/paymentThunk";
 import DateRangeModal from "../../components/dateRangeModal/DateRangeModal";
-import Navbar from "../../layout/navbar/navbar";
+import Navbar from "../../layout/navbar/Navbar";
+import { checkDateByRoom } from "../../redux/orderDetail/orderDetailThunk";
+import { isDateBlockedISO } from "../../components/dateRangeModal/DateAction";
 
 const stripePromise = loadStripe(
   "pk_test_51NegkOC0zJif8DInBG11CS3Q6BKxWNiCgJfLHv03zSjIUn6WRZd4qDTFP7Hvxf87F9Z8DabAl2hHxKMmp9gs7lq400m8CGZXCA"
@@ -24,17 +26,17 @@ const ConfirmationPaymentPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [data, setData] = useState();
-  // console.log(data)
   const { loading } = useSelector((state) => state.order);
   const [elements, setElements] = useState(null);
   const [stripe, setStripe] = useState(null);
   const [onChange, setOnChange] = useState(false);
   const navigate = useNavigate();
+  const checkDate = useSelector((state) => state.orderDetail.data)
   const handleStripeElementsSet = (stripe, elements) => {
     setStripe(stripe);
     setElements(elements);
   };
-
+ 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getOrderById(id))
@@ -54,6 +56,15 @@ const ConfirmationPaymentPage = () => {
     fetchData();
   }, [id, dispatch]);
 
+  useEffect(()=>{
+    dispatch(checkDateByRoom(data?.orderdetails?.[0]?.roomId))
+  },[data?.orderdetails?.[0]?.roomId])
+
+  const blockedDateRanges = checkDate.map((item) => ({
+    startDate: item.oder.checkIn,
+    endDate: item.oder.checkOut
+  }));
+
   const [date, setDate] = useState([
     {
       startDate: new Date(),
@@ -67,10 +78,9 @@ const ConfirmationPaymentPage = () => {
   
   const startDate = moment(date[0].startDate);
   const endDate = moment(date[0].endDate);
-  // const numberOfDays = Math.max(endDate.diff(startDate, "days"), 1);
   const diffInMilliseconds = Math.abs(endDate - startDate);
   const numberOfDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
-  console.log(numberOfDays)
+
 
 
   const vatRate = 0.1;
@@ -84,11 +94,6 @@ const ConfirmationPaymentPage = () => {
   const totalservice = vatAmount + serviceAmount;
   const totalPrice = roomPrice + totalservice;
 
-  // const [order, setOrder]= useState({
-  //   checkIn: formattedStartDate,
-  //   checkOut: formattedEndDate,
-  //   price: '',
-  // })
 
 
 
@@ -137,7 +142,7 @@ const ConfirmationPaymentPage = () => {
     return <h1>loading</h1>;
   }
   const handleGoBack = () => {
-    navigate(-1); // Quay lại trang trước đó
+    navigate(-1); 
   };
   const openDatePicker = () => {
     setShowDatePicker(true);
@@ -148,7 +153,7 @@ const ConfirmationPaymentPage = () => {
   };
 
   const handleDateSave = (newDate) => {
-    setDate(newDate); // Cập nhật date với giá trị mới từ modal
+    setDate(newDate); 
     setOnChange(true);
   };
   const checkInDay = startDate.date();
@@ -177,7 +182,7 @@ const ConfirmationPaymentPage = () => {
       confirmParams: {
         return_url: "http://localhost:3000",
       },
-      redirect: 'if_required'  // Thay URL_CHUYEN_HUONG_SAU_THANH_TOAN bằng URL bạn muốn chuyển hướng
+      redirect: 'if_required'  
     });
     
     if(error){
@@ -260,7 +265,9 @@ const ConfirmationPaymentPage = () => {
             onClose={closeDatePicker}
             initialDate={date}
             onSave={handleDateSave}
-          />
+            disabledDay={(date) => isDateBlockedISO(date, blockedDateRanges)}
+            />
+  
           <div className="item">
             <div>
               <h4>Guest</h4>
@@ -280,7 +287,7 @@ const ConfirmationPaymentPage = () => {
           )}
           <input type="text" />
         </div>
-        <div className="item4">
+        {/* <div className="item4">
           <h2>Required for your trip</h2>
           <div className="item">
             <div>
@@ -291,7 +298,7 @@ const ConfirmationPaymentPage = () => {
               <button>Add</button>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="item5">
           <h2>Cancellation Policy</h2>
           <p>

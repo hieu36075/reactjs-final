@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOrderByUserId } from "../../redux/order/orderThunk";
 import BookingItem from "../../components/bookingItem/BookingItem";
-import Navbar from "../../layout/navbar/navbar";
+import Navbar from "../../layout/navbar/Navbar";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 
 export default function BookingsPage() {

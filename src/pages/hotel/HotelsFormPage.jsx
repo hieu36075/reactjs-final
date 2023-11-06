@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Navbar from "../../layout/navbar/navbar";
+import Navbar from "../../layout/navbar/Navbar";
 import HotelForm from "./HotelForm";
 import FormProgress from "./FormProgress";
 import RoomForm from "./RoomForm";

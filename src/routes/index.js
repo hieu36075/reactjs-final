@@ -1,4 +1,4 @@
-import Navbar from '../layout/navbar/navbar';
+import Navbar from '../layout/navbar/Navbar';
 import Body from '../layout/body/Body';
 
 function MainRoutes() {

@@ -5,7 +5,7 @@ function App() {
   return (
     // <BrowserRouter>
 
-    <div className="App">
+    <div className="App bg-primary1">
         <div className='body'>
               <Body/>       
         </div>      

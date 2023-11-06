@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import Navbar from "../../layout/navbar/navbar";
+import Navbar from "../../layout/navbar/Navbar";
 import "./profilePage.css";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile, updateProfile, uploadAvatar } from "../../redux/profile/profileThunk";
+import { switchRole } from "../../redux/role/roleThunk";
+import { getMyUser } from "../../redux/user/userThunks";
 
 export default function ProfilePage() {
   const dispatch = useDispatch();
   const { details, loading, image } = useSelector((state) => state.profile);
+
+
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -15,6 +19,12 @@ export default function ProfilePage() {
     address: "",
     avatarUrl: "",
   });
+
+  const [role, setRole] = useState('')
+  const [enabled, setEnabled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+
 
   useEffect(() => {
     dispatch(getMyProfile())
@@ -29,7 +39,19 @@ export default function ProfilePage() {
           avatarUrl: res.avatarUrl,
         });
       });
+    dispatch(getMyUser()).unwrap()
+    .then((res)=>{
+      setRole(res?.role?.name)
+    })
   }, []);
+
+  useEffect(()=>{
+    if(role){
+      if(role !== 'User'){
+        setEnabled(true)
+      }
+    }
+  },[role])
 
   const [show, setShow] = useState(false);
   const [showName, setShowName] = useState(false);
@@ -41,7 +63,6 @@ export default function ProfilePage() {
   const handleChangeAvatar = async (ev) => {
     const files = ev.target.files;
     
-    // Kiểm tra số lượng tệp
     if (files.length !== 1) {
       alert('Vui lòng chọn một ảnh duy nhất.');
       return;
@@ -64,7 +85,6 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (profile.avatarUrl) {
-      // Gọi updateProfile khi avatarUrl đã được cập nhật
       dispatch(updateProfile(profile));
     }
   }, [profile.avatarUrl, dispatch]);
@@ -124,6 +144,47 @@ export default function ProfilePage() {
   if (!details && loading) {
     return <h1>loading..</h1>;
   }
+  const handleCancel = () => {
+    setOpen(!open);
+    setEnabled(!enabled)
+  }
+
+  const handleConfirm = () => {
+    setOpen(!open);
+    dispatch(switchRole())
+  }
+  const showAleart = () =>{
+    return(
+      <>
+        <div 
+       className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-40 flex items-center justify-center z-50"
+        >
+          <div className="bg-white rounded shadow-lg p-4 w-1/2">
+            <div className="text-xl font-semibold mb-4">Confirm switch {role !== 'user' ? 'to user account':'to bussiness account.'}</div>
+            <div>
+            Make sure you want to switch to a business account I'm up to something. Fan luv.
+            </div>
+            <div className="mt-4 flex justify-end">
+              <button
+                onClick={()=>{handleCancel()}}
+                className="text-red-500 font-bold mr-4"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={()=>{handleConfirm()}}
+                className="bg-gradient-to-r from-green-400 to-blue-500 text-white font-bold py-2 px-4 rounded"
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+    </>
+    )
+  }
+
+
   return (
     <div>
       <Navbar />
@@ -295,10 +356,38 @@ export default function ProfilePage() {
               ""
             )}
 
+           <div className="my-2 border-t border-gray-400 m-5"></div>
+            <div className="m-5 flex justify-between flex-row relative">
+              <div className="flex flex-col">
+                <h3>Switch {role !== 'user' ? 'to user account':'to bussiness account.'}</h3>
+                <h4> 
+                  {role !== 'user' 
+                  ? 'You will switch back to the user role'
+                  :'Your account will be approved to list the hotel'}
+                </h4>
+              </div>
+              <div className="flex flex-col justify-end items-center justify-center overflow-hidden">
+              <label class="inline-flex relative items-center mr-5 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        checked={enabled}
+                        readOnly
+                    />
+                    <div
+                        onClick={() => {
+                            setEnabled(!enabled);
+                            setOpen(!open)
+                        }}
+                        className="w-11 h-6 bg-gray-200 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"
+                    ></div>
+                </label>
+              </div>
+            </div>
             <div className="my-2 border-t border-gray-400 m-5"></div>
           </div>
         </div>
-
+                        {open && showAleart()}
         <div className="profile_right">
           <div className="profile_item">
             <svg

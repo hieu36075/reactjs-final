@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { chartUserInMonth, createHotel, getHotelByCategory, getHotelByCountry, getHotelById, getHotelByRoom, getHotelByUserId, getHotels, getUserInHotel, searchHotel, uploadMultiImangeHotel } from "./hotelThunks";
+import { activeHotel, chartUserInMonth, createHotel, filterHotelByUserId, getHotelByCategory, getHotelByCountry, getHotelById, getHotelByRoom, getHotelByUserId, getHotels, getUserInHotel, searchHotel, uploadMultiImangeHotel } from "./hotelThunks";
 
 const initialState ={
     loading: false,
@@ -10,6 +10,7 @@ const initialState ={
     image:[],
     users: [],
     userInMonth:[],
+    managerHotel:[],
 }
 
 const hotelSlice = createSlice({
@@ -81,10 +82,23 @@ const hotelSlice = createSlice({
         });
         builder.addCase(getHotelByUserId.fulfilled, (state, action) => {
             state.loading = false
-            state.data = action.payload
+            state.managerHotel = action.payload
             state.error = ""
         });
         builder.addCase(getHotelByUserId.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+
+        builder.addCase(filterHotelByUserId.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(filterHotelByUserId.fulfilled, (state, action) => {
+            state.loading = false
+            state.managerHotel = action.payload
+            state.error = ""
+        });
+        builder.addCase(filterHotelByUserId.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
         });
@@ -154,6 +168,18 @@ const hotelSlice = createSlice({
             state.error = action.payload
         });
 
+        builder.addCase(activeHotel.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(activeHotel.fulfilled, (state, action) => {
+            state.loading = false
+            state.details = action.payload
+            state.error = ""
+        });
+        builder.addCase(activeHotel.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
         
     }
 });
