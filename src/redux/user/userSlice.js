@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserThisMonth, getUsers, getUsersById, getMyUser } from "./userThunks";
+import { getUserThisMonth, getUsers, getUsersById, getMyUser, changeActive } from "./userThunks";
 
 
 const initialState ={
@@ -16,15 +16,16 @@ const userSlice = createSlice({
     },
     extraReducers: builder =>{
         builder.addCase(getUsers.pending, (state, action) => {
-            state.loading = false
+            state.loading = true
         });
         builder.addCase(getUsers.fulfilled, (state, action) => {
-            state.loading = true
+            state.loading = false
             state.data = action.payload
+    
             state.error = ""
         });
         builder.addCase(getUsers.rejected, (state, action) => {
-            state.isLogin = true;
+            state.isLogin = false;
             state.error = action.payload
         });
         //
@@ -37,7 +38,7 @@ const userSlice = createSlice({
             state.error = ""
         });
         builder.addCase(getMyUser.rejected, (state, action) => {
-            state.isLogin = true;
+            state.isLogin = false;
             state.error = action.payload
         });
         //
@@ -50,7 +51,7 @@ const userSlice = createSlice({
             state.error = ""
         });
         builder.addCase(getUsersById.rejected, (state, action) => {
-            state.isLogin = true;
+            state.isLogin = false;
             state.error = action.payload
         });
         //
@@ -63,7 +64,21 @@ const userSlice = createSlice({
             state.error = ""
         });
         builder.addCase(getUserThisMonth.rejected, (state, action) => {
-            state.isLogin = true;
+            state.isLogin = false;
+            state.error = action.payload
+        });
+
+        builder.addCase(changeActive.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(changeActive.fulfilled, (state, action) => {
+            state.loading = false
+            const currenUser = state.data.data.filter((item) => item.id !== action.payload.id)
+            state.data.data = [...currenUser, action.payload]
+            state.error = ""
+        });
+        builder.addCase(changeActive.rejected, (state, action) => {
+            state.isLogin = false;
             state.error = action.payload
         });
     }

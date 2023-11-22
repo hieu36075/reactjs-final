@@ -14,6 +14,7 @@ export default function MyHotelPage() {
   const [active, setActive] = useState(false)
   const [type, setType] = useState('all')
   const hotel = useSelector((state) => state.hotel.managerHotel)
+  console.log(hotel)
   const user = useSelector((state) => state.user.data)
   const { loading } = useSelector((state) => state.hotel)
   useEffect(() => {

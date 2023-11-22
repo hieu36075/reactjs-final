@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Sidebar from "../../../layout/admin/sidebar/Sidebar";
 import AdminNavbar from "../../../layout/admin/navbar/AdminNavbar";
-import { getUsers } from "../../../redux/user/userThunks";
+import { changeActive, getUsers } from "../../../redux/user/userThunks";
 import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom";
 import { userColumns } from "./userColumns";
@@ -9,16 +9,14 @@ import Datatable from "../../../components/datatable/Datatable";
 const UserList = () => {
   const dispatch = useDispatch()
   const {data, loading} = useSelector((state)=> state.user)
-  
   useEffect(()=>{
       dispatch(getUsers({page:1, perPage:5}))
   },[dispatch])
 
   const handleDelete = (id) => {
-    console.log(id)
-    // setData(data.filter((item) => item.id !== id));
+    dispatch(changeActive(id));
   };
-  if (!loading) {
+  if (loading) {
     return <div>Loading...</div>;
   }
   const actionColumn = [
@@ -33,10 +31,10 @@ const UserList = () => {
               <div className="viewButton">View</div>
             </Link>
             <div
-              className="deleteButton"
+              className= {params.row.isActive ? "deleteButton" : "activeButton"}
               onClick={() => handleDelete(params.row.id)}
             >
-              Band
+              {params.row.isActive ? "Band" : "Active"}
             </div>
           </div>
         );

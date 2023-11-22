@@ -37,7 +37,7 @@ const Categories = () => {
         return (
           <div className="cellAction">
             <Link to="/admin/users/new" style={{ textDecoration: "none" }}>
-              <div className="viewButton">View</div>
+              <div className="viewButton">Update</div>
             </Link>
             <div
               className="deleteButton"

@@ -3,12 +3,10 @@ import "./new.scss"
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import Sidebar from "../../layout/admin/sidebar/Sidebar";
 import AdminNavbar from "../../layout/admin/navbar/AdminNavbar";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-const New = ({ inputs, title  }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch()
+const New = ({ inputs, title, onSubmit  }) => {
+  const dispatch = useDispatch();
   const [file, setFile] = useState("");
   const [userInputs, setUserInputs] = useState({});
 
@@ -21,20 +19,8 @@ const New = ({ inputs, title  }) => {
     }));
   };
 
-  const handleSave = () => {
-    switch (title) {
-      case "Add New Category":
-        navigate(`/account/bill/`);
-        break;
-      default:
-        console.log("Unknown action:", title);
-    }
-    setUserInputs({});
-    setFile("");
-  };
-
   const handleUploadFile = () =>{
-    
+      // dispatch()
   }
   return (
     <div className="new">
@@ -81,9 +67,9 @@ const New = ({ inputs, title  }) => {
               </div>
             ))}
 
-            <button type="button" onClick={handleSave}>
-              Save
-            </button>
+      <button type="button" onClick={() => onSubmit(userInputs, file)}>
+        Save
+      </button>
           </form>
         </div>
       </div>

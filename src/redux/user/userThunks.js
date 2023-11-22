@@ -37,3 +37,12 @@ export const getUserThisMonth = createAsyncThunk('user/getUserThisMonth', async(
         return rejectWithValue(error)
     }
 })
+
+export const changeActive = createAsyncThunk('user/changeActive', async(id,{rejectWithValue})=>{
+    try {
+        const reponse = await http.patch(`/user/band-account/${id}`);
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})

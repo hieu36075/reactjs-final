@@ -55,7 +55,7 @@ const Body = () => {
 
               <Route path="category">
               <Route index element={<Categories />} />
-              <Route path="new" element={<New inputs={categoryInputs} title={"Add New Category"}/>} />
+              <Route path="new" element={<CategoryNewPage/>} />
               </Route>
             </Route>
       </Routes>

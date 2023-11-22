@@ -5,7 +5,6 @@ import { updateRoomInCategoryRoom } from "../categoryRoom/categoryRoomSlice";
 export const createRoom = createAsyncThunk('room/createRoom', async(room, {rejectWithValue})=>{
     try {
         const reponse = await http.post(`/room`, room)
-
         return reponse
     } catch (error) {
         return rejectWithValue(error)

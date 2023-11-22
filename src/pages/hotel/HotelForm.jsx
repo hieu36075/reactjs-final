@@ -12,10 +12,12 @@ import { createIamgeHotel } from "../../redux/imageHotel/imageHotelThunk";
 import { getCityByCountryId } from "../../redux/city/cityThunk";
 import { useParams } from "react-router-dom";
 import getCoordinatesFromAddress from "./getCoordinatesFromAddress";
+import useAlert from "../../context/aleart/useAlert";
 
 
 export default function HotelForm({type, onNext}) {
   const {id}= useParams();
+  const {setAlert} = useAlert();
   const dispatch = useDispatch()
   const amenityData = useSelector(SelectAmenity);
   const [validationErrors, setValidationErrors] = useState({});
@@ -31,7 +33,6 @@ export default function HotelForm({type, onNext}) {
     checkOutTime: "",
     extraInfo:"",
     cityId:"",
-    userId: id,
     latitude:1,
     longitude:1
   });
@@ -121,7 +122,7 @@ export default function HotelForm({type, onNext}) {
         }
       }
     } else {
-      // Xử lý logic khác nếu type khác "create"
+      setAlert("Please Try Again")
     }
   };
   

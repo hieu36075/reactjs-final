@@ -31,7 +31,7 @@ const Datatable  = ({data, Columns, actionColumn, title, meta, onPageChange, isL
         pageSizeOptions={[5]}
         paginationModel={{page:parseInt(meta?.page) -1 || 0 ,pageSize:5}}
         onPaginationModelChange={(model) => {
-          onPageChange(model.page + 1); // Bấm "Next Page" sẽ tăng page lên 1
+          onPageChange(model.page + 1); 
         }}
       />
     </div>

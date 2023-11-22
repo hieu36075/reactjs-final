@@ -52,7 +52,7 @@ const HotelDashboard = () => {
   const dataLineChart = useSelector((state)=> state.order.totalRevenuse)
   const usersInHotel = useSelector((state) => state.hotel.users)
   const [startDate, setStartDate] = useState(2023)
-  console.log(dataLineChart)
+  
   useEffect(() => {
     dispatch(getUserInHotel(id));
     dispatch(chartUserInMonth(id));
@@ -87,8 +87,6 @@ const HotelDashboard = () => {
     },
   ];
   const user = usersInHotel?.user?.map((data, index) => ({ ...data, index: index }));
-  const hotelBookingsData = [10, 15, 20, 18, 25, 30, 28, 35, 40, 38, 45, 50];
-  const userData = [25, 35];
   return (
     <>
 
@@ -112,6 +110,7 @@ const HotelDashboard = () => {
         <div className="flex items-center justify-center w-full ">
           <div className="flex-6">
             <Datatable data={user} Columns={userOrderColumns} meta={usersInHotel?.meta} title="List Order In Hotel" />
+
           </div>
         </div>
       </div>

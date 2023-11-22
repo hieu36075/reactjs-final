@@ -21,7 +21,6 @@ const RoomForm = ({ onPre }) => {
   const { loading } = useSelector(state => state.categoryRoom)
   const hotel = useSelector(SelectAllHotel)
   const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel[0].id
-  const categoryId = location?.state?.categoryId? location.state.categoryId : hotel[0].categoryId
   const navigate = useNavigate()
   const [room, setRoom] = useState({
     name: "",
@@ -30,7 +29,6 @@ const RoomForm = ({ onPre }) => {
     occupancy: 1,
     categoryRoomId: "",
     hotelId: "",
-    categoryId: ""
   });
   const [rooms, setRooms] = useState([])
   const defaultCategoryId = categoryRoomData && categoryRoomData.length > 0 ? categoryRoomData[0].id : '';
@@ -49,7 +47,6 @@ const RoomForm = ({ onPre }) => {
     occupancy: 1,
     categoryRoomId: "",
     hotelId: "",
-    categoryId: ""
   };
   useEffect(() => {
     dispatch(getCategoryRoomByHotel({ id: hotelId, page: 1, perPage: 10 }))
@@ -91,7 +88,7 @@ const RoomForm = ({ onPre }) => {
         occupancy: parseInt(room.occupancy),
         categoryRoomId: selectedCategory,
         hotelId: hotelId,
-        categoryId: categoryId
+
       };
       handleAddRoom(newRoom);
       const photosWithIdAndUrl = temporaryPhotos.map((photo) => {

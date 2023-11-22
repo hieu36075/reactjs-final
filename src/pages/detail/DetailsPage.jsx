@@ -242,7 +242,12 @@ export default function DetailsPage() {
                     ""
                 )}
               </div>
-                <h1>{details.extraInfo}</h1>
+              <div>
+              <h1 className="font-semibold text-2xl break-words">
+                Extra Infomation Room
+              </h1>
+                <h2>{details.extraInfo}</h2>
+              </div>
             </div>
           </div>
           <div className="booking-criteria-container">

@@ -1,14 +1,21 @@
 import "./featuredProperties.scss";
 import { DEFAULT_IMAGE_URL } from "../../constants";
+import { useNavigate } from "react-router-dom";
 const FeaturedProperties = ({data}) => {
-  
+  const navigate = useNavigate();
   if (!data || data.length === 0) {
     return <p>No data available.</p>;
   }
   return (
     <div className="fp">
       {data && data?.map((item) => (
-            <div className="fpItem" key={item?.id}>
+            <div 
+            className="fpItem" 
+            key={item?.id}
+            onClick={()=>{
+              navigate(`/hotels/details/${item?.id}`)
+            }}
+            >
               <img
                 src={item?.images?.length > 0 ? item?.images[0]?.url : DEFAULT_IMAGE_URL}
                 alt=""
