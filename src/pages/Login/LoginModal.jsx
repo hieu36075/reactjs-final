@@ -1,17 +1,8 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { AiFillGithub } from "react-icons/ai";
-import { FcGoogle } from "react-icons/fc";
-// import { signIn } from "next-auth/react";
-// import { toast } from "react-hot-toast";
-// import {
-//   FieldValues,
-//   useForm
-// } from "react-hook-form";
+import React, { useEffect, useState } from "react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import Modal from "../register/Modal";
 import Heading from "../register/Heading";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, loginByGoogle } from "../../redux/auth/authThunks";
 import useAlert from "../../context/aleart/useAlert";
 
@@ -39,11 +30,10 @@ const handlePassword = (e) =>{
 
   const onSubmit = async() => {
     try {
-      setAlert("as")
       await dispatch(login(account)).unwrap();
       onClose();
     } catch (error) {
-      setAlert(error)
+      setAlert('Please check email or password!', "error");
     }
 
 
@@ -52,6 +42,7 @@ const handlePassword = (e) =>{
   const handleSuccessLogin = async (response) => {
     const token = await response.credential;
        dispatch(loginByGoogle({token: token}))
+       
   };
 
   const handleErrorLogin = (error) => {

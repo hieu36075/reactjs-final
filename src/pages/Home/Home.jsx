@@ -13,6 +13,7 @@ import { getCategory } from "../../redux/category/categoryThunks";
 import { SelectCategories } from "../../redux/category/categorySelect";
 
 
+
 const Home = () => {
   const dispatch = useDispatch()
   const hotel = useSelector(SelectAllHotel)
@@ -31,6 +32,7 @@ const Home = () => {
     };
     fetchData(); 
   }, [dispatch]);
+
 
   if(loading){
     return <h1> load</h1>

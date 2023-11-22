@@ -1,54 +1,63 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Widget from "../../../components/widget/Widget";
 import Navbar from "../../../layout/navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserThisMonth } from "../../../redux/user/userThunks";
 import Charts from "../../../components/chart/Charts";
-import SidebarHotel from "../../../layout/sidebarHotel/SidebarHotel";
 import { useParams } from "react-router-dom";
 import { chartUserInMonth, getUserInHotel } from "../../../redux/hotel/hotelThunks";
 import Datatable from "../../../components/datatable/Datatable";
 import { userOrderColumns } from "./userOrderColumns";
-// import "./HotelDashboard.css"
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-const TreeChart = ({ data }) => {
+import NavbarHotel from "../../../layout/navbarHotel/NavbarHotel";
+import { getTotalRevenuesByHotelId } from "../../../redux/order/orderThunk";
+const TreeChart = ({ data , changeStareDate}) => {
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const years = [2020, 2021, 2022, 2023];
+
+  useEffect(() => {
+    changeStareDate(selectedYear)
+  }, [selectedYear]);
+
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>
-        <XAxis dataKey="month" />
-        <YAxis />
-        <Tooltip />
-        <Bar dataKey="revenue" fill="#8884d8" />
-      </BarChart>
-    </ResponsiveContainer>
+    <div className="w-full">
+      <div className="pb-10 pl-6 pt-6">
+      <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
+        {years.map(year => (
+          <option key={year} value={year}>
+            {year}
+          </option>
+        ))}
+      </select>
+      </div>
+
+
+      <ResponsiveContainer width="100%" height={300}>
+        <BarChart data={data}>
+          <XAxis dataKey="month" />
+          <YAxis />
+          <Tooltip />
+          <Bar dataKey="revenue" fill="#8884d8" />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   );
 };
 
-const yourChartData = [
-  { month: 'January', revenue: 5000 },
-  { month: 'February', revenue: 6000 },
-  { month: 'March', revenue: 7500 },
-  { month: 'April', revenue: 4000 },
-  { month: 'May', revenue: 9000 },
-  { month: 'June', revenue: 6500 },
-  { month: 'July', revenue: 8000 },
-  { month: 'August', revenue: 7000 },
-  { month: 'September', revenue: 9500 },
-  { month: 'October', revenue: 8500 },
-  { month: 'November', revenue: 10000 },
-  { month: 'December', revenue: 9500 }
-];
+
 const HotelDashboard = () => {
-  const {id} = useParams();
+  const { id } = useParams();
   const dispatch = useDispatch();
   const userInMonth = useSelector((state) => state.hotel.userInMonth);
+  const dataLineChart = useSelector((state)=> state.order.totalRevenuse)
   const usersInHotel = useSelector((state) => state.hotel.users)
-
-  console.log(usersInHotel)
+  const [startDate, setStartDate] = useState(2023)
+  console.log(dataLineChart)
   useEffect(() => {
     dispatch(getUserInHotel(id));
     dispatch(chartUserInMonth(id));
-  },[]);
+    dispatch(getTotalRevenuesByHotelId({ hotelId: id, startYear: startDate}))
+  }, []);
   const actionColumn = [
     {
       field: "action",
@@ -79,18 +88,13 @@ const HotelDashboard = () => {
   ];
   const user = usersInHotel?.user?.map((data, index) => ({ ...data, index: index }));
   const hotelBookingsData = [10, 15, 20, 18, 25, 30, 28, 35, 40, 38, 45, 50];
-const userData = [25, 35];
+  const userData = [25, 35];
   return (
     <>
 
-    <Navbar />
-      {/* <SidebarHotel/> */}
+      <Navbar />
+      <NavbarHotel />
       <div className="flex-1 dashboard">
-        <div className="flex flex-col p-5 border-b-2">
-          <h1>title</h1>
-          <h2>Name</h2>
-          <h2> Description </h2>
-        </div>
         <div className="flex-6">
           <div className="flex p-5 gap-20">
             <Widget type="user" data={userInMonth} />
@@ -100,15 +104,18 @@ const userData = [25, 35];
           </div>
         </div>
         <div className="flex flex-1 mt-10 m-5 shadow-lg p-2 border border-gray-300 rounded-lg">
-        <TreeChart data={yourChartData} />
+          <TreeChart 
+          data={dataLineChart} 
+          changeStareDate={setStartDate}
+          />
         </div>
         <div className="flex items-center justify-center w-full ">
           <div className="flex-6">
-          <Datatable data={user} Columns={userOrderColumns} meta={usersInHotel?.meta} title="List Order In Hotel" />
+            <Datatable data={user} Columns={userOrderColumns} meta={usersInHotel?.meta} title="List Order In Hotel" />
           </div>
         </div>
       </div>
-      
+
     </>
   );
 };

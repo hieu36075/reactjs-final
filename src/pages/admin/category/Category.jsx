@@ -20,7 +20,6 @@ const Categories = () => {
   };
 
   const handlePageChange = (newPage) => {
-    console.log(newPage)
     setCurrentPage(newPage);
   };
 
@@ -37,7 +36,7 @@ const Categories = () => {
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to="/admin/users/test" style={{ textDecoration: "none" }}>
+            <Link to="/admin/users/new" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div

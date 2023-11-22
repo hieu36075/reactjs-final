@@ -18,15 +18,16 @@ export default function ChatForm() {
   useEffect(()=>{
     dispatch(getMyMessage()).unwrap()
     .then((res)=>{
-      if(res){
+      if(res.length > 0){
         // setRoomId(res[0].id)
         res.forEach(element => {
           socket.emit('joinRoom', element.id)
         });
       }
     })
-    // dispatch(getProfileById())
-    
+    return()=>{
+      
+    }
   },[dispatch])
 
   useEffect(()=>{
@@ -35,44 +36,33 @@ export default function ChatForm() {
     }
   },[location?.state?.userId])
 
-  // const sendMessage=()=>{
-  //   socket.emit('Message', {
-  //     content: 'avc',
-  //     userId: 'cln0eljqj0001c3q8k2fa4ixc'
-  //   });
-  // }
- 
   const chooseRoom=(id)=>{
-    console.log('chooseRoom called with ID:', id);
-    // socket.emit('joinRoom', id) 
     setRoomId(id)
   }
 
   useEffect(()=>{
     socket.on('newRoom-received',(data)=>{
-      console.log('message:', data.newRoom)
       dispatch(updateNewRoom(data.newRoom))
       if(!roomId){
         setRoomId(data?.newRoom?.id)
         socket.emit('joinRoom', data?.newRoom?.id)
       }
     })
-    
+    return () => {
+      socket.off('newRoom-received');
+    };
   },[])
   return (
     <>
         <Navbar />
         <div className="flex h-screen overflow-hidden chat-content ">
-          {/* Side Left */}
           <div className="w-1/4 bg-gray-200 p-4 overflow-y chat-left overflow-y-auto">
             <div className="text-xl font-bold mb-4 text-center">App Name</div>
-            {/* Search bar */}
             <input
               type="text"
               placeholder="Search"
               className="border p-2 mb-4 w-full"
             />
-            {/* List of users */}
             {data?.map(room =>(
               
               <ListUserChat 
@@ -86,22 +76,8 @@ export default function ChatForm() {
               />
             ))}
           </div>
-
-          {/* Chat Section */}
           <div className="w-3/4 p-4 flex flex-col chat-right overflow-y-auto">
-            {/* Chat header */} 
               <Message id={roomId} userId={token.id}/>
-            {/* Message input and send button */}
-            {/* <div className="flex message-input">
-              <input
-                type="text"
-                placeholder="Type a message..."
-                className="border p-2 flex-grow"
-              />
-              <button className="bg-blue-500 text-white p-2 ml-2 rounded-lg" onClick={()=>{sendMessage()}}>
-                Send 
-              </button>
-            </div> */}
           </div>
         </div>
 

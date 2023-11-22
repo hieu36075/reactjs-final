@@ -7,7 +7,7 @@ export const login = createAsyncThunk('auth/login', async(data, {rejectWithValue
         const reponse = await http.post('auth/login', data)
         return reponse
     } catch (error) {
-        return rejectWithValue(error.message)
+        return rejectWithValue(error)
     }
 })
 
@@ -16,7 +16,7 @@ export const register = createAsyncThunk('auth/register', async(data, {rejectWit
         const reponse = await http.post('auth/register', data)
         return reponse
     } catch (error) {
-        return rejectWithValue(error.message)
+        return rejectWithValue(error)
     }
 })
 export const loginByGoogle = createAsyncThunk('auth/loginByGoogle', async(token, {rejectWithValue})=>{
@@ -24,6 +24,6 @@ export const loginByGoogle = createAsyncThunk('auth/loginByGoogle', async(token,
         const response = await http.post('auth/login/google', token);
         return response;
     } catch (error) {
-        return rejectWithValue(error.reponse)
+        return rejectWithValue(error)
     }
 })

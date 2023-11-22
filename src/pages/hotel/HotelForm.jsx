@@ -38,9 +38,9 @@ export default function HotelForm({type, onNext}) {
   const [city, setCity] = useState('');
   const [country, setCountry] = useState('');
   const [addedPhotos, setAddedPhotos] = useState([]);
-  console.log(hotel)
+
   const setHotelData = (fieldName, value) => {
-    console.log(value)
+
     setHotel((prevHotel) => ({
       ...prevHotel,
       [fieldName]: value,

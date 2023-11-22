@@ -3,12 +3,17 @@ import "./new.scss"
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import Sidebar from "../../layout/admin/sidebar/Sidebar";
 import AdminNavbar from "../../layout/admin/navbar/AdminNavbar";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
-const New = ({ inputs, title, onSubmit  }) => {
+const New = ({ inputs, title  }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [file, setFile] = useState("");
   const [userInputs, setUserInputs] = useState({});
 
   const handleInputChange = (e) => {
+    console.log(e.target)
     const { name, value } = e.target;
     setUserInputs((prevInputs) => ({
       ...prevInputs,
@@ -17,13 +22,20 @@ const New = ({ inputs, title, onSubmit  }) => {
   };
 
   const handleSave = () => {
-    onSubmit(userInputs, file);
-    // console.log(userInputs)
-    // Reset các giá trị nhập liệu sau khi lưu dữ liệu
+    switch (title) {
+      case "Add New Category":
+        navigate(`/account/bill/`);
+        break;
+      default:
+        console.log("Unknown action:", title);
+    }
     setUserInputs({});
     setFile("");
   };
 
+  const handleUploadFile = () =>{
+    
+  }
   return (
     <div className="new">
     <Sidebar />

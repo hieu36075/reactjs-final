@@ -5,11 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile, updateProfile, uploadAvatar } from "../../redux/profile/profileThunk";
 import { switchRole } from "../../redux/role/roleThunk";
 import { getMyUser } from "../../redux/user/userThunks";
+import useAlert from "../../context/aleart/useAlert";
 
 export default function ProfilePage() {
+  const { setAlert } = useAlert();
   const dispatch = useDispatch();
-  const { details, loading, image } = useSelector((state) => state.profile);
-
+  const { details, loading } = useSelector((state) => state.profile);
 
   const [profile, setProfile] = useState({
     firstName: "",
@@ -64,7 +65,7 @@ export default function ProfilePage() {
     const files = ev.target.files;
     
     if (files.length !== 1) {
-      alert('Vui lòng chọn một ảnh duy nhất.');
+      setAlert('please choose one file.','error');
       return;
     }
   
@@ -79,7 +80,7 @@ export default function ProfilePage() {
       });
   
     } catch (error) {
-      console.error('Error uploading avatar:', error);
+      setAlert('Error uploading avatar:', 'error');
     }
   };
 

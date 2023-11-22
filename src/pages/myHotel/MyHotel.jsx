@@ -15,7 +15,6 @@ export default function MyHotelPage() {
   const [type, setType] = useState('all')
   const hotel = useSelector((state) => state.hotel.managerHotel)
   const user = useSelector((state) => state.user.data)
-  console.log(hotel)
   const { loading } = useSelector((state) => state.hotel)
   useEffect(() => {
     const flechData = async () => {

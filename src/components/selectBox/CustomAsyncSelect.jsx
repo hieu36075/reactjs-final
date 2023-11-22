@@ -9,7 +9,6 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [prevId, setPrevId] = useState(true);
-  console.log(prevId)
   const [previousId, setPreviousId] = useState(null);
   const [oldId, setOldId] = useState(null);
   const fetchData = async (pageNumber ) => {
@@ -19,10 +18,8 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
       if (fetchDataAction.fulfilled.match(actionResult)) {
         const newData = actionResult.payload.data;
         if(prevId){
-          console.log("a")
           setData(prevData => [...prevData, ...newData]);
         }else{
-          console.log("b")
           setData(newData);
           setHasMore(true);
         }
@@ -47,16 +44,12 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
       setPreviousId(oldId); // Save the previous id before updating it
       setOldId(id)
       if(previousId !== oldId){
-        console.log("khac")
         setData([])
         setPrevId(false)
       }else{
-        console.log("giong")
         setPrevId(true)
 
       }
-      // setPrevId(!prevId)
-      // console.log(prevId)
     }
   }, [id]);
 

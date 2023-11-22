@@ -26,7 +26,7 @@ const roomSlice = createSlice({
             }
         },
         updateListUser: (state, action)=>{
-            // console.log(action.payload)
+      
         },
         updateNewRoom: (state, action)=>{
             state.data.push(action.payload)

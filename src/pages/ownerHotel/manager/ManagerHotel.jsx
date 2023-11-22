@@ -1,18 +1,18 @@
 import { useParams } from "react-router-dom";
 import Navbar from "../../../layout/navbar/Navbar";
-import SidebarHotel from "../../../layout/sidebarHotel/SidebarHotel";
+
 import { AiFillEdit, AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategoryRoomByHotel } from "../../../redux/categoryRoom/categoryRoomThunk";
 import { deleteRoom } from "../../../redux/room/roomThunk";
 import RoomModal from "./RoomModal";
+import NavbarHotel from "../../../layout/navbarHotel/NavbarHotel";
 
 export default function ManagerHotel() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data, loading } = useSelector((state) => state.categoryRoom);
-  console.log(data)
   const [edit, setEdit] = useState(false);
   const [roomId, setRoomId] = useState('');
   const [type, setType] = useState('');
@@ -51,7 +51,7 @@ export default function ManagerHotel() {
         <Navbar />
       <div className="w-full m-20 px-12 py-6">
         <div>
-          <SidebarHotel />
+          <NavbarHotel />
         </div>
         <div className="room ">
           <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5 "></div>
@@ -127,7 +127,7 @@ export default function ManagerHotel() {
     <div>
       <Navbar />
       <div>
-        <SidebarHotel />
+        <NavbarHotel />
       </div>
       <div className="w-full m-20 px-12 py-6">
         <h1 className="text-4xl text-medium font-bold">Rooms</h1>

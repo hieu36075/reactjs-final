@@ -5,7 +5,6 @@ import Home from "../../pages/home/Home";
 import Navbar from "../navbar/Navbar";
 import AdminDashboard from "../../pages/admin/home/AdminDashboard";
 import UserList from "../../pages/admin/user/UserList";
-import New from "../../pages/admin/new/new";
 import PrivateRoute from "../../routes/PrivateRoutes";
 import NewProfile from "../../pages/admin/profile/NewProfile";
 import Categories from "../../pages/admin/category/Category";
@@ -23,6 +22,8 @@ import ManagerHotel from "../../pages/ownerHotel/manager/ManagerHotel";
 import HotelDashboard from "../../pages/ownerHotel/dashboard/HotelDashboard";
 import ChatForm from "../../pages/chat/ChatForm";
 import BillPage from "../../pages/payment/Bill";
+import categoryInputs from "../../pages/admin/category/categoryInput";
+import New from "../../components/new/New";
 const Body = () => {
   return (
     <>
@@ -54,7 +55,7 @@ const Body = () => {
 
               <Route path="category">
               <Route index element={<Categories />} />
-              <Route path="new" element={<CategoryNewPage/>} />
+              <Route path="new" element={<New inputs={categoryInputs} title={"Add New Category"}/>} />
               </Route>
             </Route>
       </Routes>

@@ -32,7 +32,6 @@ export const updateProfile = createAsyncThunk('room/updateProfile', async(data, 
 
 export const uploadAvatar = createAsyncThunk('auth/uploadAvatar', async(file, {rejectWithValue})=>{
     try {
-        console.log(file)
         const reponse = await http.post(`/auth/file-upload`, file)
         return reponse
         // return {message: 'true'}

@@ -9,7 +9,8 @@ module.exports = {
       colors: {
         primary: '#F5385D',
         blackOverlay: 'rgba(0, 0, 0, 0.5)',
-        primary1: '#F7F9FA'
+        primary1: '#F7F9FA',
+        customBlue: '#09bef0',
       },
       height: {
         "10v": "10vh",

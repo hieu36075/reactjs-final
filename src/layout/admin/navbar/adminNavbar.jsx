@@ -5,10 +5,8 @@ import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlin
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-// import { DarkModeContext } from "../../context/darkModeContext";
 import { DarkModeContext } from "../../../context/DarkMode/darkModeContext";
 import { useContext } from "react";
-// import { DropDown } from "../../../components/profileDropDown/DropDown";
 import { PopupMenu } from "react-simple-widgets";
 
 
@@ -17,9 +15,7 @@ const AdminNavbar = () => {
   const { dispatch } = useContext(DarkModeContext);
   const [isOpen, setIsOpen] = useState(false);
   
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+
 
   return (
     <div className="h-12 flex items-center text-sm border-b border-gray">
@@ -52,7 +48,7 @@ const AdminNavbar = () => {
             <ListOutlinedIcon className="text-xl"  />
           </div>
           <PopupMenu>
-          <div className="flex items-center mr-5 relative" onClick={toggleDropdown} >
+          <div className="flex items-center mr-5 relative" >
             <img
               src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
               alt=""

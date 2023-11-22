@@ -23,7 +23,6 @@ export const checkRoomMessage = createAsyncThunk('roomMessage/checkRoomMessage',
 export const getMessageByRoomId = createAsyncThunk('roomMessage/getMessageByRoomId', async(id, {rejectWithValue})=>{
     try {
         const reponse = await http.get(`/roomMessage/${id}`)
-        console.log(reponse)
         return reponse
     } catch (error) {
         return rejectWithValue(error)
@@ -33,7 +32,6 @@ export const getMessageByRoomId = createAsyncThunk('roomMessage/getMessageByRoom
 export const getMyMessage = createAsyncThunk('roomMessage/getMyMessage', async(_, {rejectWithValue})=>{
     try {
         const reponse = await http.get(`/roomMessage/by-userId`)
-        console.log(reponse)
         return reponse
     } catch (error) {
         return rejectWithValue(error)

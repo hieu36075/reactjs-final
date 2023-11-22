@@ -36,12 +36,6 @@ const UserList = () => {
               className="deleteButton"
               onClick={() => handleDelete(params.row.id)}
             >
-              Delete
-            </div>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
-            >
               Band
             </div>
           </div>

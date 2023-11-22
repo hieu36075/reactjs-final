@@ -16,7 +16,7 @@ export default function Login(){
     });
     
     const{ error} = useSelector(state => state.auth)
-    console.log(error)
+
     const isLogin = useSelector((state) => state.auth.isLogin);
     const handleSuccessLogin = async (response) => {
       const token = await response.credential;
@@ -46,7 +46,7 @@ export default function Login(){
         setAlert("Login success!", "success");
       }
       if (error) {
-        setAlert(error, "error");
+        setAlert('Please check email or password!', "error");
       }
 
 

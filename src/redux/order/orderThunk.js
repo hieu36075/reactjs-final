@@ -57,6 +57,16 @@ export const getTotalRevenues = createAsyncThunk('order/getTotalRevenues', async
     }
 })
 
+export const getTotalRevenuesByHotelId = createAsyncThunk('order/getTotalRevenuesByHotelId', async(data, {rejectWithValue}) =>{
+    try{
+        const {hotelId, startYear} = data;
+        const reponse = await http.get(`/order/monthly-revenues/${hotelId}?startYear=${startYear}`);
+        return reponse
+    }catch(error){
+        return rejectWithValue(error)
+    }
+})
+
 export const createOrder = createAsyncThunk('order/createOrder', async(order, {rejectWithValue})=>{
     try {
         const reponse = await http.post(`/order`, order)

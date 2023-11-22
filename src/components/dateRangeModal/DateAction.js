@@ -1,15 +1,16 @@
-import { isWithinInterval } from "date-fns";
-const isDateBlockedISO = (date, blockedDateRangesISO) => {
-    for (const blockedRangeISO of blockedDateRangesISO) {
-      const startDateISO = blockedRangeISO.startDate;
-      const endDateISO = blockedRangeISO.endDate;
-      const currentDateISO = date.toISOString();
+import { isWithinInterval, parseISO, startOfDay } from 'date-fns';
 
-      if (currentDateISO >= startDateISO && currentDateISO <= endDateISO) {
-        return true;
-      }
+const isDateBlockedISO = (date, blockedDateRangesISO) => {
+    const checkedDate = startOfDay(date);
+    for (const blockedRangeISO of blockedDateRangesISO) {
+        const startDate = startOfDay(parseISO(blockedRangeISO.startDate));
+        const endDate = startOfDay(parseISO(blockedRangeISO.endDate));
+
+        if (isWithinInterval(checkedDate, { start: startDate, end: endDate })) {
+            return true;
+        }
     }
     return false;
-  };
-  
+};
+
 export { isDateBlockedISO };

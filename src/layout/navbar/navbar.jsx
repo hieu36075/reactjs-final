@@ -13,8 +13,10 @@ import { logOut } from "../../redux/auth/authSlice";
 import LoginModal from "../../pages/login/LoginModal";
 import useLoginModal from "../../context/modal/useLoginModal";
 import useRegisterModal from "../../context/modal/useRegisterModal";
-import socket from "../../services/socket"; 
-import {GrNotification} from "react-icons/gr"
+import socket from "../../services/socket";
+import { GrNotification } from "react-icons/gr"
+import { BiLogoMessenger } from "react-icons/bi"
+
 function Navbar({ type }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,22 +30,23 @@ function Navbar({ type }) {
   const [notifications, setNotifications] = useState([]);
   const loginModal = useLoginModal(); // Sử dụng hook Login Modal
   const registerModal = useRegisterModal(); //
-  const tokenNew = useSelector((state)=> state.auth.token)
+  const tokenNew = useSelector((state) => state.auth.token)
   const [token, setToken] = useState(localStorage.getItem("token"))
   const [decode, setDecode] = useState('')
-  useEffect(()=>{
-    if(isLogin){
-      if(tokenNew?.length > 0){
+  useEffect(() => {
+    
+    if (isLogin) {
+      if (tokenNew?.length > 0) {
         setToken(tokenNew)
         setDecode(jwtDecode(tokenNew))
-      }else{
+      } else {
         setDecode(jwtDecode(localStorage.getItem('token')))
       }
     }
-  },[tokenNew,isLogin])
+  }, [tokenNew, isLogin])
 
   // useEffect(()=>{
-    
+
   // },[])
   const openLoginModal = () => {
     loginModal.openModal();
@@ -117,7 +120,6 @@ function Navbar({ type }) {
     dispatch(logOut());
   };
   const handleNotification = (action, id) => {
-
     switch (action) {
       case "action_booking_hotel":
         navigate(`/account/bill/${id}`);
@@ -152,13 +154,13 @@ function Navbar({ type }) {
 
               {!isLogin ? (
                 <>
-                
+
                   <li className="nav-item">
                     <NavLink
                       className={({ isActive }) =>
                         "nav-links" + (isActive ? " activated" : "")
                       }
-                      onClick={openLoginModal} // Mở Modal đăng nhập
+                      onClick={openLoginModal} 
                     >
                       Login
                     </NavLink>
@@ -172,7 +174,7 @@ function Navbar({ type }) {
                       className={({ isActive }) =>
                         "nav-links" + (isActive ? " activated" : "")
                       }
-                      onClick={openRegisterModal} // Mở Modal đăng ký
+                      onClick={openRegisterModal} 
                     >
                       Register
                     </NavLink>
@@ -184,19 +186,19 @@ function Navbar({ type }) {
                 </>
               ) : (
                 <>
-                              <li className="nav-item">
-                <NavLink
-                  to={decode.roles === 'User' ? "/account/profile" : "/account/myHotel"}
-                  className={({ isActive }) =>
-                  "nav-links" + (isActive ? " activated" : "")
-                }
-                onClick={closeMobileMenu}
-                >
-                {decode.roles === 'User'? (
-                  'Accommodation for rent'
-                  ):('Manager Hotel')}
-                </NavLink>
-              </li>
+                  <li className="nav-item">
+                    <NavLink
+                      to={decode.roles === 'User' ? "/account/profile" : "/account/myHotel"}
+                      className={({ isActive }) =>
+                        "nav-links" + (isActive ? " activated" : "")
+                      }
+                      onClick={closeMobileMenu}
+                    >
+                      {decode.roles === 'User' ? (
+                        'Accommodation for rent'
+                      ) : ('Manager Hotel')}
+                    </NavLink>
+                  </li>
                   <li className="nav-item noti">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -219,31 +221,39 @@ function Navbar({ type }) {
                         <p>Loading...</p>
                       ) : (
                         <>
-                        {notifications?.length>0 ? (
-                        notifications?.map((item) => (
-                          <div
-                            key={item.id}
-                            className="noti-item ml-2 mr-2 rounded-lg "
-                            onClick={() => {
-                              handleNotification(item.action, item.actionId);
-                            }}
-                          >
-                            <p>{item.data}</p>
-                          </div>
-                        ))
-                        ) : (
-                          <div className="flex flex-col h-96 justify-center items-center">
-                            <GrNotification className="" size={80}/>
-                            <h1 className="font-normal">Don't have notification </h1>
-                          </div>
-                        )}
+                          {notifications?.length > 0 ? (
+                            notifications?.map((item) => (
+                              <div
+                                key={item.id}
+                                className="noti-item ml-2 mr-2 rounded-lg "
+                                onClick={() => {
+                                  handleNotification(item.action, item.actionId);
+                                }}
+                              >
+                                <p>{item.data}</p>
+                              </div>
+                            ))
+                          ) : (
+                            <div className="flex flex-col h-96 justify-center items-center">
+                              <GrNotification className="" size={80} />
+                              <h1 className="font-normal">Don't have notification </h1>
+                            </div>
+                          )}
                         </>
                       )
                       }
                     </div>
                   </li>
+
+                  <li className="mr-4 pt-7 h-full hover:border-b-2 border-customBlue ">
+                    <Link to='/account/message'>
+                        <BiLogoMessenger size={24}/>
+                    </Link>
+                  </li>
+                  {/* <h1 style={{marginRight:10, color:'white'}}>Hello, {}</h1> */}
                   <li className="nav-item profile ">
                     <div className="flex rounded-2xl gap-2">
+                      
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -271,6 +281,7 @@ function Navbar({ type }) {
                         }}
                       >
                         <div className="flex ">
+                    
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -285,7 +296,7 @@ function Navbar({ type }) {
                               d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
                             />
                           </svg>
-
+                          
                           <span className="spann ">Profile</span>
                         </div>
 

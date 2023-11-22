@@ -40,7 +40,7 @@ const New = ({ inputs, title }) => {
                   style={{ display: "none" }}
                 />
               </div>
-                <div className="formInput">
+                {/* <div className="formInput">
                     <label>Name</label>
                     <input type="text" placeholder="Hieu"/>
                 </div>
@@ -59,13 +59,13 @@ const New = ({ inputs, title }) => {
                 <div className="formInput">
                     <label>Name</label>
                     <input type="text" placeholder="Hieu"/>
-                </div>
-              {/* {inputs.map((input) => (
+                </div> */}
+              {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
                   <input type={input.type} placeholder={input.placeholder} />
                 </div>
-              ))} */}
+              ))}
               <button>Send</button>
             </form>
           </div>
