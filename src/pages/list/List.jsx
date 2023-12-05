@@ -25,6 +25,7 @@ const List = () => {
   const [options, setOptions] = useState(location?.state?.options || defaultOptions);
   const {id} = useParams();
   const {data} = useSelector(state=> state.hotel)
+  console.log(data)
   const type = location?.state?.type
   
   const [countryId, setCountryId] = useState('');
@@ -113,6 +114,7 @@ const List = () => {
             <button className="p-2 bg-blue-700 text-white w-full font-medium cursor-pointer" onClick={handleSearch}>Search</button>
           </div>
           <div className="flex flex-3 ml-5">
+            
             <SearchItem  data={data} />
           </div>
         </div>

@@ -28,38 +28,13 @@ export default function BookingsPage() {
   return (
     <>
       <Navbar />
-      <div>
-        <nav className="w-full flex justify-center mt-8 gap-2 mb-8">
-          <button
-            className={`py-2 px-6 ${
-              type === "current" ? "bg-primary text-white rounded-full" : ""
-            }`}
-            onClick={() => {
-              handleChangeTypeCurrent();
-            }}
-          >
-            Current order
-          </button>
-          <button
-            className={`py-2 px-6 ${
-              type === "listOrder" ? "bg-primary text-white rounded-full" : ""
-            }`}
-            onClick={() => {
-              handleChangeType();
-            }}
-          >
-            Current order
-          </button>
-
-          {/* <button className={linkClass('list')}>Order Payment</button> */}
-          {/* <Link className="py-2 px-6 " to={'/account/'}>Order Payment</Link> */}
-        </nav>
-      </div>
+      <div className="px-10 py-10">
+      <h1 className="mb-5 text-4xl font-semibold">List order</h1>
       {bookings?.length === 0 ? (
         <>
           <div className="flex flex-col h-[90vh] justify-center items-center ">
             <AiOutlineShoppingCart className="text-9xl " />
-            <span className="text-xl ">co cai nit</span>
+            <span className="text-xl ">Don't have order</span>
           </div>
         </>
       ) : (
@@ -117,6 +92,7 @@ export default function BookingsPage() {
             ))}
         </div>
       )}
+      </div>
     </>
   );
 }

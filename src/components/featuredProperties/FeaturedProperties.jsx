@@ -6,9 +6,10 @@ const FeaturedProperties = ({data}) => {
   if (!data || data.length === 0) {
     return <p>No data available.</p>;
   }
+  const filteredData = data.filter((item) => item.isActive);
   return (
     <div className="fp">
-      {data && data?.map((item) => (
+      {filteredData && filteredData?.map((item) => (
             <div 
             className="fpItem" 
             key={item?.id}
@@ -23,7 +24,7 @@ const FeaturedProperties = ({data}) => {
               />
               <span className="fpName">{item?.name}</span>
               <span className="fpCity">{item?.city?.name}</span>
-              <span className="fpPrice">Starting from ${item?.cheapestPrice}</span>
+              <span className="fpPrice">Starting from ${item?.rooms?.[0]?.price}</span>
               {item?.rating && <div className="fpRating">
                 <button>{item?.rating}</button>
                 <span>Excellent</span>

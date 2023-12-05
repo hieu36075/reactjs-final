@@ -17,16 +17,21 @@ const Message = ({ id, userId }) => {
   }, [id]);
 
   const sendMessage=()=>{
+    if (!message || message.trim() === "") {
+      return; 
+    }
     if(!id){
       socket.emit('Message', {
         content: message,
         userId: location?.state?.userId
       });
+      setMessage("")
     }else{
       socket.emit('sendMessage', {
         content: message,
         roomId: details.id
       });
+      setMessage("")
     }
   }
 

@@ -14,7 +14,7 @@ const PropertyList = ({data}) => {
         navigate(`/hotels/${item?.id}`, {state:{type: "category"}})
       }}>
         <img
-          src={item?.imageURL || DEFAULT_IMAGE_URL}
+          src={item?.imageUrl || DEFAULT_IMAGE_URL}
           alt=""
           className="pListImg"
         />

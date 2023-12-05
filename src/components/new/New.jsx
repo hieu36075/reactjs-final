@@ -31,7 +31,7 @@ const New = ({ inputs, title, onSubmit  }) => {
         <h1>{title}</h1>
       </div>
       <div className="bottom">
-        <div className="left">
+        <div className="left ">
           <img
             src={
               file

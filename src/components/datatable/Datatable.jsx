@@ -7,6 +7,7 @@ import { useLocation } from "react-router-dom";
 const Datatable  = ({data, Columns, actionColumn, title, meta, onPageChange, isLoading}) => {
     const location = useLocation();
     const pathname = location.pathname.split("/")[2];
+
     if (!meta || !data) {
       return <h1>loading</h1>
     }
@@ -14,17 +15,17 @@ const Datatable  = ({data, Columns, actionColumn, title, meta, onPageChange, isL
     <div className="datatable">
       <div className="datatableTitle">
         {title}
+        {pathname  === 'category'?
         <Link to={`/admin/${pathname}/new`} className="link">
           Add New
         </Link>
+        : ''
+        }
       </div>
       <DataGrid
         className="datagrid"
         rows={data}
         columns={actionColumn ? Columns.concat(actionColumn) : Columns}
-        // getRowId={(row) => row.index}
-        // pageSize={parseInt(meta?.perPage)}
-        // page={parseInt(meta?.page)}
         loading={isLoading}
         rowCount={parseInt(meta?.totalItems)}
         paginationMode="server"

@@ -30,8 +30,11 @@ export default function DetailsPage() {
   const user = useSelector((state) => state.user.details)
   const { isLogin } = useSelector((state) => state.auth)
   const roomsTest = useSelector((state) => state.hotel.details.rooms)
-  const decodeToken = jwtDecode(localStorage.getItem('token'))
-  console.log(user)
+  let decodeToken
+  if(isLogin){
+    decodeToken = jwtDecode(localStorage.getItem('token'))
+  }
+
   const [center, setCenter] = useState({
     lat: '',
     lng: '',
@@ -166,7 +169,7 @@ export default function DetailsPage() {
       }
       navigate(`/hotels/stays/${order.id}`)
     } catch (error) {
-      console.error('Đã xảy ra lỗi:', error);
+      console.error('Error:', error);
     }
   }
 
@@ -184,7 +187,6 @@ export default function DetailsPage() {
   return (
     <div>
       <Navbar />
-      {/* <Header type="list" /> */}
       <div className="mt-4 bg-white-100 -mx-8 px-48 py-8 ">
         <h1 className="text-4xl font-bold font-roboto">{details.name}</h1>
         <h2 className="text-xl font-roboto">
@@ -236,7 +238,8 @@ export default function DetailsPage() {
                 <img className="rounded-full w-32 h-32" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80" alt="" />
                 <h1 className="mb-4" >{user.email}</h1>
                 <h1 className="mb-4">joined from {new Date(user.updatedAt).toLocaleDateString()}</h1>
-                {user.id !== decodeToken.id ? (
+                
+                {!isLogin && user?.id !== decodeToken?.id  ? (
                   <button className="ml-4 rounded-full border border-black px-4 py-2 text-black bg-white hover:bg-gray-900" onClick={() => { handleMesage(user.id) }}> Contact the homeowner immediately</button>
                 ) : (
                     ""
@@ -418,7 +421,7 @@ export default function DetailsPage() {
         <div className="w-full h-px bg-gray-300 my-4"></div>
         {center?.lat && center?.lng ? (
           <div style={{ height: '600px', width: '100%' }}>
-            {/* <Map location={center} zoomLevel={15}/> */}
+            <Map location={center} zoomLevel={15}/>
           </div>
 
         ) : (

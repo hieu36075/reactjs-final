@@ -11,6 +11,16 @@ export const getHotels = createAsyncThunk('hotel/getHotels', async(initialData, 
     }
 })
 
+export const getHotelsByAdmin = createAsyncThunk('hotel/getHotelsByAdmin', async(initialData, {rejectWithValue}) =>{
+    try{
+        const {page, perPage} = initialData;
+        const reponse = await http.get(`/hotel?page=${page}&perPage=${perPage}`);
+        return reponse
+    }catch(error){
+        return rejectWithValue(error)
+    }
+})
+
 export const getHotelByCountry = createAsyncThunk('hotel/getHotelByCountry', async(countryId, {rejectWithValue})=>{
     try {
         const reponse = await http.get(`/hotel/get-hotel-by-country/${countryId}`)
@@ -120,6 +130,15 @@ export const getUserInHotel = createAsyncThunk('hotel/getUserInHotel', async(hot
 export const chartUserInMonth = createAsyncThunk('hotel/chartUserInMonth', async(hotelId, {rejectWithValue})=>{
     try {
         const reponse = await http.get(`/hotel/${hotelId}/user-in-month`)
+        return reponse
+    } catch (error) {
+        return rejectWithValue(error)
+    }
+})
+
+export const bandHotel = createAsyncThunk('hotel/bandHotel', async(id,{rejectWithValue})=>{
+    try {
+        const reponse = await http.patch(`/hotel/band-hotel/${id}`);
         return reponse
     } catch (error) {
         return rejectWithValue(error)

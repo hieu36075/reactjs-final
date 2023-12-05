@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { activeHotel, chartUserInMonth, createHotel, filterHotelByUserId, getHotelByCategory, getHotelByCountry, getHotelById, getHotelByRoom, getHotelByUserId, getHotels, getUserInHotel, searchHotel, uploadMultiImangeHotel } from "./hotelThunks";
+import { activeHotel, bandHotel, chartUserInMonth, createHotel, filterHotelByUserId, getHotelByCategory, getHotelByCountry, getHotelById, getHotelByRoom, getHotelByUserId, getHotels, getHotelsByAdmin, getUserInHotel, searchHotel, uploadMultiImangeHotel } from "./hotelThunks";
 
 const initialState ={
     loading: false,
@@ -11,6 +11,7 @@ const initialState ={
     users: [],
     userInMonth:[],
     managerHotel:[],
+    list:[]
 }
 
 const hotelSlice = createSlice({
@@ -28,6 +29,20 @@ const hotelSlice = createSlice({
             state.error = ""
         });
         builder.addCase(getHotels.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload
+        });
+        //
+
+        builder.addCase(getHotelsByAdmin.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(getHotelsByAdmin.fulfilled, (state, action) => {
+            state.loading = false
+            state.list = action.payload
+            state.error = ""
+        });
+        builder.addCase(getHotelsByAdmin.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
         });
@@ -173,11 +188,28 @@ const hotelSlice = createSlice({
         });
         builder.addCase(activeHotel.fulfilled, (state, action) => {
             state.loading = false
+            const currenHotel = state.list.data.filter((item) => item.id !== action.payload.id)
+            state.list.data = [...currenHotel, action.payload]
             state.details = action.payload
             state.error = ""
         });
         builder.addCase(activeHotel.rejected, (state, action) => {
             state.loading = false
+            state.error = action.payload
+        });
+
+
+        builder.addCase(bandHotel.pending, (state, action) => {
+            state.loading = true
+        });
+        builder.addCase(bandHotel.fulfilled, (state, action) => {
+            state.loading = false
+            const currenHotel = state.list.data.filter((item) => item.id !== action.payload.id)
+            state.list.data = [...currenHotel, action.payload]
+            state.error = ""
+        });
+        builder.addCase(bandHotel.rejected, (state, action) => {
+            state.isLogin = false;
             state.error = action.payload
         });
         

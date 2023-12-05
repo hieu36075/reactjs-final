@@ -122,7 +122,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
       case 1:
         return (
           <div className="flex flex-col gap-4">
-            <Heading title="Welcome to Airbnb" subtitle="Create an account!" />
+            <Heading title="Welcome to TravelVietNam" subtitle="Create an account!" />
             <div className="flex flex-row gap-4">
               <input
                 className={`form__input ${validationErrors.firstName ? "border-red-500" : ""}`}

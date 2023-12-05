@@ -16,7 +16,7 @@ import { SelectCategories } from "../../redux/category/categorySelect";
 
 const Home = () => {
   const dispatch = useDispatch()
-  const hotel = useSelector(SelectAllHotel)
+  const hotel = useSelector((state)=> state.hotel.data)
   const categoryData = useSelector(SelectCategories)
   const country = useSelector(SelectCountry)
   const {loading} = useSelector((state) => state.hotel)

@@ -23,30 +23,6 @@ const AdminNavbar = () => {
         <div className="flex items-center p-1">
         </div>
         <div className="flex items-center">
-          <div className="flex items-center mr-5 relative">
-            <LanguageOutlinedIcon className="text-xl" />
-            English
-          </div>
-          <div className="flex items-center mr-5 relative">
-            <DarkModeOutlinedIcon
-              className="text-xl"
-              onClick={() => dispatch({ type: "TOGGLE" })}
-            />
-          </div>
-          <div className="flex items-center mr-5 relative">
-            <FullscreenExitOutlinedIcon className="icon" />
-          </div>
-          <div className="flex items-center mr-5 relative">
-            <NotificationsNoneOutlinedIcon className="icon" />
-            <div className="w-4 h-4 bg-red-700 text-white flex items-center justify-center font-bold absolute">1</div>
-          </div>
-          <div className="flex items-center mr-5 relative">
-            <ChatBubbleOutlineOutlinedIcon className="icon" />
-            <div className="w-4 h-4 bg-red-700 text-white flex items-center justify-center font-bold absolute">2</div>
-          </div>
-          <div className="flex items-center mr-5 relative">
-            <ListOutlinedIcon className="text-xl"  />
-          </div>
           <PopupMenu>
           <div className="flex items-center mr-5 relative" >
             <img

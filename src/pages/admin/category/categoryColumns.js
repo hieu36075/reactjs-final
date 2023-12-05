@@ -18,8 +18,15 @@ export const categoryColumns = [
       },
     },
     {
-      field: "length",
+      field: "hotels",
       headerName: "Total",
       width: 230,
+      renderCell: (params) => {
+        const hotelCount = params.row.hotels.length;
+        return (
+          <div>{hotelCount}</div>
+        );
+      },
     },
+    
   ];

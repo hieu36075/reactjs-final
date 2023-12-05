@@ -34,7 +34,7 @@ function Navbar({ type }) {
   const [token, setToken] = useState(localStorage.getItem("token"))
   const [decode, setDecode] = useState('')
   useEffect(() => {
-    
+
     if (isLogin) {
       if (tokenNew?.length > 0) {
         setToken(tokenNew)
@@ -160,7 +160,7 @@ function Navbar({ type }) {
                       className={({ isActive }) =>
                         "nav-links" + (isActive ? " activated" : "")
                       }
-                      onClick={openLoginModal} 
+                      onClick={openLoginModal}
                     >
                       Login
                     </NavLink>
@@ -174,7 +174,7 @@ function Navbar({ type }) {
                       className={({ isActive }) =>
                         "nav-links" + (isActive ? " activated" : "")
                       }
-                      onClick={openRegisterModal} 
+                      onClick={openRegisterModal}
                     >
                       Register
                     </NavLink>
@@ -247,13 +247,12 @@ function Navbar({ type }) {
 
                   <li className="mr-4 pt-7 h-full hover:border-b-2 border-customBlue ">
                     <Link to='/account/message'>
-                        <BiLogoMessenger size={24}/>
+                      <BiLogoMessenger size={24} />
                     </Link>
                   </li>
-                  {/* <h1 style={{marginRight:10, color:'white'}}>Hello, {}</h1> */}
                   <li className="nav-item profile ">
                     <div className="flex rounded-2xl gap-2">
-                      
+
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -281,7 +280,7 @@ function Navbar({ type }) {
                         }}
                       >
                         <div className="flex ">
-                    
+
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -296,7 +295,7 @@ function Navbar({ type }) {
                               d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
                             />
                           </svg>
-                          
+
                           <span className="spann ">Profile</span>
                         </div>
 
@@ -309,13 +308,19 @@ function Navbar({ type }) {
                       >
                         My order
                       </a>
-                      <a
-                        onClick={() => {
-                          navigate("/account/myHotel");
-                        }}
-                      >
-                        My Hotel
-                      </a>
+                      {decode.roles === 'Hotel Owner'
+                        ?
+                        <a
+                          onClick={() => {
+                            navigate("/account/myHotel");
+                          }}
+                        >
+                          My Hotel
+                        </a>
+
+                        :
+                        ''
+                      }
                       <a onClick={() => handleLogOut()}>Log Out</a>
                     </div>
                   </li>

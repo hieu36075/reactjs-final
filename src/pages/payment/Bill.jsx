@@ -82,14 +82,14 @@ export default function BillPage() {
                         
                     </div>
                     <div className="info_bill">
-                        <h2>Thông tin giao dịch</h2>
+                        <h2>Transaction information</h2>
                         <div className="info_bill_item">
-                            <h4>Phương thức thanh toán</h4>
-                            <p>Thẻ ATM nội địa</p>
+                            <h4>Payment methods</h4>
+                            <p>International ATM Card</p>
                         </div>
                         <div className="info_bill_item">
-                            <h4>Trạng thái</h4>
-                            <p>Thanh toán thành công</p>
+                            <h4>Status</h4>
+                            <p>Success</p>
                         </div>
                     </div>
                     <div className="info_policy">

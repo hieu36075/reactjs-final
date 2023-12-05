@@ -104,7 +104,7 @@
 .headerSearch {
 	position: absolute;
 	top: 72%;
-	left: 24%;
+	// left: 24%;
 	box-sizing: content-box;
 	height: 30px;
 	background-color: white;
@@ -114,12 +114,8 @@
 	justify-content: space-around;
 	padding: 10px 0px;
 	border-radius: 10px;
-	position: absolute;
-	bottom: -25px;
-	width: 960px;
+	width: 80%;
 	transition: width 0.3s;
-	// max-width: 100%; 
-	// max-width: 1024px;
 }
 
 
@@ -188,10 +184,9 @@
 	}
 }
 
+
 @media (max-width: 1366px) and (max-height: 1024px) {
 	.headerSearch {
-	  /* Điều chỉnh chiều cao, padding, độ rộng, ... tại đây */
-	  /* Ví dụ: */
 	  height: 25px;
 	  padding: 7px 0;
 	  width: 960px;
@@ -199,11 +194,9 @@
 	}
   }
   
-  /* Mã CSS cho màn hình có độ phân giải 960x */
+
   @media (max-width: 960px) {
 	.headerSearch {
-	  /* Điều chỉnh chiều cao, padding, độ rộng, ... tại đây */
-	  /* Ví dụ: */
 	  height: 20px;
 	  padding: 5px 0;
 	  width: 80%;
@@ -212,27 +205,22 @@
 
 @media (max-width: 768px) {
 	.headerSearch {
-	  /* Đặt chiều cao ngắn hơn */
 	  height: 20px;
-	  /* Đặt khoảng cách giữa các mục tìm kiếm nhỏ hơn */
 	  padding: 5px 0;
-	  /* Đặt khoảng cách dưới cùng của thanh tìm kiếm nhỏ hơn */
 	  bottom: -15px;
-	  /* Đặt độ rộng của thanh tìm kiếm nhỏ hơn */
 	  width: 80%;
 	}
-	
-	/* Ẩn một số phần tử không quan trọng trong trường hợp này */
+
 	.headerSearchItem:last-child {
 	  display: none;
 	}
 	
-	/* Điều chỉnh độ rộng của input tìm kiếm khi màn hình nhỏ hơn */
+
 	.headerSearchItem input {
 	  width: 70%;
 	}
 	
-	/* Điều chỉnh font size của nút tìm kiếm khi màn hình nhỏ hơn */
+
 	.headerBtn {
 	  font-size: 12px;
 	  padding: 5px 10px;

@@ -6,12 +6,13 @@ import { getMyProfile, updateProfile, uploadAvatar } from "../../redux/profile/p
 import { switchRole } from "../../redux/role/roleThunk";
 import { getMyUser } from "../../redux/user/userThunks";
 import useAlert from "../../context/aleart/useAlert";
+import jwtDecode from "jwt-decode";
 
 export default function ProfilePage() {
   const { setAlert } = useAlert();
   const dispatch = useDispatch();
   const { details, loading } = useSelector((state) => state.profile);
-
+  const decode = jwtDecode(localStorage.getItem('token'))
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -243,7 +244,6 @@ export default function ProfilePage() {
                     value={profile.firstName}
                     onChange={(e) => handleChange('firstName', e.target.value)}
                   />{" "}
-                  {/* Use margin-right for spacing */}
                   <input
                     type="text"
                     placeholder="Last Name"
@@ -264,7 +264,7 @@ export default function ProfilePage() {
             <div className="m-5 flex justify-between flex-row relative">
               <div className="flex flex-col">
                 <h3>Email</h3>
-                <h4>{profile?.email}</h4>
+                <h4>{decode?.email}</h4>
               </div>
               <div className="justify-end">
                 <button
@@ -306,7 +306,6 @@ export default function ProfilePage() {
                     value={profile.phoneNumber}
                     onChange={(e) => handleChange('phoneNumber', e.target.value)}
                   />{" "}
-                  {/* Use margin-right for spacing */}
                 </div>
                 <div className="m-5">
                   <button className="bg-black text-white rounded-full px-4 py-2" onClick={()=>{onSubmitPhoneNumber()}}>
@@ -345,7 +344,6 @@ export default function ProfilePage() {
                     value={profile?.address}
                     onChange={(e) => handleChange('address', e.target.value)}
                   />{" "}
-                  {/* Use margin-right for spacing */}
                 </div>
                 <div className="m-5">
                   <button className="bg-black text-white rounded-full px-4 py-2" onClick={()=>{onSubmitAdress()}}>
@@ -405,7 +403,7 @@ export default function ProfilePage() {
                 d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"
               />
             </svg>
-            <h2>Tại sao thông tin của tôi không được hiển thị ở đây?</h2>
+            <h2>Why isn't my information shown here?</h2>
             <p>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum,
               error!
@@ -427,7 +425,7 @@ export default function ProfilePage() {
                 d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
               />
             </svg>
-            <h2>Bạn có thể chỉnh sửa những thông tin nào?</h2>
+            <h2>What information can you edit?</h2>
             <p>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum,
               error!
@@ -453,7 +451,7 @@ export default function ProfilePage() {
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-            <h2>Thông tin nào được chia sẽ với người khác?</h2>
+            <h2>What information is shared with others?</h2>
             <h5>
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum,
               error!

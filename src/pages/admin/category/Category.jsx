@@ -11,6 +11,7 @@ const Categories = () => {
   const dispatch = useDispatch()
   const {data, loading}= useSelector((state)=> state.category)
   const [currentPage, setCurrentPage] = useState(1);
+
   useEffect(()=>{
       dispatch(getCategory({page:currentPage, perPage:5}))
   },[dispatch, currentPage])

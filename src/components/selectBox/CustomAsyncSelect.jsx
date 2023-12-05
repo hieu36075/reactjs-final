@@ -63,7 +63,7 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
     const filteredData = data.filter(item =>
       item.name.toLowerCase().includes(inputValue.toLowerCase())
     );
-    const options = filteredData.map(item => ({
+    const options = filteredData?.map(item => ({
       value: item.id,
       label: item.name,
     }));
@@ -72,7 +72,7 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
 
   return (
     <AsyncSelect
-      defaultOptions={data.map(item => ({ value: item.id, label: item.name }))}
+      defaultOptions={data?.map(item => ({ value: item.id, label: item.name }))}
       cacheOptions
       loadOptions={loadOptions}
       onChange={selectedOption => {

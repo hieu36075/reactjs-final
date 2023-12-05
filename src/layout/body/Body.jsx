@@ -18,12 +18,11 @@ import AlertPopup from "../../components/aleart/AlertPopup";
 import RequireNoAuth from "../../routes/RequireNoAuth";
 import BookingsPage from "../../pages/booking/bookings";
 import MyHotelPage from "../../pages/myHotel/MyHotel";
-import ManagerHotel from "../../pages/ownerHotel/manager/ManagerHotel";
-import HotelDashboard from "../../pages/ownerHotel/dashboard/HotelDashboard";
 import ChatForm from "../../pages/chat/ChatForm";
 import BillPage from "../../pages/payment/Bill";
-import categoryInputs from "../../pages/admin/category/categoryInput";
 import New from "../../components/new/New";
+import HotelList from "../../pages/admin/hotel/HotelList";
+import ManagerHotel from "../../pages/ownerHotel/manager/ManagerHotel";
 const Body = () => {
   return (
     <>
@@ -38,7 +37,6 @@ const Body = () => {
       <Route path="/account/myBooking" element={< BookingsPage/>} />
       <Route path="/account/myHotel" element={< MyHotelPage/>} />
       <Route path="/account/manager/:id" element={< ManagerHotel/>} />
-      <Route path="/account/managerDashboard/:id" element={< HotelDashboard/>} />
       <Route path="/account/message" element={< ChatForm/>} />
       <Route path="/account/bill/:id" element={<BillPage />} />
       <Route path="/" element={<Navbar type="home"/>}>
@@ -55,7 +53,11 @@ const Body = () => {
 
               <Route path="category">
               <Route index element={<Categories />} />
-              <Route path="new" element={<CategoryNewPage/>} />
+              <Route path="new" element={<CategoryNewPage title="Add New Category"/>} />
+              </Route>
+
+              <Route path="hotel">
+              <Route index element={<HotelList />} />
               </Route>
             </Route>
       </Routes>

@@ -15,6 +15,7 @@ import DateRangeModal from "../../components/dateRangeModal/DateRangeModal";
 import Navbar from "../../layout/navbar/Navbar";
 import { checkDateByRoom } from "../../redux/orderDetail/orderDetailThunk";
 import { isDateBlockedISO } from "../../components/dateRangeModal/DateAction";
+import { getRoomById } from "../../redux/room/roomThunk";
 
 const stripePromise = loadStripe(
   "pk_test_51NegkOC0zJif8DInBG11CS3Q6BKxWNiCgJfLHv03zSjIUn6WRZd4qDTFP7Hvxf87F9Z8DabAl2hHxKMmp9gs7lq400m8CGZXCA"
@@ -32,6 +33,8 @@ const ConfirmationPaymentPage = () => {
   const [onChange, setOnChange] = useState(false);
   const navigate = useNavigate();
   const checkDate = useSelector((state) => state.orderDetail.data)
+  const room = useSelector((state) => state.room.details)
+  const [message, setMessage] = useState(null);
   const handleStripeElementsSet = (stripe, elements) => {
     setStripe(stripe);
     setElements(elements);
@@ -57,8 +60,17 @@ const ConfirmationPaymentPage = () => {
   }, [id, dispatch]);
 
   useEffect(()=>{
+    const flechData =() =>{
     dispatch(checkDateByRoom(data?.orderdetails?.[0]?.roomId))
+    dispatch(getRoomById(data?.orderdetails?.[0]?.roomId))  
+    }
+    if(data?.orderdetails?.[0]?.roomId){
+      flechData();
+    }
+    
   },[data?.orderdetails?.[0]?.roomId])
+
+
 
   const blockedDateRanges = checkDate.map((item) => ({
     startDate: item.oder.checkIn,
@@ -187,9 +199,9 @@ const ConfirmationPaymentPage = () => {
     
     if(error){
       if (error.type === "card_error" || error.type === "validation_error") {
-        // setMessage(error.message);
+        setMessage(error.message);
       } else {
-        // setMessage("An unexpected error occurred.");
+        setMessage("An unexpected error occurred.");
       }
     }else{
       dispatch(confirmOrder(id))
@@ -221,10 +233,10 @@ const ConfirmationPaymentPage = () => {
         </div>
         <div className="item1">
           <div>
-            <h4>Giá thấp hơn.</h4>
+            <h4>Lower price.</h4>
             <p>
-              Những ngày bạn chọn có giá thấp hơn $121 so với mức giá trung bình
-              theo đêm trong 60 ngày qua.
+            The dates you selected cost $121 less than the average price
+               nightly for the past 60 days.
             </p>
           </div>
           <div>
@@ -280,12 +292,13 @@ const ConfirmationPaymentPage = () => {
         </div>
         <div className="item3">
           <h2>Method Payment</h2>
+          {message && <div id="payment-message" className="text-red-500">{message}</div>}
           {clientSecret && (
             <Elements options={options} stripe={stripePromise}>
               <CheckoutForm onStripeElementsSet={handleStripeElementsSet} />
             </Elements>
           )}
-          <input type="text" />
+          {/* <input type="text" /> */}
         </div>
         {/* <div className="item4">
           <h2>Required for your trip</h2>
@@ -368,16 +381,16 @@ const ConfirmationPaymentPage = () => {
             />
           </div>
           <div className="payment_title">
-            <h2>Toàn bộ căn hộ cho thuê</h2>
-            <p>Căn hộ studio đáng yêu với tầm nhìn view rộng từ ban công.</p>
+            <h2>{room.name}</h2>
+            <p>{room.description}</p>
           </div>
         </div>
         <div className="payment_item2">
-          <h2>Chi tiết giá</h2>
+          <h2>Price details</h2>
           <div className="payment_item">
             <div>
               <h3>
-                ${data?.orderdetails[0]?.room?.price} x {numberOfDays} đêm
+                ${data?.orderdetails[0]?.room?.price} x {numberOfDays} night
               </h3>
             </div>
             <div>
@@ -395,7 +408,7 @@ const ConfirmationPaymentPage = () => {
           <div className="border_payment"></div>
           <div className="payment_item">
             <div>
-              <h4>Tổng</h4>
+              <h4>Total</h4>
             </div>
             <div>
               <p>${totalPrice}</p>
