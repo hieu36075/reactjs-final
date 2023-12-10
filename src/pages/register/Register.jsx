@@ -4,15 +4,16 @@ import Heading from "./Heading";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import useLoginModal from "../../context/modal/useLoginModal";
 import useRegisterModal from "../../context/modal/useRegisterModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../redux/auth/authThunks";
+import { closeRegister, openLogin } from "../../redux/modal/modalSlice";
 
-const RegisterModal = ({ isOpen, onClose }) => {
+const RegisterModal = ({ onClose }) => {
   const registerModal = useRegisterModal();
-  const loginModal = useLoginModal();
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const open = useSelector((state) => state.modal.register)
 
   const [formData, setFormData] = useState({
     email: "",
@@ -112,9 +113,8 @@ const RegisterModal = ({ isOpen, onClose }) => {
     }
   };
   const handleCloseModal = () => {
-
-    registerModal.closeModal();
-  
+    dispatch(closeRegister())
+    dispatch(openLogin())
   };
 
   const renderStep = () => {
@@ -248,7 +248,7 @@ const RegisterModal = ({ isOpen, onClose }) => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={isOpen}
+      isOpen={open}
       title="Register"
       actionLabel={currentStep === 2 ? "Submit" : "Next"}
       onClose={onClose}

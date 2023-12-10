@@ -124,8 +124,8 @@ export default function MyHotelPage() {
                 <div className="flex ">
                   <div className="flex-1">
                     <h2 className="text-xl">{hotel?.name}</h2>
-                    <p>Phone Number: 12313123</p>
-                    <p>Address: qweqweqwe</p>
+                    <p>Phone Number: {hotel?.phoneNumber}</p>
+                    <p>Address: {hotel?.address}</p>
                   </div>
                   <div className="flex-1">
                     <h2>check-In Time: {hotel?.checkInTime}</h2>
@@ -134,7 +134,7 @@ export default function MyHotelPage() {
                 </div>
                 <div className="py-4">
                   <h2 className="text-xl">Note:</h2>
-                  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vitae aut dignissimos libero, voluptates quo asperiores.</p>
+                  <p>{hotel?.extraInfo}</p>
                 </div>
               </div>
             </div>

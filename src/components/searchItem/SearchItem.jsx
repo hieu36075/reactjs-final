@@ -32,7 +32,7 @@ const SearchItem = ({data}) => {
   if (!data || data.length === 0) {
     return <p>No data available.</p>;
   }
-  
+
   return (
   <div>
   {data?.map(item=>(

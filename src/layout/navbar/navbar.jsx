@@ -16,6 +16,7 @@ import useRegisterModal from "../../context/modal/useRegisterModal";
 import socket from "../../services/socket";
 import { GrNotification } from "react-icons/gr"
 import { BiLogoMessenger } from "react-icons/bi"
+import { closeLogin, closeRegister, openLogin, openRegister } from "../../redux/modal/modalSlice";
 
 function Navbar({ type }) {
   const dispatch = useDispatch();
@@ -28,8 +29,8 @@ function Navbar({ type }) {
   const isLogin = useSelector((state) => state.auth.isLogin);
   const { data, loading } = useSelector((state) => state.notification);
   const [notifications, setNotifications] = useState([]);
-  const loginModal = useLoginModal(); // Sử dụng hook Login Modal
-  const registerModal = useRegisterModal(); //
+  const loginModal = useLoginModal();
+  const registerModal = useRegisterModal(); 
   const tokenNew = useSelector((state) => state.auth.token)
   const [token, setToken] = useState(localStorage.getItem("token"))
   const [decode, setDecode] = useState('')
@@ -49,20 +50,18 @@ function Navbar({ type }) {
 
   // },[])
   const openLoginModal = () => {
-    loginModal.openModal();
+    dispatch(openLogin())
   };
 
   const closeLoginModal = () => {
-    loginModal.closeModal();
-  };
+dispatch(closeLogin())  };
 
   const openRegisterModal = () => {
-    registerModal.openModal();
+dispatch(openRegister())
   };
 
   const closeRegisterModal = () => {
-    registerModal.closeModal();
-  };
+dispatch(closeRegister())  };
 
 
   useEffect(() => {

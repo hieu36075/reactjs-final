@@ -95,7 +95,7 @@ const ConfirmationPaymentPage = () => {
 
 
 
-  const vatRate = 0.1;
+  const vatRate = 0.05;
   const serviceRate = 0.05;
   const roomPrice = data?.orderdetails?.reduce((total, item) => {
     return total + item?.room?.price * numberOfDays;
@@ -280,7 +280,7 @@ const ConfirmationPaymentPage = () => {
             disabledDay={(date) => isDateBlockedISO(date, blockedDateRanges)}
             />
   
-          <div className="item">
+          {/* <div className="item">
             <div>
               <h4>Guest</h4>
               <p>1 guest</p>
@@ -288,7 +288,7 @@ const ConfirmationPaymentPage = () => {
             <div>
               <a href="#">Edit</a>
             </div>
-          </div>
+          </div> */}
         </div>
         <div className="item3">
           <h2>Method Payment</h2>
@@ -315,8 +315,8 @@ const ConfirmationPaymentPage = () => {
         <div className="item5">
           <h2>Cancellation Policy</h2>
           <p>
-            Đặt phòng/ đặt chỗ này không được hoàn tiền.{" "}
-            <a href="">Tìm hiểu thêm</a>
+          This reservation/booking is non-refundable.{" "}
+            <a href="">Find out more</a>
           </p>
         </div>
         <div className="item6">

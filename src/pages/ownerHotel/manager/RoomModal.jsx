@@ -51,7 +51,8 @@ export const RoomModal =({isOpen, isClose, ...props})=>{
           setIsLoading(true)
           if(type === 'update'){
             const exitingRoom = {...room, id:id}
-            const updateRom = await dispatch(updateRoom(exitingRoom)).unwrap()
+            dispatch(updateRoom(exitingRoom))
+            isClose()
             // await Promise.all(updateRom)
           }else{
             const newRoom = await dispatch(createRoom(room)).unwrap();
@@ -100,7 +101,7 @@ export const RoomModal =({isOpen, isClose, ...props})=>{
             <input
               type="number"
               value={room.occupancy}
-              onChange={(e)=> setRoom({...room, occupancy: e.target.value})}
+              onChange={(e)=> setRoom({...room, occupancy: parseInt(e.target.value, 10) || 0})}
             />
           </label>
         </div>

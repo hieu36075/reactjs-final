@@ -5,7 +5,7 @@ const getCoordinatesFromAddress = async (address, city, country) => {
     const response = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
       params: {
         address: `${address}, ${city}, ${country}`,
-        key: process.env.REACT_APP_GOOGLE_MAP_KEY, // Thay YOUR_API_KEY bằng API Key của bạn
+        key: process.env.REACT_APP_GOOGLE_MAP_KEY, 
       },
     });
     const { results } = response.data;

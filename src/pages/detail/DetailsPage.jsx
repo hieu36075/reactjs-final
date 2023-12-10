@@ -19,6 +19,7 @@ import { isDateBlockedISO } from "../../components/dateRangeModal/DateAction";
 import { checkDateByRoom } from "../../redux/orderDetail/orderDetailThunk";
 import useAlert from "../../context/aleart/useAlert";
 import jwtDecode from "jwt-decode";
+import { openLogin } from "../../redux/modal/modalSlice";
 
 export default function DetailsPage() {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export default function DetailsPage() {
   const { isLogin } = useSelector((state) => state.auth)
   const roomsTest = useSelector((state) => state.hotel.details.rooms)
   let decodeToken
-  if(isLogin){
+  if (isLogin) {
     decodeToken = jwtDecode(localStorage.getItem('token'))
   }
 
@@ -52,11 +53,11 @@ export default function DetailsPage() {
       });
   }, [id, dispatch]);
 
-  useEffect(()=>{
-    if(details?.rooms?.[0]?.id){
+  useEffect(() => {
+    if (details?.rooms?.[0]?.id) {
       dispatch(checkDateByRoom(details?.rooms?.[0]?.id))
     }
-  },[details?.rooms?.[0]?.id])
+  }, [details?.rooms?.[0]?.id])
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
@@ -116,7 +117,7 @@ export default function DetailsPage() {
   const endDate = moment(date[0].endDate);
   const numberOfDays = Math.max(endDate.diff(startDate, "days"), 1);
 
-  const vatRate = 0.1; 
+  const vatRate = 0.05;
   const serviceRate = 0.05;
   const roomPrice = details?.rooms?.reduce((total, item) => {
     return total + item.price * numberOfDays;
@@ -136,7 +137,7 @@ export default function DetailsPage() {
 
   const handleBooking = async (e, price, roomId) => {
     if (!isLogin) {
-      return setAlert('Please login', 'warning')
+      return dispatch(openLogin())
     }
     e.preventDefault();
     const priceOrder = price ? price + totalservice : totalPrice
@@ -175,6 +176,9 @@ export default function DetailsPage() {
 
 
   const handleMesage = (id) => {
+    if (!isLogin) {
+      return dispatch(openLogin())
+    }
     navigate(`/account/message`, { state: { userId: id } })
   }
 
@@ -200,12 +204,6 @@ export default function DetailsPage() {
 
         <div className="mt-8 grid gap-8 grid-cols-1 md:grid-cols-2 test" >
           <div>
-            {/* <div className="my-4 break-all">
-              <h2 className="font-semibold text-2xl break-words">
-                Descriptions
-              </h2>
-              {details.extraInfo}
-            </div> */}
             <div className="w-full h-px bg-gray-300 my-4"></div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 my-4">
               {details?.amenities?.map((amenity) => (
@@ -238,17 +236,17 @@ export default function DetailsPage() {
                 <img className="rounded-full w-32 h-32" src="https://images.unsplash.com/photo-1575936123452-b67c3203c357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D&w=1000&q=80" alt="" />
                 <h1 className="mb-4" >{user.email}</h1>
                 <h1 className="mb-4">joined from {new Date(user.updatedAt).toLocaleDateString()}</h1>
-                
-                {!isLogin && user?.id !== decodeToken?.id  ? (
+
+                {user?.id !== decodeToken?.id ? (
                   <button className="ml-4 rounded-full border border-black px-4 py-2 text-black bg-white hover:bg-gray-900" onClick={() => { handleMesage(user.id) }}> Contact the homeowner immediately</button>
                 ) : (
-                    ""
+                  ""
                 )}
               </div>
               <div>
-              <h1 className="font-semibold text-2xl break-words">
-                Extra Infomation Room
-              </h1>
+                <h1 className="font-semibold text-2xl break-words">
+                  Extra Infomation Room
+                </h1>
                 <h2>{details.extraInfo}</h2>
               </div>
             </div>
@@ -384,7 +382,7 @@ export default function DetailsPage() {
                 <h3>You have not been deducted yet</h3>
                 <div className="total_item ">
                   <div className="title">
-                  <a href={`${item?.price}x${numberOfDays}night`}>{item?.price} x {numberOfDays} night</a>
+                    <a href={`${item?.price}x${numberOfDays}night`}>{item?.price} x {numberOfDays} night</a>
 
                   </div>
                   <div className="price">
@@ -417,11 +415,11 @@ export default function DetailsPage() {
         <div className="w-full h-px bg-gray-300 my-4"></div>
         <CategoryRoomItem hotel={details} onSubmit={handleBooking} />
         <div className="w-full h-px bg-gray-300 my-4"></div>
-              <Comment id={id}/>
+        <Comment id={id} />
         <div className="w-full h-px bg-gray-300 my-4"></div>
         {center?.lat && center?.lng ? (
           <div style={{ height: '600px', width: '100%' }}>
-            <Map location={center} zoomLevel={15}/>
+            <Map location={center} zoomLevel={15} />
           </div>
 
         ) : (

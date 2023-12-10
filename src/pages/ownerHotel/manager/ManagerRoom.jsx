@@ -4,7 +4,7 @@ import Navbar from "../../../layout/navbar/Navbar";
 import { AiFillEdit, AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategoryRoomByHotel } from "../../../redux/categoryRoom/categoryRoomThunk";
+import { getCategoryRoomByHotel, updateCategoryRoom } from "../../../redux/categoryRoom/categoryRoomThunk";
 import { deleteRoom } from "../../../redux/room/roomThunk";
 import RoomModal from "./RoomModal";
 
@@ -13,6 +13,7 @@ export default function ManagerRoom() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { data, loading } = useSelector((state) => state.categoryRoom);
+  console.log(data)
   const [edit, setEdit] = useState(false);
   const [roomId, setRoomId] = useState('');
   const [type, setType] = useState('');
@@ -39,12 +40,16 @@ export default function ManagerRoom() {
   };
 
   const handleDelete = (id) =>{
-    console.log('a')
       dispatch(deleteRoom(id))
   }
 
   const handleClodeModal = () =>{
     setOpenModal(false)
+  }
+
+  const updateCategory = () =>{
+    dispatch(updateCategoryRoom(category))
+    setEdit(!edit)
   }
   if (loading) {
     return (
@@ -138,7 +143,11 @@ export default function ManagerRoom() {
                       setCategory({ ...category, name: e.target.value })
                     }
                     />
-                  <AiOutlineCheck className=" text-xl " />
+                  <AiOutlineCheck className=" text-xl " 
+                  onClick={()=>{
+                    updateCategory();
+                  }}
+                  />
                     </div>
                 ) : (
                   <h2 className="text-2xl font-meidum mr-4  ">{item?.name}</h2>

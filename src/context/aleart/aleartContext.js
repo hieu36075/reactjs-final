@@ -1,6 +1,6 @@
 import { createContext, useState } from 'react';
 
-const ALERT_TIME = 5000;
+const ALERT_TIME = 3000;
 const initialState = {
   text: '',
   type: '',
@@ -16,12 +16,14 @@ export const AlertProvider = ({ children }) => {
   const [type, setType] = useState('');
 
   const setAlert = (text, type) => {
+    console.log('Before setting alert:', text, type);
     setText(text);
     setType(type);
 
     setTimeout(() => {
       setText('');
       setType('');
+      console.log('Before resetting alert:', text, type);
     }, ALERT_TIME);
   };
 

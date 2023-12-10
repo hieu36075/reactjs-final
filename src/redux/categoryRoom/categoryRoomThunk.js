@@ -31,3 +31,12 @@ export const createCategoryRoom = createAsyncThunk('categoryRoom/createCategoryR
         return rejectWithValue(error)
     }
 })
+
+export const updateCategoryRoom = createAsyncThunk('categoryRoom/updateCategoryRoom', async(data, {rejectWithValue}) =>{
+    try{
+        const reponse = await http.patch(`/categoryRoom` , data);
+        return reponse
+    }catch(error){
+        return rejectWithValue(error)
+    }
+})

@@ -4,6 +4,7 @@ import Modal from "../register/Modal";
 import Heading from "../register/Heading";
 import { useDispatch, useSelector } from "react-redux";
 import { login, loginByGoogle } from "../../redux/auth/authThunks";
+import { closeLogin, openRegister } from "../../redux/modal/modalSlice";
 
 const LoginModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -12,12 +13,13 @@ const LoginModal = ({ isOpen, onClose }) => {
     email: "",
     password: "",
   });
-
+  const open = useSelector((state) => state.modal.login)
   const [errors, setErrors] = useState({
     email: "",
     password: "",
     login: "", 
   });
+
 
   const handleEmail = (e) => {
     setAccount((prev) => {
@@ -80,6 +82,11 @@ const LoginModal = ({ isOpen, onClose }) => {
     console.log(error);
   };
 
+  const openRegisterHandler = () => {
+    dispatch(closeLogin())
+    dispatch(openRegister())
+  }
+
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading title="Welcome to TravelVietNam" subtitle="Welcome back!" />
@@ -123,8 +130,8 @@ const LoginModal = ({ isOpen, onClose }) => {
         <p>
           Already have an account?
           <span
-            onClick={onClose}
             className="text-neutral-800 cursor-pointer hover:underline"
+            onClick={openRegisterHandler}
           >
             {" "}
             Log In
@@ -137,7 +144,7 @@ const LoginModal = ({ isOpen, onClose }) => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={isOpen}
+      isOpen={open}
       title="Login"
       actionLabel="Log In"
       onClose={onClose}

@@ -20,6 +20,7 @@ import roomMessageSlice from "./roomMessage/roomMessageSlice";
 import commentSlice from "./comment/commentSlice";
 import orderDetailSlice from "./orderDetail/orderDetailSlice";
 import roleSlice from "./role/roleSlice";
+import modalSlice from "./modal/modalSlice";
 // import orderDetailSlice from "./orderDetail/orderDetailSlice";
 const { configureStore } = require("@reduxjs/toolkit");
 
@@ -55,7 +56,8 @@ const reducer = combineReducers({
   profile: profileSlice,
   roomMessage: roomMessageSlice,
   comment: commentSlice,
-  role: roleSlice
+  role: roleSlice,
+  modal: modalSlice
 })
 
 

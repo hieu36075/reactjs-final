@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
-// import Button from "../Button";
 
 const Modal = (props) => {
   const {
@@ -15,7 +14,6 @@ const Modal = (props) => {
     disabled,
     secondaryAction,
     secondaryActionLabel,
-    // Thêm các prop khác của Modal tại đây
   } = props;
 
   const [showModal, setShowModal] = useState(isOpen);

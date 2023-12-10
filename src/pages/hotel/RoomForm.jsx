@@ -136,7 +136,7 @@ const RoomForm = ({ onPre }) => {
       const active = await dispatch(activeHotel({id: hotelId})).unwrap()
       await Promise.all([...roomPromises, ...imagePromises], active);
       navigate('/')
-      console.log("Dữ liệu phòng và ảnh đã được gửi lên server thành công!");
+      // console.log("Dữ liệu phòng và ảnh đã được gửi lên server thành công!");
     } catch (error) {
       console.error("Lỗi khi gửi dữ liệu lên server:", error);
     } finally {

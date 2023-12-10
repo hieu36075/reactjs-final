@@ -36,7 +36,7 @@ export default function BillPage() {
     const diffInMilliseconds = Math.abs(endDate - startDate);
     const numberOfDays = Math.ceil(diffInMilliseconds / (1000 * 60 * 60 * 24));
 
-    const vatRate = 0.1;
+    const vatRate = 0.05;
     const serviceRate = 0.05;
     const roomPrice = hotel?.rooms?.reduce((total, item) => {
         return total + item.price * numberOfDays;

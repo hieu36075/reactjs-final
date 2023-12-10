@@ -25,7 +25,6 @@ const List = () => {
   const [options, setOptions] = useState(location?.state?.options || defaultOptions);
   const {id} = useParams();
   const {data} = useSelector(state=> state.hotel)
-  console.log(data)
   const type = location?.state?.type
   
   const [countryId, setCountryId] = useState('');
@@ -33,7 +32,7 @@ const List = () => {
   const [categoryId, setCategoryId] = useState('');
   const [occupancy, setOccupancy] = useState(location?.state?.options?.adult || 1);
   const [minPrice, setMinPrice] = useState(1);
-  const [maxPrice, setMaxPrice] = useState(99999);
+  const [maxPrice, setMaxPrice] = useState(9999999);
   const handleSearch = () => {
     dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice }));
   };
@@ -45,6 +44,9 @@ const List = () => {
       }else if(type ==="category"){
         setCategoryId(id)
       }
+    }else{
+      setCountryId("")
+      setCategoryId("")
     }
   },[id, type ])
   
@@ -52,6 +54,7 @@ const List = () => {
   useEffect(()=>{
     dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice }));
   },[countryId, name, categoryId, occupancy, minPrice, maxPrice, destination])
+  
   return (
     <div>
       <Navbar />

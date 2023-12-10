@@ -1,5 +1,6 @@
 import Body from './layout/body/Body'
 import './App.css'
+import AlertPopup from './components/aleart/AlertPopup';
 
 function App() {
   return (
@@ -7,6 +8,7 @@ function App() {
 
     <div className="App bg-primary1">
         <div className='body'>
+          <AlertPopup/>
               <Body/>       
         </div>      
     </div>

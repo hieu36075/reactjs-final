@@ -7,6 +7,7 @@ export const createRoom = createAsyncThunk('room/createRoom', async(room, {rejec
         const reponse = await http.post(`/room`, room)
         return reponse
     } catch (error) {
+        console.log(error)
         return rejectWithValue(error)
     }
 })
@@ -15,7 +16,7 @@ export const updateRoom = createAsyncThunk('room/updateRoom', async(room, thunkA
     const{id} = room
     try {
         const reponse = await http.patch(`/room/${id}`, room)
-        // thunkAPI.dispatch(updateRoomInCategoryRoom(reponse))
+        thunkAPI.dispatch(updateRoomInCategoryRoom(reponse))
         return reponse
     } catch (error) {
         return thunkAPI.rejectWithValue(error)

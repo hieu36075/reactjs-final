@@ -16,7 +16,7 @@ export default function BookingsPage() {
   const { loading } = useSelector((state) => state.order);
   console.log(bookings);
   useEffect(() => {
-    dispatch(getOrderByUserId({ page: 1, perPage: 5 }));
+    dispatch(getOrderByUserId({ page: 1, perPage: 10 }));
   }, []);
   const handleChangeType = () => {
     setType("listOrder");
@@ -47,7 +47,7 @@ export default function BookingsPage() {
                 className="border border-gray-300 p-4 mb-4 rounded-xl bg-gray-200"
               >
                 <Link
-                  to={`/account/bookings/${booking._id}`}
+                  to={`/account/bill/${booking.id}`}
                   className="flex gap-4"
                 >
                   <div className="w-48">

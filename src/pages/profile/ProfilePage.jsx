@@ -13,6 +13,7 @@ export default function ProfilePage() {
   const dispatch = useDispatch();
   const { details, loading } = useSelector((state) => state.profile);
   const decode = jwtDecode(localStorage.getItem('token'))
+
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -40,10 +41,12 @@ export default function ProfilePage() {
           address: res.address,
           avatarUrl: res.avatarUrl,
         });
+
       });
     dispatch(getMyUser()).unwrap()
     .then((res)=>{
       setRole(res?.role?.name)
+      // setAlert('Change role success', "success")
     })
   }, []);
 
@@ -88,6 +91,7 @@ export default function ProfilePage() {
   useEffect(() => {
     if (profile.avatarUrl) {
       dispatch(updateProfile(profile));
+      setAlert('Success change profile', "success")
     }
   }, [profile.avatarUrl, dispatch]);
   
@@ -110,6 +114,7 @@ export default function ProfilePage() {
   };
   const onSubmitName=()=>{
     dispatch(updateProfile(profile));
+    setAlert('Success change profile', "success")
     setShowName(false);
   }
   const openChangePhoneNumber = () =>{
