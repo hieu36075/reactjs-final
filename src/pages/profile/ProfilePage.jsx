@@ -5,15 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMyProfile, updateProfile, uploadAvatar } from "../../redux/profile/profileThunk";
 import { switchRole } from "../../redux/role/roleThunk";
 import { getMyUser } from "../../redux/user/userThunks";
-import useAlert from "../../context/aleart/useAlert";
+
 import jwtDecode from "jwt-decode";
+import { openMessage } from "../../redux/modal/modalSlice";
 
 export default function ProfilePage() {
-  const { setAlert } = useAlert();
+
   const dispatch = useDispatch();
   const { details, loading } = useSelector((state) => state.profile);
   const decode = jwtDecode(localStorage.getItem('token'))
-
+  const [change, setChange] = useState(false)
   const [profile, setProfile] = useState({
     firstName: "",
     lastName: "",
@@ -46,9 +47,8 @@ export default function ProfilePage() {
     dispatch(getMyUser()).unwrap()
     .then((res)=>{
       setRole(res?.role?.name)
-      // setAlert('Change role success', "success")
     })
-  }, []);
+  }, [dispatch]);
 
   useEffect(()=>{
     if(role){
@@ -56,20 +56,18 @@ export default function ProfilePage() {
         setEnabled(true)
       }
     }
-  },[role])
+  },[role, dispatch])
 
-  const [show, setShow] = useState(false);
   const [showName, setShowName] = useState(false);
-  const [showEmail, setShowEmail] = useState(false);
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
-  const [showDateOrBirth, setShowDateOrBirth] = useState(false);
+
 
   const handleChangeAvatar = async (ev) => {
     const files = ev.target.files;
     
     if (files.length !== 1) {
-      setAlert('please choose one file.','error');
+      dispatch(openMessage({message:"Please choose one file.", notificationType: 'error'}))
       return;
     }
   
@@ -82,18 +80,17 @@ export default function ProfilePage() {
         ...profile,
         avatarUrl: uploadedAvatar
       });
-  
+      setChange(true)
     } catch (error) {
-      setAlert('Error uploading avatar:', 'error');
+      dispatch(openMessage({message:"Error uploading avatar", notificationType: 'error'}))
     }
   };
 
   useEffect(() => {
-    if (profile.avatarUrl) {
+    if (profile.avatarUrl && change) {
       dispatch(updateProfile(profile));
-      setAlert('Success change profile', "success")
     }
-  }, [profile.avatarUrl, dispatch]);
+  }, [profile.avatarUrl,change]);
   
   const openChangeName = () =>{
     setShowName(true)
@@ -114,7 +111,6 @@ export default function ProfilePage() {
   };
   const onSubmitName=()=>{
     dispatch(updateProfile(profile));
-    setAlert('Success change profile', "success")
     setShowName(false);
   }
   const openChangePhoneNumber = () =>{
@@ -272,14 +268,6 @@ export default function ProfilePage() {
                 <h4>{decode?.email}</h4>
               </div>
               <div className="justify-end">
-                <button
-                  className="bg-transparent border-b border-black text-black hover:bg-opacity-25 font-bold text-lg top-0 right-0"
-                  onClick={() => {
-                    setShowEmail(!showEmail);
-                  }}
-                >
-                  {showEmail ? "Cancel" : "Change"}
-                </button>
               </div>
             </div>
 

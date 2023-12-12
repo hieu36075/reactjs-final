@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import http from "../../services/axios-interceptor";
+import { openMessage } from "../modal/modalSlice";
 
 export const getMyProfile = createAsyncThunk('room/getMyProfile', async(room, {rejectWithValue})=>{
     try {
@@ -21,12 +22,14 @@ export const getProfileById = createAsyncThunk('room/getProfileById', async(user
 
 
 
-export const updateProfile = createAsyncThunk('room/updateProfile', async(data, {rejectWithValue})=>{
+export const updateProfile = createAsyncThunk('room/updateProfile', async(data, thunkApi)=>{
     try {
         const reponse = await http.patch(`/profile/`, data)
+        thunkApi.dispatch(openMessage({message:"Success change profile", notificationType: 'success'}))
         return reponse
     } catch (error) {
-        return rejectWithValue(error)
+        thunkApi.dispatch(openMessage({message:"Error change profile", notificationType: 'error'}))
+        return thunkApi.rejectWithValue(error)
     }
 })
 

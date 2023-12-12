@@ -106,9 +106,6 @@ const ConfirmationPaymentPage = () => {
   const totalservice = vatAmount + serviceAmount;
   const totalPrice = roomPrice + totalservice;
 
-
-
-
   useEffect(() => {
     if (data?.status == "IN_PROGRESS" && !loading) {
       const convertedPrice = data?.price * 100;

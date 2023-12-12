@@ -1,6 +1,4 @@
 import { useParams } from "react-router-dom";
-import Navbar from "../../../layout/navbar/Navbar";
-
 import { AiFillEdit, AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

@@ -14,7 +14,6 @@ import DetailsPage from "../../pages/detail/DetailsPage";
 import ConfirmationPaymentPage from "../../pages/payment/ConfirmationPaymentPage";
 import ProfilePage from "../../pages/profile/ProfilePage";
 import HotelsFormPage from "../../pages/hotel/HotelsFormPage";
-import AlertPopup from "../../components/aleart/AlertPopup";
 import RequireNoAuth from "../../routes/RequireNoAuth";
 import BookingsPage from "../../pages/booking/bookings";
 import MyHotelPage from "../../pages/myHotel/MyHotel";
@@ -26,7 +25,6 @@ import ManagerHotel from "../../pages/ownerHotel/manager/ManagerHotel";
 const Body = () => {
   return (
     <>
-      <AlertPopup />
       <Routes>
       <Route path="/login" element={<RequireNoAuth element={<Login /> } />} />
       <Route path="/hotels/:id" element={<List />} />

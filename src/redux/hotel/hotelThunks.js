@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import http from "../../services/axios-interceptor";
 
+
 export const getHotels = createAsyncThunk('hotel/getHotels', async(initialData, {rejectWithValue}) =>{
     try{
         const {page, perPage} = initialData;
@@ -81,13 +82,14 @@ export const getHotelByCategory = createAsyncThunk('hotel/getHotelByCategory', a
 })
 
 
-export const searchHotel = createAsyncThunk('hotel/searchHotel', async(data,{rejectWithValue})=>{
-    const {countryId, name, categoryId, occupancy, minPrice, maxPrice} = data
+export const searchHotel = createAsyncThunk('hotel/searchHotel', async(data,thunkApi)=>{
+    const {countryId, name, categoryId, occupancy, minPrice, maxPrice, isoFormattedDate} = data
     try {
-        const reponse = await http.get(`/hotel/search?countryId=${countryId}&name=${name}&categoryId=${categoryId}&occupancy=${occupancy}&minPrice=${minPrice}&maxPrice=${maxPrice}`)
+        const reponse = await http.get(`/hotel/search?countryId=${countryId}&name=${name}&categoryId=${categoryId}&occupancy=${occupancy}&minPrice=${minPrice}&maxPrice=${maxPrice}&checkIn=${isoFormattedDate}`)
+
          return reponse
     } catch (error) {
-        return rejectWithValue(error)
+        return thunkApi.rejectWithValue(error)
     }
 })
 

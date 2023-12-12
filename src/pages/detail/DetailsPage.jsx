@@ -17,14 +17,12 @@ import Map from "../../components/location/Map";
 import Comment from "../../components/comment/Comment";
 import { isDateBlockedISO } from "../../components/dateRangeModal/DateAction";
 import { checkDateByRoom } from "../../redux/orderDetail/orderDetailThunk";
-import useAlert from "../../context/aleart/useAlert";
 import jwtDecode from "jwt-decode";
 import { openLogin } from "../../redux/modal/modalSlice";
 
 export default function DetailsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { setAlert } = useAlert();
   const { id } = useParams();
   const { details, loading } = useSelector((state) => state.hotel);
   const checkDate = useSelector((state) => state.orderDetail.data)
@@ -142,7 +140,7 @@ export default function DetailsPage() {
     e.preventDefault();
     const priceOrder = price ? price + totalservice : totalPrice
     const roomIdOrder = roomId ? roomId : roomsTest[0].id
-
+    console.log(priceOrder)
     try {
       const order = await dispatch(createOrder({
         checkIn: formattedStartDate,

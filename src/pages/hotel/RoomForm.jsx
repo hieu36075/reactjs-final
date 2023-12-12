@@ -19,8 +19,9 @@ const RoomForm = ({ onPre }) => {
   const location = useLocation();
   const categoryRoomData = useSelector(SelectCategoriesRoom)
   const { loading } = useSelector(state => state.categoryRoom)
-  const hotel = useSelector(SelectAllHotel)
-  const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel[0].id
+  const hotel = useSelector((state) => state.hotel.newHotel)
+  const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel.id
+
   const navigate = useNavigate()
   const [room, setRoom] = useState({
     name: "",

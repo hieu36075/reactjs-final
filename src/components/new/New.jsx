@@ -11,7 +11,6 @@ const New = ({ inputs, title, onSubmit  }) => {
   const [userInputs, setUserInputs] = useState({});
 
   const handleInputChange = (e) => {
-    console.log(e.target)
     const { name, value } = e.target;
     setUserInputs((prevInputs) => ({
       ...prevInputs,

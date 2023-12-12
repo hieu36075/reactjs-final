@@ -12,12 +12,11 @@ import { createIamgeHotel } from "../../redux/imageHotel/imageHotelThunk";
 import { getCityByCountryId } from "../../redux/city/cityThunk";
 import { useParams } from "react-router-dom";
 import getCoordinatesFromAddress from "./getCoordinatesFromAddress";
-import useAlert from "../../context/aleart/useAlert";
+import { openMessage } from "../../redux/modal/modalSlice";
 
 
 export default function HotelForm({type, onNext}) {
   const {id}= useParams();
-  const {setAlert} = useAlert();
   const dispatch = useDispatch()
   const amenityData = useSelector(SelectAmenity);
   const [validationErrors, setValidationErrors] = useState({});
@@ -122,7 +121,7 @@ export default function HotelForm({type, onNext}) {
         }
       }
     } else {
-      setAlert("Please Try Again")
+      dispatch(openMessage({message:"Please enter in full", notificationType: 'error'}))
     }
   };
   

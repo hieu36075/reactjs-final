@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+
 import Navbar from "../../../layout/navbar/Navbar";
 import { useState } from "react";
 import ManagerRoom from "./ManagerRoom";
@@ -44,7 +44,6 @@ export default function ManagerHotel() {
         {type === 'current' 
         ?  <ManagerRoom/>
         : <HotelDashboard/>
-        
     }
     </div>
   );

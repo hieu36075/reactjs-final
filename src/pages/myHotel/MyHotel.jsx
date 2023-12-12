@@ -19,7 +19,7 @@ export default function MyHotelPage() {
   const { loading } = useSelector((state) => state.hotel)
   useEffect(() => {
     const flechData = async () => {
-      await dispatch(getHotelByUserId({ page: 1, perPage: 5 })).unwrap()
+      await dispatch(getHotelByUserId({ page: 1, perPage: 10 })).unwrap()
     }
     if (type === 'all') {
       flechData();

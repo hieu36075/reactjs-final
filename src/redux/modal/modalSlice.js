@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState ={
     login: false,
     register: false,
-    notification: {isOpen: false, message: ''}
+    notification: {message: '', notificationType:''}
 }
 
 const modalSlice = createSlice({
@@ -24,12 +24,16 @@ const modalSlice = createSlice({
             state.register = false
         },
         openMessage:(state,action)=>{
-            state.notification.isOpen= true
-            state.notification.message = action.payload
-        }
+            state.notification.message = action.payload.message
+            state.notification.notificationType = action.payload.notificationType
+        },
+        resetMessage: (state) => {
+            state.notification.message = '';
+            state.notification.notificationType = '';
+          }
     },
    
 });
 
-export const {openLogin, closeLogin,openRegister,closeRegister} = modalSlice.actions
+export const {openLogin, closeLogin,openRegister,closeRegister, openMessage,resetMessage} = modalSlice.actions
 export default modalSlice.reducer

@@ -15,6 +15,7 @@ import { searchHotel } from "../../redux/hotel/hotelThunks";
 import CustomAsyncSelect from "../../components/selectBox/CustomAsyncSelect";
 import { getCountry } from "../../redux/country/countryThunks";
 import { getCategory } from "../../redux/category/categoryThunks";
+import moment from "moment";
 
 const List = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const List = () => {
   const {id} = useParams();
   const {data} = useSelector(state=> state.hotel)
   const type = location?.state?.type
-  
+    const isoFormattedDate = moment(date[0].startDate).format('YYYY-MM-DD');
   const [countryId, setCountryId] = useState('');
   const [name, setName] = useState('');
   const [categoryId, setCategoryId] = useState('');
@@ -34,7 +35,7 @@ const List = () => {
   const [minPrice, setMinPrice] = useState(1);
   const [maxPrice, setMaxPrice] = useState(9999999);
   const handleSearch = () => {
-    dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice }));
+    dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice, isoFormattedDate}));
   };
 
   useEffect(()=>{
@@ -52,8 +53,8 @@ const List = () => {
   
 
   useEffect(()=>{
-    dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice }));
-  },[countryId, name, categoryId, occupancy, minPrice, maxPrice, destination])
+    dispatch(searchHotel({ countryId, name, categoryId, occupancy, minPrice, maxPrice, isoFormattedDate }));
+  },[countryId, name, categoryId, occupancy, minPrice, maxPrice, destination, isoFormattedDate])
   
   return (
     <div>

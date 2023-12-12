@@ -11,7 +11,8 @@ const initialState ={
     users: [],
     userInMonth:[],
     managerHotel:[],
-    list:[]
+    list:[],
+    newHotel: [],
 }
 
 const hotelSlice = createSlice({
@@ -123,7 +124,7 @@ const hotelSlice = createSlice({
         });
         builder.addCase(createHotel.fulfilled, (state, action) => {
             state.loading = false
-            state.data.push(action.payload) 
+            state.newHotel = action.payload 
             state.error = ""
         });
         builder.addCase(createHotel.rejected, (state, action) => {
@@ -188,9 +189,11 @@ const hotelSlice = createSlice({
         });
         builder.addCase(activeHotel.fulfilled, (state, action) => {
             state.loading = false
-            const currenHotel = state.list.data.filter((item) => item.id !== action.payload.id)
-            state.list.data = [...currenHotel, action.payload]
-            state.details = action.payload
+            // if(state.data){
+            //     const currenHotel = state.list.data.filter((item) => item.id !== action.payload.id)
+            //     state.list.data = [...currenHotel, action.payload]
+            // }
+            // state.details = action.payload
             state.error = ""
         });
         builder.addCase(activeHotel.rejected, (state, action) => {

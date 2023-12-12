@@ -37,7 +37,6 @@ const Header = ({ type, setOccupancy }) => {
       };
     });
   };
-
   const handleSearch = () => {
     navigate("/hotels/1", { state: { destination, date, options } });
     if(type === 'list'){
@@ -150,8 +149,8 @@ const Header = ({ type, setOccupancy }) => {
           <img src="https://ik.imagekit.io/tvlk/image/imageResource/2023/06/08/1686194011557-4fed58febb7134e1e541bde1fa1b9f1d.jpeg?tr=h-729,q-100,w-1920" alt="" />
           {/* <div className="headerContainer"> */}
           <div className="headerList">
-            <h1>Từ Đông Nam Á Đến Thế <br /> Giới, Trong Tầm Tay Bạn</h1>
-            <button>Khách sạn</button>
+            <h1>Wellcome to  <br /> TravelVietNam</h1>
+            <button>Hotel</button>
           </div>
           <div className="headerSearch">
             <div className="headerSearchItem">

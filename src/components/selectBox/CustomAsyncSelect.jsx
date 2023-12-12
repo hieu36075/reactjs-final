@@ -28,7 +28,6 @@ const CustomAsyncSelect = ({ fetchDataAction, id, onChange, isClearable  }) => {
         } 
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
     } finally {
       setIsLoading(false);
     }

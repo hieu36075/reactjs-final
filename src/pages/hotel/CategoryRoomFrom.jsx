@@ -7,10 +7,10 @@ import { useLocation } from "react-router-dom";
 
 const CategoryRoomForm = ({onNext}) =>{
     const dispatch = useDispatch();
-    const hotel = useSelector(SelectAllHotel)
+    const hotel = useSelector((state) => state.hotel.newHotel)
     const location = useLocation();
-    const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel[0].id
-
+    const hotelId = location?.state?.hotelId ? location.state.hotelId : hotel.id
+  console.log(hotel)
     const [categoryRoom, setCategoryRoom] = useState({
         name: '',
         hotelId: hotelId,
